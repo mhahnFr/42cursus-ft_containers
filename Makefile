@@ -1,5 +1,5 @@
 # The name of the executable.
-NAME = container
+NAME = container.exe
 
 # The C++ compiler to use.
 CXX = c++
@@ -24,7 +24,7 @@ DEPS = $(patsubst %.cpp,%.d,$(SRCS))
 all: $(NAME)
 
 # Creates the executable.
-$(NAME): $(OBJ)
+$(NAME): $(OBJS)
 	$(CXX) $(LDFLAGS) -o $(NAME) $(OBJS)
 
 # Compiles a source file individually.
