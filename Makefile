@@ -43,6 +43,7 @@ fclean: clean
 re: fclean
 	$(MAKE) all
 
+# The rules that do not belong to a file.
 .PHONY: re fclean clean all
 
 -include $(DEPS)
