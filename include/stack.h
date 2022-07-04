@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_STACK_H
 
 namespace ft {
+#warning Has to use ft::vector as default!
     template <class T, class Container = std::deque<T> > // TODO: Replace by ft::vector
     class stack {
     public:
