@@ -5,9 +5,10 @@
 #ifndef FT_CONTAINERS_STACK_H
 #define FT_CONTAINERS_STACK_H
 
+#include "vector.h"
+
 namespace ft {
-#warning Has to use ft::vector as default!
-    template <class T, class Container = std::deque<T> > // TODO: Replace by ft::vector
+    template <class T, class Container = ft::vector<T> >
     class stack {
     public:
         typedef Container                           container_type;
