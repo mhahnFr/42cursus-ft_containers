@@ -34,14 +34,20 @@ namespace ft {
         /**
          * Constructs an empty vector.
          */
-        vector();
+        vector()
+            : alloc(Allocator()), memory_capacity(), object_count() {
+            // TODO: Finish
+        }
 
         /**
          * Constructs an empty vector, which will use the given allocator.
          *
          * @param alloc The allocator to be used by this instance.
          */
-        explicit vector(const Allocator & alloc);
+        explicit vector(const Allocator & alloc)
+            : alloc(alloc), memory_capacity(), object_count() {
+            // TODO: Finish
+        }
 
         /**
          * Constructs a vector holding count number of elements. The elements are copy-constructed
@@ -52,7 +58,13 @@ namespace ft {
          * @param value The value for all of the objects.
          * @param alloc The allocator to be used by this instance.
          */
-        explicit vector(size_type count, const T & value = T(), const Allocator & alloc = Allocator());
+        explicit vector(size_type count, const T & value = T(), const Allocator & alloc = Allocator())
+            : alloc(alloc), memory_capacity(count), object_count(count) {
+            start = alloc.allocate(count);
+            for (pointer i = start; ((size_type) (i - start)) < count; ++i) {
+                alloc.construct(i, value);
+            }
+        }
 
         /**
          * Constructs a vector containing a copy of the objects given in the range. Uses the given
@@ -64,7 +76,13 @@ namespace ft {
          * @param alloc The allocator to use, by default std::allocator.
          */
         template <class InputIt>
-        vector(InputIt first, InputIt last, const Allocator & alloc = Allocator());
+        vector(InputIt first, InputIt last, const Allocator & alloc = Allocator())
+            : alloc(alloc), memory_capacity(std::distance(first, last)), object_count(std::distance(first, last)) {
+            start = alloc.allocate(object_count);
+            for (pointer i = start; first != last; ++i, ++first) {
+                alloc.construct(i, *first);
+            }
+        }
 
         /**
          * Constructs a vector holding a copy of the given vector.
@@ -76,7 +94,12 @@ namespace ft {
         /**
          * Destroys this vector. Deallocates all memory previously hold by this instance.
          */
-        ~vector();
+        ~vector() {
+            for (pointer i = start; ((size_type) (i - start)) < object_count; ++i) {
+                alloc.destroy(i);
+            }
+            alloc.deallocate(start, memory_capacity);
+        }
 
         /**
          * Removes all contents of this instance and copies the contents of the other given vector.
@@ -354,6 +377,21 @@ namespace ft {
          * The allocator to be used for all memory related operations.
          */
         Allocator alloc;
+
+        /**
+         * The pointer to the beginning of the memory used by this vector.
+         */
+        pointer start;
+
+        /**
+         * The number of objects that can be stored inside of the allocated memory.
+         */
+        size_type memory_capacity;
+
+        /**
+         * The count of objects currently held by this vector.
+         */
+        size_type object_count;
     };
 
     template <class T, class Alloc>
