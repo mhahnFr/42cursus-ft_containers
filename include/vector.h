@@ -241,7 +241,9 @@ namespace ft {
          *
          * @return True, if this vector is empty, false otherwise.
          */
-        bool empty() const;
+        bool empty() const {
+            return size() == 0;
+        }
 
         /**
          * Returns the count of elements currently being held by this instance.
@@ -348,6 +350,9 @@ namespace ft {
         void swap(vector & other);
 
     private:
+        /**
+         * The allocator to be used for all memory related operations.
+         */
         Allocator alloc;
     };
 
