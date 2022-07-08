@@ -334,7 +334,9 @@ namespace ft {
          *
          * @return Returns the number of objects currently being held.
          */
-        size_type size() const;
+        size_type size() const {
+            return object_count;
+        }
 
         /**
          * Returns the maximum count of objects this vector can hold.
@@ -356,12 +358,18 @@ namespace ft {
          *
          * @return The number of objects that can be hold.
          */
-        size_type capacity() const;
+        size_type capacity() const {
+            return memory_capacity;
+        }
 
         /**
          * Removes all objects from this vector. The allocated memory stays allocated.
          */
-        void clear();
+        void clear() {
+            while (size() > 0) {
+                pop_back();
+            }
+        }
 
         /**
          * Inserts a copy of the given object at the position pointed to by the given iterator.
@@ -422,7 +430,10 @@ namespace ft {
         /**
          * Removes the last object hold by this vector.
          */
-        void pop_back();
+        void pop_back() {
+            alloc.destruct(start + object_count);
+            --object_count;
+        }
 
         void resize(size_type count, T value = T());
 
