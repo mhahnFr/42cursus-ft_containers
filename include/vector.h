@@ -280,7 +280,7 @@ namespace ft {
          * @return An iterator pointing to the end.
          */
         iterator end() {
-            return start + object_count + sizeof(T);
+            return start + object_count;
         }
 
         /**
@@ -289,7 +289,7 @@ namespace ft {
          * @return A const iterator pointing to the end.
          */
         const_iterator end() const {
-            return start + object_count + sizeof(T);
+            return start + object_count;
         }
 
         /**
@@ -443,16 +443,16 @@ namespace ft {
             if (size() + 1 > capacity()) {
                 // TODO: Realloc
             }
-            ++object_count;
             alloc.construct(start + object_count, value);
+            ++object_count;
         }
 
         /**
          * Removes the last object hold by this vector.
          */
         void pop_back() {
-            alloc.destruct(start + object_count);
             --object_count;
+            alloc.destroy(start + object_count);
         }
 
         void resize(size_type count, T value = T());
