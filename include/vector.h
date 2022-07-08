@@ -35,9 +35,7 @@ namespace ft {
          * Constructs an empty vector.
          */
         vector()
-            : alloc(Allocator()), memory_capacity(), object_count() {
-            // TODO: Finish
-        }
+            : alloc(Allocator()), start(NULL), memory_capacity(), object_count() {}
 
         /**
          * Constructs an empty vector, which will use the given allocator.
@@ -45,9 +43,7 @@ namespace ft {
          * @param alloc The allocator to be used by this instance.
          */
         explicit vector(const Allocator & alloc)
-            : alloc(alloc), memory_capacity(), object_count() {
-            // TODO: Finish
-        }
+            : alloc(alloc), start(NULL), memory_capacity(), object_count() {}
 
         /**
          * Constructs a vector holding count number of elements. The elements are copy-constructed
@@ -89,7 +85,13 @@ namespace ft {
          *
          * @param other The vector to copy.
          */
-        vector(const vector & other);
+        vector(const vector & other)
+            : alloc(other.get_allocator()), object_count(other.size()), memory_capacity(other.capacity()) {
+            start = alloc.allocate(memory_capacity);
+            for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
+                alloc.construct(start + (other.end() - it),  *it);
+            }
+        }
 
         /**
          * Destroys this vector. Deallocates all memory previously hold by this instance.
