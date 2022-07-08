@@ -335,7 +335,7 @@ namespace ft {
         }
 
         /**
-         * Returns wether this vector is empty.
+         * Returns whether this vector is empty.
          *
          * @return True, if this vector is empty, false otherwise.
          */
