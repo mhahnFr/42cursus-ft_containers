@@ -58,9 +58,9 @@ namespace ft {
          */
         explicit vector(size_type count, const T & value = T(), const Allocator & alloc = Allocator())
             : alloc(alloc), memory_capacity(count), object_count(count) {
-            start = alloc.allocate(count);
+            start = vector::alloc.allocate(count);
             for (pointer i = start; ((size_type) (i - start)) < count; ++i) {
-                alloc.construct(i, value);
+                vector::alloc.construct(i, value);
             }
         }
 
@@ -76,9 +76,9 @@ namespace ft {
         template <class InputIt>
         vector(InputIt first, InputIt last, const Allocator & alloc = Allocator())
             : alloc(alloc), memory_capacity(std::distance(first, last)), object_count(std::distance(first, last)) {
-            start = alloc.allocate(object_count);
+            start = vector::alloc.allocate(object_count);
             for (pointer i = start; first != last; ++i, ++first) {
-                alloc.construct(i, *first);
+                vector::alloc.construct(i, *first);
             }
         }
 
@@ -439,7 +439,13 @@ namespace ft {
          *
          * @param value The object to append.
          */
-        void push_back(const T & value);
+        void push_back(const T & value) {
+            if (size() + 1 > capacity()) {
+                // TODO: Realloc
+            }
+            ++object_count;
+            alloc.construct(start + object_count, value);
+        }
 
         /**
          * Removes the last object hold by this vector.
