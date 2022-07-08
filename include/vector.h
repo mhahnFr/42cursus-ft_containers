@@ -10,7 +10,7 @@
 namespace ft {
     /**
      * A class that holds a number of objects of type T. It is similar to an array, yet
-     * more flexible, as more elements can be appended at any time.
+     * more flexible, as more elements can be appended or removed at any time.
      *
      * @tparam T The type of the contained objects.
      * @tparam Allocator The allocator to use, by default the std::allocator.
@@ -259,28 +259,36 @@ namespace ft {
          *
          * @return An iterator pointing to the beginning.
          */
-        iterator begin();
+        iterator begin() {
+            return start;
+        }
 
         /**
          * Returns a const iterator pointing to the beginning of this container.
          *
          * @return A const iterator pointing to the beginning.
          */
-        const_iterator begin() const;
+        const_iterator begin() const {
+            return start;
+        }
 
         /**
          * Returns an iterator pointing behind the last object in this container.
          *
          * @return An iterator pointing to the end.
          */
-        iterator end();
+        iterator end() {
+            return start + object_count + sizeof(T);
+        }
 
         /**
          * Returns a const iterator pointing behind the last object in this container.
          *
          * @return A const iterator pointing to the end.
          */
-        const_iterator end() const;
+        const_iterator end() const {
+            return start + object_count + sizeof(T);
+        }
 
         /**
          * Returns an iterator pointing to the last element in this container. Incrementing it
