@@ -28,7 +28,9 @@ namespace ft {
         typedef typename Allocator::const_pointer     const_pointer;
         typedef T *                                   iterator;
         typedef T *                                   const_iterator;
+        // FIXME: use ft version!
         typedef std::reverse_iterator<iterator>       reverse_iterator;
+        // FIXME: use ft version!
         typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
         /**
@@ -296,7 +298,10 @@ namespace ft {
          *
          * @return A reverse iterator pointing to the last object.
          */
-        reverse_iterator rbegin();
+        reverse_iterator rbegin() {
+            // FIXME: use ft version!
+            return std::reverse_iterator<iterator>(end());
+        }
 
         /**
          * Returns a const iterator pointing to the last element in this container. Incrementing it
@@ -304,21 +309,30 @@ namespace ft {
          *
          * @return A const reverse iterator pointing to the last object.
          */
-        const_reverse_iterator rbegin() const;
+        const_reverse_iterator rbegin() const {
+            // FIXME: use ft version!
+            return std::reverse_iterator<iterator>(end());
+        }
 
         /**
          * Returns an iterator pointing before the first object.
          *
          * @return A reverse iterator pointing before the beginning.
          */
-        reverse_iterator rend();
+        reverse_iterator rend() {
+            // FIXME: use ft version!
+            return std::reverse_iterator<iterator>(begin());
+        }
 
         /**
          * Returns a const iterator pointing before the first object.
          *
          * @return A const reverse iterator pointing before the beginning.
          */
-        const_reverse_iterator rend() const;
+        const_reverse_iterator rend() const {
+            // FIXME: use ft version!
+            return std::reverse_iterator<iterator>(begin());
+        }
 
         /**
          * Returns wether this vector is empty.
@@ -442,7 +456,17 @@ namespace ft {
          *
          * @param other Exchanges the contents of the given vector with this instance.
          */
-        void swap(vector & other);
+        void swap(vector & other) {
+            pointer tmp = start;
+            size_type tmpMC = memory_capacity;
+            size_type tmpOC = object_count;
+            start = other.data();
+            memory_capacity = other.capacity();
+            object_count = other.size();
+            other.start = tmp;
+            other.object_count = tmpOC;
+            other.memory_capacity = tmpMC;
+        }
 
     private:
         /**
