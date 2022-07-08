@@ -104,17 +104,46 @@ namespace ft {
         }
 
         /**
-         * Removes all contents of this instance and copies the contents of the other given vector.
+         * Removes all objects of this instance and copies the contents of the other given vector.
          *
          * @param other The vector to copy.
          * @return A pointer to this instance.
          */
-        vector & operator=(const vector & other);
+        vector & operator=(const vector & other) {
+            clear();
+            for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
+                push_back(*it);
+            }
+        }
 
-        void assign(size_type count, const T & value);
+        /**
+         * Removes all objects held by this vector and stores the given count amount of copies of
+         * the given value.
+         *
+         * @param count The amount of copies to be stored.
+         * @param value The value to be copied.
+         */
+        void assign(size_type count, const T & value) {
+            clear();
+            for (size_type i = 0; i < count; ++i) {
+                push_back(value);
+            }
+        }
 
+        /**
+         * Removes all objects held by this vector and stores a copy of the given range.
+         *
+         * @tparam InputIt The type of the iterator.
+         * @param first The beginning of the range.
+         * @param last The end of the range.
+         */
         template <class InputIt>
-        void assign(InputIt first, InputIt last);
+        void assign(InputIt first, InputIt last) {
+            clear();
+            for (InputIt it = first; it != last; ++it) {
+                push_back(*it);
+            }
+        }
 
         /**
          * Returns the allocator used by this instance.
