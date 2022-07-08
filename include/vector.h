@@ -161,7 +161,10 @@ namespace ft {
          * @param pos The position of the desired object.
          * @return A reference to the object at the given position.
          */
-        reference at(size_type pos);
+        reference at(size_type pos) {
+            if (pos >= size()) throw std::out_of_range("ft::vector<T, Allocator>::at: Out of range!");
+            return *(start + pos);
+        }
 
         /**
          * Returns a const reference to the object at the given position. Throws an out_of_range exception
@@ -170,7 +173,10 @@ namespace ft {
          * @param pos The position of the desired object.
          * @return A const reference to the object at the given position.
          */
-        const_reference at(size_type pos) const;
+        const_reference at(size_type pos) const {
+            if (pos >= size() || pos < 0) throw std::out_of_range("ft::vector<T, Allocator>::at: Out of range!");
+            return *(start + pos);
+        }
 
         /**
          * Returns a reference to the object at the given position. Does not check if the given position is
@@ -179,7 +185,9 @@ namespace ft {
          * @param pos The position of the desired object.
          * @return The object at the given position.
          */
-        reference operator[](size_type pos);
+        reference operator[](size_type pos) {
+            return *(start + pos);
+        }
 
         /**
          * Returns a const reference to the object at the given position. Does not check if the given position
@@ -188,49 +196,63 @@ namespace ft {
          * @param pos The position of the desired object.
          * @return A const reference to the object at the given position.
          */
-        const_reference operator[](size_type pos) const;
+        const_reference operator[](size_type pos) const {
+            return *(start + pos);
+        }
 
         /**
          * Returns a reference to the first element in this container.
          *
          * @return A reference to the first object.
          */
-        reference front();
+        reference front() {
+            return *start;
+        }
 
         /**
          * Returns a const reference to the first object in this container.
          *
          * @return A const reference to the first object.
          */
-        const_reference front() const;
+        const_reference front() const {
+            return *start;
+        }
 
         /**
          * Returns a reference to the last object in this container.
          *
          * @return A reference to the last object.
          */
-        reference back();
+        reference back() {
+            return *(start + size());
+        }
 
         /**
          * Returns a const reference to the last object in this container.
          *
          * @return A const reference to the last object.
          */
-        const_reference back() const;
+        const_reference back() const {
+            return *(start + size());
+        }
 
         /**
          * Returns a pointer to the memory held by this vector.
          *
          * @return A pointer to the memory block.
          */
-        T * data();
+        T * data() {
+            return start;
+        }
 
         /**
          * Returns a const pointer to the memory held by this vector.
          *
          * @return A const pointer to the memory block.
          */
-        const T * data() const;
+        const T * data() const {
+            return start;
+        }
 
         /**
          * Returns an iterator pointing to the beginning of this container.
