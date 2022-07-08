@@ -5,10 +5,10 @@ NAME = container.exe
 CXX = c++
 
 # The flags to be used by the compiler.
-CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g
+CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g -fsanitize=address
 
 # The flags to be used by the linker.
-LDFLAGS =
+LDFLAGS = -fsanitize=address
 
 # The source files.
 SRCS = main2.cpp #main.cpp

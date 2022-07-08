@@ -365,7 +365,18 @@ namespace ft {
          *
          * @param new_cap The count of objects this vector should be capable to hold.
          */
-        void reserve(size_type new_cap);
+        void reserve(size_type new_cap) {
+            if (new_cap > max_size()) throw std::length_error("ft::vector<T>::reserve: Too much elements to be reserved!");
+            if (new_cap > capacity()) {
+                pointer tmp = alloc.allocate(new_cap);
+                for (const_iterator it = begin(); it != end(); ++it) {
+                    alloc.construct(tmp + (it - begin()), *it);
+                    alloc.destroy(start + (it - begin()));
+                }
+                alloc.deallocate(start);
+                start = tmp;
+            }
+        }
 
         /**
          * Returns the number of objects this vector can hold.
