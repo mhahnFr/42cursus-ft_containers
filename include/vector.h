@@ -86,7 +86,7 @@ namespace ft {
          * @param other The vector to copy.
          */
         vector(const vector & other)
-            : alloc(other.get_allocator()), object_count(other.size()), memory_capacity(other.capacity()) {
+            : alloc(other.get_allocator()), memory_capacity(other.capacity()), object_count(other.size()) {
             start = alloc.allocate(memory_capacity);
             for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
                 alloc.construct(start + (other.end() - it),  *it);
