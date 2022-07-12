@@ -373,7 +373,8 @@ namespace ft {
                     alloc.construct(tmp + (it - begin()), *it);
                     alloc.destroy(start + (it - begin()));
                 }
-                alloc.deallocate(start);
+                alloc.deallocate(start, memory_capacity);
+                memory_capacity = new_cap;
                 start = tmp;
             }
         }
