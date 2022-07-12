@@ -357,7 +357,9 @@ namespace ft {
          *
          * @return The maximum number of holdable objects.
          */
-        size_type max_size() const;
+        size_type max_size() const {
+            return std::numeric_limits<size_type>::max();
+        }
 
         /**
          * Allocates at least as much memory as needed to store the given count of objects. If it
@@ -547,7 +549,10 @@ namespace ft {
     }
 
     template <class T, class Alloc>
-    bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs); // TODO: Needs lexicographical_compare!
+    bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
+        // FIXME: Use ft version!
+        return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
 
     template <class T, class Alloc>
     bool operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
