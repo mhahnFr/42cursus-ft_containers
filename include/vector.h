@@ -452,7 +452,7 @@ namespace ft {
          */
         void push_back(const T & value) {
             if (size() + 1 > capacity()) {
-                // TODO: Realloc
+                reserve(size() * 2);
             }
             alloc.construct(start + object_count, value);
             ++object_count;
@@ -466,6 +466,15 @@ namespace ft {
             alloc.destroy(start + object_count);
         }
 
+        /**
+         * Resizes this vector to hold count amount of objects. If the given count is smaller
+         * than the current size, the elements that are to much are removed from the end. Otherwise,
+         * if the given count is bigger than the current size, new elements with the given value are
+         * appended.
+         *
+         * @param count The new count of elements.
+         * @param value The value of the appended objects.
+         */
         void resize(size_type count, T value = T());
 
         /**
