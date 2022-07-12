@@ -476,7 +476,17 @@ namespace ft {
          * @param count The new count of elements.
          * @param value The value of the appended objects.
          */
-        void resize(size_type count, T value = T());
+        void resize(size_type count, T value = T()) {
+            if (count < size()) {
+                while (size() > count) {
+                    pop_back();
+                }
+            } else if (count > size()) {
+                while (size() < count) {
+                    push_back(value);
+                }
+            }
+        }
 
         /**
          * Exchanges the contents of this vector with the contents of the given other vector.
