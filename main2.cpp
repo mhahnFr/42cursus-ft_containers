@@ -18,6 +18,12 @@ void printVectorStats(const Vector & vector) {
 }
 
 int main() {
+    std::vector<std::string> s;
+    for (char c = 'a'; c != 'z'; ++c) {
+        char cs[2] = {c, '\0' };
+        s.push_back(cs);
+    }
+
     std::cout << "\033[33;1m" << "ft::vector" << "\033[0m" << std::endl << std::endl;
     ft::vector<std::string> strings(5);
 
@@ -42,6 +48,12 @@ int main() {
     printVectorStats(strings);
     strings.insert(strings.begin() + 1, "C");
     printVectorStats(strings);
+
+    strings.insert(strings.begin(), 10, "99");
+    printVectorStats(strings);
+
+    //strings.insert(strings.begin(), s.begin(), s.end());
+    //printVectorStats(strings);
 
     std::cout << "\033[34;1m" << "std::vector" << "\033[0m" << std::endl << std::endl;
 
@@ -68,4 +80,10 @@ int main() {
     printVectorStats(stdStrings);
     stdStrings.insert(stdStrings.begin() + 1, "C");
     printVectorStats(stdStrings);
+
+    stdStrings.insert(stdStrings.begin(), 10, "99");
+    printVectorStats(stdStrings);
+
+    //stdStrings.insert(stdStrings.begin(), s.begin(), s.end());
+    //printVectorStats(stdStrings);
 }
