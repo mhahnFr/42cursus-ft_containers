@@ -30,6 +30,12 @@ int main() {
     strings.pop_back();
     printVectorStats(strings);
 
+    std::cout << *strings.erase(std::find(strings.begin(), strings.end(), "Hi")) << std::endl;
+    printVectorStats(strings);
+
+    strings.erase(strings.begin());
+    printVectorStats(strings);
+
     std::cout << "\033[34;1m" << "std::vector" << "\033[0m" << std::endl << std::endl;
 
     std::vector<std::string> stdStrings(5);
@@ -41,5 +47,11 @@ int main() {
 
     printVectorStats(stdStrings);
     stdStrings.pop_back();
+    printVectorStats(stdStrings);
+
+    std::cout << *stdStrings.erase(std::find(stdStrings.begin(), stdStrings.end(), "Hi")) << std::endl;
+    printVectorStats(stdStrings);
+
+    stdStrings.erase(stdStrings.begin());
     printVectorStats(stdStrings);
 }

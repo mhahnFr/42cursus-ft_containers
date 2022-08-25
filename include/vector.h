@@ -436,7 +436,16 @@ namespace ft {
          * @param pos The position where to erase the object.
          * @return An iterator to the next object.
          */
-        iterator erase(iterator pos);
+        iterator erase(iterator pos) {
+            for (iterator it = pos; it != end(); ++it) {
+                alloc.destroy(it);
+                if (it + 1 != end()) {
+                    alloc.construct(it, *(it + 1));
+                }
+            }
+            --object_count;
+            return pos;
+        }
 
         /**
          * Erases the objects defined by the given range. Returns an iterator to the next object after
