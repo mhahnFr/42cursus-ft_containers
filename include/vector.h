@@ -407,7 +407,23 @@ namespace ft {
          * @param value The object to be inserted.
          * @return An iterator pointing to the inserted object.
          */
-        iterator insert(iterator pos, const T & value);
+        iterator insert(iterator pos, const T & value) {
+            if (size() + 1 > capacity()) {
+                reserve(size() * 2);
+            }
+            iterator it = end();
+            while (it != pos) {
+                if (it != end()) {
+                    alloc.destroy(it);
+                }
+                alloc.construct(it, *(it - 1));
+                --it;
+            }
+            alloc.destroy(it);
+            alloc.construct(it, value);
+            ++object_count;
+            return it;
+        }
 
         /**
          * Inserts the given amount of copies of the given object at the position pointed to by the

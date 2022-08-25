@@ -36,6 +36,13 @@ int main() {
     strings.erase(strings.begin());
     printVectorStats(strings);
 
+    strings.insert(strings.begin(), "A");
+    printVectorStats(strings);
+    strings.insert(strings.begin(), "B");
+    printVectorStats(strings);
+    strings.insert(strings.begin() + 1, "C");
+    printVectorStats(strings);
+
     std::cout << "\033[34;1m" << "std::vector" << "\033[0m" << std::endl << std::endl;
 
     std::vector<std::string> stdStrings(5);
@@ -53,5 +60,12 @@ int main() {
     printVectorStats(stdStrings);
 
     stdStrings.erase(stdStrings.begin());
+    printVectorStats(stdStrings);
+
+    stdStrings.insert(stdStrings.begin(), "A");
+    printVectorStats(stdStrings);
+    stdStrings.insert(stdStrings.begin(), "B");
+    printVectorStats(stdStrings);
+    stdStrings.insert(stdStrings.begin() + 1, "C");
     printVectorStats(stdStrings);
 }
