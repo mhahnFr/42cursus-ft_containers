@@ -432,7 +432,29 @@ namespace ft {
          * @param last The end of the range.
          */
         template <class InputIt>
-        void insert(iterator pos, InputIt first, InputIt last);
+        void insert(iterator pos, InputIt first, InputIt last) {
+            long p = pos - begin();
+            size_type count = last - first;
+            if (capacity() < size() + count) {
+                reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
+            }
+            iterator src = end() - 1;
+            iterator dst = end() + count - 1;
+            for (; src >= begin() + p; --src, --dst) {
+                if (dst < end()) {
+                    alloc.destroy(dst);
+                }
+                alloc.construct(dst, *src);
+            }
+            ++src;
+            for (; src <= dst; ++src) {
+                if (src < end()) {
+                    alloc.destroy(src);
+                }
+                alloc.construct(src, *(first++));
+            }
+            object_count += count;
+        }
 
         /**
          * Erases the object pointed to by the given iterator. Returns an iterator to the next object.

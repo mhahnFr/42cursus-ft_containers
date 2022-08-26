@@ -59,8 +59,8 @@ int main() {
     strings.insert(strings.end(), 27, "88");
     printVectorStats(strings);
 
-    //strings.insert(strings.begin(), s.begin(), s.end());
-    //printVectorStats(strings);
+    strings.insert(strings.begin(), s.begin(), s.end());
+    printVectorStats(strings);
 
     std::cout << "\033[34;1m" << "std::vector" << "\033[0m" << std::endl << std::endl;
 
@@ -98,6 +98,6 @@ int main() {
     stdStrings.insert(stdStrings.begin(), 27, "88");
     printVectorStats(stdStrings);
 
-    //stdStrings.insert(stdStrings.begin(), s.begin(), s.end());
-    //printVectorStats(stdStrings);
+    stdStrings.insert(stdStrings.begin(), s.begin(), s.end());
+    printVectorStats(stdStrings);
 }
