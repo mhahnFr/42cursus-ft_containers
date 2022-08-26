@@ -408,21 +408,7 @@ namespace ft {
          * @return An iterator pointing to the inserted object.
          */
         iterator insert(iterator pos, const T & value) {
-            if (size() + 1 > capacity()) {
-                reserve(size() * 2);
-            }
-            iterator it = end();
-            while (it != pos) {
-                if (it != end()) {
-                    alloc.destroy(it);
-                }
-                alloc.construct(it, *(it - 1));
-                --it;
-            }
-            alloc.destroy(it);
-            alloc.construct(it, value);
-            ++object_count;
-            return it;
+            return coreInsert(pos, 1, value);
         }
 
         /**
@@ -433,7 +419,9 @@ namespace ft {
          * @param count The number of objects to insert.
          * @param value The object to be copied.
          */
-        void insert(iterator pos, size_type count, const T & value);
+        void insert(iterator pos, size_type count, const T & value) {
+            (void) coreInsert(pos, count, value);
+        }
 
         /**
          * Inserts a copy of the given range at the given position.
@@ -552,6 +540,38 @@ namespace ft {
          * The count of objects currently held by this vector.
          */
         size_type object_count;
+
+        /**
+         * Inserts the given count amount of copies of the given object into this vector.
+         *
+         * @param pos The position where to insert the elements.
+         * @param count The amount of objects that should be inserted.
+         * @param value The value that should be copied.
+         * @return The iterator to the beginning of the inserted range.
+         */
+        iterator coreInsert(iterator pos, size_type count, const T & value) {
+            long p = pos - begin();
+            if (capacity() < size() + count) {
+                reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
+            }
+            iterator src = end() - 1;
+            iterator dst = end() + count - 1;
+            for (; src >= begin() + p; --src, --dst) {
+                if (dst < end()) {
+                    alloc.destroy(dst);
+                }
+                alloc.construct(dst, *src);
+            }
+            ++src;
+            for (; src <= dst; ++src) {
+                if (src < end()) {
+                    alloc.destroy(src);
+                }
+                alloc.construct(src, value);
+            }
+            object_count += count;
+            return src - count;
+        }
     };
 
     template <class T, class Alloc>
