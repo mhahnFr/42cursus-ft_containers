@@ -481,7 +481,18 @@ namespace ft {
          * @param last The end of the range.
          * @return An iterator to the next object after the range.
          */
-        iterator erase(iterator first, iterator last);
+        iterator erase(iterator first, iterator last) {
+            size_type dist = last - first;
+            size_type e = end() - last;
+            for (; first != end(); ++first, ++last) {
+                alloc.destroy(first);
+                if (last < end()) {
+                    alloc.construct(first, *last);
+                }
+            }
+            object_count -= dist;
+            return end() - e;
+        }
 
         /**
          * Appends a copy of the given object to the end of this vector.

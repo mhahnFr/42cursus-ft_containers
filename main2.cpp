@@ -31,23 +31,27 @@ int main() {
     strings.push_back("Hi");
     strings.push_back("test");
     strings.push_back("count the strings");
-
+    strings.push_back("Some arsches");
     printVectorStats(strings);
-//    strings.pop_back();
-//    printVectorStats(strings);
-//
-//    std::cout << *strings.erase(std::find(strings.begin(), strings.end(), "Hi")) << std::endl;
-//    printVectorStats(strings);
-//
-//    strings.erase(strings.begin());
-//    printVectorStats(strings);
-//
-//    strings.insert(strings.begin(), "A");
-//    printVectorStats(strings);
-//    strings.insert(strings.begin(), "B");
-//    printVectorStats(strings);
-//    strings.insert(strings.begin() + 1, "C");
-//    printVectorStats(strings);
+
+    std::cout << *strings.erase(strings.begin() + 1) << std::endl;
+    printVectorStats(strings);
+
+    strings.pop_back();
+    printVectorStats(strings);
+
+    std::cout << *strings.erase(std::find(strings.begin(), strings.end(), "Hi")) << std::endl;
+    printVectorStats(strings);
+
+    strings.erase(strings.begin());
+    printVectorStats(strings);
+
+    strings.insert(strings.begin(), "A");
+    printVectorStats(strings);
+    strings.insert(strings.begin(), "B");
+    printVectorStats(strings);
+    strings.insert(strings.begin() + 1, "C");
+    printVectorStats(strings);
 
     strings.insert(strings.begin() + 3, 10, "99");
     printVectorStats(strings);
@@ -62,6 +66,9 @@ int main() {
     strings.insert(strings.begin(), s.begin(), s.end());
     printVectorStats(strings);
 
+    assert(strings.erase(strings.begin(), strings.end()) == strings.end());
+    printVectorStats(strings);
+
     std::cout << "\033[34;1m" << "std::vector" << "\033[0m" << std::endl << std::endl;
 
     std::vector<std::string> stdStrings(5);
@@ -70,23 +77,27 @@ int main() {
     stdStrings.push_back("Hi");
     stdStrings.push_back("test");
     stdStrings.push_back("count the strings");
-
+    stdStrings.push_back("Some arsches");
     printVectorStats(stdStrings);
-//    stdStrings.pop_back();
-//    printVectorStats(stdStrings);
-//
-//    std::cout << *stdStrings.erase(std::find(stdStrings.begin(), stdStrings.end(), "Hi")) << std::endl;
-//    printVectorStats(stdStrings);
-//
-//    stdStrings.erase(stdStrings.begin());
-//    printVectorStats(stdStrings);
-//
-//    stdStrings.insert(stdStrings.begin(), "A");
-//    printVectorStats(stdStrings);
-//    stdStrings.insert(stdStrings.begin(), "B");
-//    printVectorStats(stdStrings);
-//    stdStrings.insert(stdStrings.begin() + 1, "C");
-//    printVectorStats(stdStrings);
+
+    std::cout << *stdStrings.erase(stdStrings.begin() + 1) << std::endl;
+    printVectorStats(stdStrings);
+
+    stdStrings.pop_back();
+    printVectorStats(stdStrings);
+
+    std::cout << *stdStrings.erase(std::find(stdStrings.begin(), stdStrings.end(), "Hi")) << std::endl;
+    printVectorStats(stdStrings);
+
+    stdStrings.erase(stdStrings.begin());
+    printVectorStats(stdStrings);
+
+    stdStrings.insert(stdStrings.begin(), "A");
+    printVectorStats(stdStrings);
+    stdStrings.insert(stdStrings.begin(), "B");
+    printVectorStats(stdStrings);
+    stdStrings.insert(stdStrings.begin() + 1, "C");
+    printVectorStats(stdStrings);
 
     stdStrings.insert(stdStrings.begin() + 3, 10, "99");
     printVectorStats(stdStrings);
@@ -99,5 +110,8 @@ int main() {
     printVectorStats(stdStrings);
 
     stdStrings.insert(stdStrings.begin(), s.begin(), s.end());
+    printVectorStats(stdStrings);
+
+    assert(stdStrings.erase(stdStrings.begin(), stdStrings.end()) == stdStrings.end());
     printVectorStats(stdStrings);
 }
