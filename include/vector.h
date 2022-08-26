@@ -37,7 +37,7 @@ namespace ft {
          * Constructs an empty vector.
          */
         vector()
-            : alloc(Allocator()), start(NULL), memory_capacity(), object_count() {}
+            : alloc(Allocator()), start(NULL), memory_capacity(0), object_count(0) {}
 
         /**
          * Constructs an empty vector, which will use the given allocator.
@@ -45,7 +45,7 @@ namespace ft {
          * @param alloc The allocator to be used by this instance.
          */
         explicit vector(const Allocator & alloc)
-            : alloc(alloc), start(NULL), memory_capacity(), object_count() {}
+            : alloc(alloc), start(NULL), memory_capacity(0), object_count(0) {}
 
         /**
          * Constructs a vector holding count number of elements. The elements are copy-constructed
