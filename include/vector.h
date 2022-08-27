@@ -501,7 +501,7 @@ namespace ft {
          */
         void push_back(const T & value) {
             if (size() + 1 > capacity()) {
-                reserve(size() * 2);
+                reserve((size() > 0 ? size() : 1) * 2);
             }
             alloc.construct(start + object_count, value);
             ++object_count;

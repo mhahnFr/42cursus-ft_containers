@@ -25,9 +25,10 @@ int main() {
     }
 
     std::cout << "\033[33;1m" << "ft::vector" << "\033[0m" << std::endl << std::endl;
-    ft::vector<std::string> strings(5);
+    /*ft::vector<std::string> strings(5);
 
-    strings.clear();
+    strings.clear();*/
+    ft::vector<std::string> strings;
     strings.push_back("Hi");
     strings.push_back("test");
     strings.push_back("count the strings");
