@@ -116,6 +116,7 @@ namespace ft {
             for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
                 push_back(*it);
             }
+            return *this;
         }
 
         /**
@@ -375,7 +376,8 @@ namespace ft {
                     alloc.construct(tmp + (it - begin()), *it);
                     alloc.destroy(start + (it - begin()));
                 }
-                alloc.deallocate(start, memory_capacity);
+                if (start != NULL) // Since when is it wrong to free NULL???
+                    alloc.deallocate(start, memory_capacity);
                 memory_capacity = new_cap;
                 start = tmp;
             }
@@ -626,10 +628,15 @@ namespace ft {
         return !(lhs == rhs);
     }
 
-    template <class T, class Alloc>
+    /*template <class T, class Alloc>
     bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
         // FIXME: Use ft version!
         return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }*/
+
+    template <class T, class Alloc>
+    bool operator<(const vector<T, Alloc> &, const vector<T, Alloc> &) {
+        return false;
     }
 
     template <class T, class Alloc>
