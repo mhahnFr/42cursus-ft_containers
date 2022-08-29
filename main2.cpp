@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include "vector.h"
+#include "vector.hpp"
 
 template <typename Vector>
 void printVectorStats(const Vector & vector) {

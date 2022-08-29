@@ -8,8 +8,8 @@
 	namespace ft = std;
 #else
 //	#include <map.h>
-	#include <stack.h>
-	#include <vector.h>
+	#include <stack.hpp>
+	#include <vector.hpp>
 #endif
 
 #include <stdlib.h>

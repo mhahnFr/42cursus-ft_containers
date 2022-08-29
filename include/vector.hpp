@@ -2,8 +2,8 @@
 // Created by Manuel Hahn on 7/5/22.
 //
 
-#ifndef FT_CONTAINERS_VECTOR_H
-#define FT_CONTAINERS_VECTOR_H
+#ifndef FT_CONTAINERS_VECTOR_HPP
+#define FT_CONTAINERS_VECTOR_HPP
 
 #include <memory>
 
@@ -660,4 +660,4 @@ namespace ft {
     }
 }
 
-#endif //FT_CONTAINERS_VECTOR_H
+#endif //FT_CONTAINERS_VECTOR_HPP

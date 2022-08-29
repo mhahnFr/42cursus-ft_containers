@@ -2,10 +2,10 @@
 // Created by Manuel Hahn on 7/4/22.
 //
 
-#ifndef FT_CONTAINERS_STACK_H
-#define FT_CONTAINERS_STACK_H
+#ifndef FT_CONTAINERS_STACK_HPP
+#define FT_CONTAINERS_STACK_HPP
 
-#include "vector.h"
+#include "vector.hpp"
 
 namespace ft {
     template <class T, class Container = ft::vector<T> >
@@ -80,4 +80,4 @@ namespace ft {
     }
 }
 
-#endif //FT_CONTAINERS_STACK_H
+#endif //FT_CONTAINERS_STACK_HPP
