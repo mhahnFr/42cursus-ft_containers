@@ -98,6 +98,46 @@ namespace ft {
             return base()[-n - 1];
         }
 
+        reverse_iterator & operator++() {
+            --current;
+            return *this;
+        }
+
+        reverse_iterator & operator--() {
+            ++current;
+            return *this;
+        }
+
+        reverse_iterator & operator++(int) {
+            reverse_iterator tmp = *this;
+            --current;
+            return tmp;
+        }
+
+        reverse_iterator & operator--(int) {
+            reverse_iterator tmp = *this;
+            ++current;
+            return tmp;
+        }
+
+        reverse_iterator & operator+(difference_type n) const {
+            return reverse_iterator(base() - n);
+        }
+
+        reverse_iterator & operator-(difference_type n) const {
+            return reverse_iterator(base() + n);
+        }
+
+        reverse_iterator & operator+=(difference_type n) {
+            current -= n;
+            return *this;
+        }
+
+        reverse_iterator & operator-=(difference_type n) {
+            current += n;
+            return *this;
+        }
+
     protected:
         iterator_type current;
     };
