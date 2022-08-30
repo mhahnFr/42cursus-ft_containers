@@ -13,6 +13,21 @@ namespace ft {
     struct enable_if<true, T> {
         typedef T type;
     };
+
+    template<class T, T v>
+    struct integral_constant {
+        static T value = v;
+
+        typedef T                       value_type;
+        typedef integral_constant<T, v> type;
+
+        operator value_type() {
+            return value;
+        }
+    };
+
+    typedef ft::integral_constant<bool, true> true_type;
+    typedef ft::integral_constant<bool, false> false_type;
 }
 
 #endif //FT_CONTAINERS_TYPE_TRAITS_HPP
