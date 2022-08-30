@@ -6,6 +6,8 @@
 #define FT_CONTAINERS_VECTOR_HPP
 
 #include <memory>
+#include <algorithm> // FIXME: ft version!
+#include "iterator.hpp"
 
 namespace ft {
     /**
@@ -18,20 +20,18 @@ namespace ft {
     template <class T, class Allocator = std::allocator<T> >
     class vector {
     public:
-        typedef T                                     value_type;
-        typedef Allocator                             allocator_type;
-        typedef std::size_t                           size_type;
-        typedef std::ptrdiff_t                        difference_type;
-        typedef value_type &                          reference;
-        typedef const value_type &                    const_reference;
-        typedef typename Allocator::pointer           pointer;
-        typedef typename Allocator::const_pointer     const_pointer;
-        typedef T *                                   iterator;
-        typedef T *                                   const_iterator;
-        // FIXME: use ft version!
-        typedef std::reverse_iterator<iterator>       reverse_iterator;
-        // FIXME: use ft version!
-        typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef T                                    value_type;
+        typedef Allocator                            allocator_type;
+        typedef std::size_t                          size_type;
+        typedef std::ptrdiff_t                       difference_type;
+        typedef value_type &                         reference;
+        typedef const value_type &                   const_reference;
+        typedef typename Allocator::pointer          pointer;
+        typedef typename Allocator::const_pointer    const_pointer;
+        typedef pointer                              iterator;
+        typedef const_pointer                        const_iterator;
+        typedef ft::reverse_iterator<iterator>       reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
         /**
          * Constructs an empty vector.
@@ -300,8 +300,7 @@ namespace ft {
          * @return A reverse iterator pointing to the last object.
          */
         reverse_iterator rbegin() {
-            // FIXME: use ft version!
-            return std::reverse_iterator<iterator>(end());
+            return ft::reverse_iterator<iterator>(end());
         }
 
         /**
@@ -311,8 +310,7 @@ namespace ft {
          * @return A const reverse iterator pointing to the last object.
          */
         const_reverse_iterator rbegin() const {
-            // FIXME: use ft version!
-            return std::reverse_iterator<iterator>(end());
+            return ft::reverse_iterator<const_iterator>(end());
         }
 
         /**
@@ -321,8 +319,7 @@ namespace ft {
          * @return A reverse iterator pointing before the beginning.
          */
         reverse_iterator rend() {
-            // FIXME: use ft version!
-            return std::reverse_iterator<iterator>(begin());
+            return ft::reverse_iterator<iterator>(begin());
         }
 
         /**
@@ -331,8 +328,7 @@ namespace ft {
          * @return A const reverse iterator pointing before the beginning.
          */
         const_reverse_iterator rend() const {
-            // FIXME: use ft version!
-            return std::reverse_iterator<iterator>(begin());
+            return ft::reverse_iterator<const_iterator>(begin());
         }
 
         /**
@@ -628,15 +624,10 @@ namespace ft {
         return !(lhs == rhs);
     }
 
-    /*template <class T, class Alloc>
+    template <class T, class Alloc>
     bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
         // FIXME: Use ft version!
         return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-    }*/
-
-    template <class T, class Alloc>
-    bool operator<(const vector<T, Alloc> &, const vector<T, Alloc> &) {
-        return false;
     }
 
     template <class T, class Alloc>

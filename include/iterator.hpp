@@ -70,10 +70,10 @@ namespace ft {
         typedef typename iterator_traits<Iter>::reference         reference;
 
         reverse_iterator(): current() {}
-        reverse_iterator(iterator_type x): current(x) {}
+        explicit reverse_iterator(iterator_type x): current(x) {}
 
         template<class U>
-        reverse_iterator(const reverse_iterator<U> & other): current(other.current) {}
+        reverse_iterator(const reverse_iterator<U> & other): current(other.base()) {}
 
         template<class U>
         reverse_iterator & operator=(const reverse_iterator<U> & other) {
