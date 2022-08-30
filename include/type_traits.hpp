@@ -49,6 +49,24 @@ namespace ft {
 
     template<>
     struct is_integral<long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const bool>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const wchar_t>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const long>: public integral_constant<bool, true> {};
 }
 
 #endif //FT_CONTAINERS_TYPE_TRAITS_HPP
