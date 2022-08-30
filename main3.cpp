@@ -8,9 +8,20 @@
 #include <iostream>
 
 int main() {
+    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<int> a(std::reverse_iterator<int*>(arr + 9), std::reverse_iterator<int*>(arr));
+    ft::vector<int> b(ft::reverse_iterator<int*>(arr + 9), ft::reverse_iterator<int*>(arr));
+    for (std::vector<int>::const_iterator it = a.begin(); it != a.end(); ++it) {
+        std::cout << *it << std::endl;
+    }
+    std::cout << "---" << std::endl;
+    for (ft::vector<int>::const_iterator it = b.begin(); it != b.end(); ++it) {
+        std::cout << *it << std::endl;
+    }
+
     ft::vector<int> is(99, 64);
     for (ft::vector<int>::const_iterator it = is.begin(); it != is.end(); ++it) {
-        std::cerr << *it << std::endl;
+        std::cout << *it << std::endl;
     }
     std::vector<std::string> stdVector;
     ft::vector<std::string>  ftVector;
