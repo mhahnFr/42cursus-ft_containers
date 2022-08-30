@@ -8,6 +8,7 @@
 #include <memory>
 #include <algorithm> // FIXME: ft version!
 #include "iterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft {
     /**
@@ -74,7 +75,7 @@ namespace ft {
          * @param alloc The allocator to use, by default std::allocator.
          */
         template <class InputIt>
-        vector(InputIt first, InputIt last, const Allocator & alloc = Allocator())
+        vector(InputIt first, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator & alloc = Allocator())
             : alloc(alloc), memory_capacity(ft::distance(first, last)), object_count(ft::distance(first, last)) {
             start = vector::alloc.allocate(object_count);
             for (pointer i = start; first != last; ++i, ++first) {
