@@ -181,6 +181,23 @@ namespace ft {
     typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
         rhs.base() - lhs.base();
     }
+
+    template<class InputIt>
+    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::random_access_iterator_tag) {
+        return last - first;
+    }
+
+    template<class InputIt>
+    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::input_iterator_tag) {
+        typename ft::iterator_traits<InputIt>::difference_type ret;
+        for (ret = 0; first != last; ++first, ++ret);
+        return ret;
+    }
+
+    template<class InputIt>
+    typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last) {
+        return do_distance(first, last, typename ft::iterator_traits<InputIt>::iterator_category());
+    }
 }
 
 #endif //FT_CONTAINERS_ITERATOR_HPP

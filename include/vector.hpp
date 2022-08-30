@@ -75,7 +75,7 @@ namespace ft {
          */
         template <class InputIt>
         vector(InputIt first, InputIt last, const Allocator & alloc = Allocator())
-            : alloc(alloc), memory_capacity(std::distance(first, last)), object_count(std::distance(first, last)) {
+            : alloc(alloc), memory_capacity(ft::distance(first, last)), object_count(ft::distance(first, last)) {
             start = vector::alloc.allocate(object_count);
             for (pointer i = start; first != last; ++i, ++first) {
                 vector::alloc.construct(i, *first);
