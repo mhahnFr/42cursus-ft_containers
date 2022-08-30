@@ -8,6 +8,10 @@
 #include <iostream>
 
 int main() {
+    ft::vector<int> is(99, 64);
+    for (ft::vector<int>::const_iterator it = is.begin(); it != is.end(); ++it) {
+        std::cerr << *it << std::endl;
+    }
     std::vector<std::string> stdVector;
     ft::vector<std::string>  ftVector;
 
