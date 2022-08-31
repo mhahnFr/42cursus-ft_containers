@@ -193,21 +193,21 @@ namespace ft {
     }
 
     template<class InputIt>
-    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::input_iterator_tag) {
+    inline typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::input_iterator_tag) {
+        typename ft::iterator_traits<InputIt>::difference_type ret = 0;
+        for (ret = 0; first != last; ++first, ++ret);
+        return ret;
+    }
+
+    template<class InputIt>
+    inline typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, std::input_iterator_tag) {
         typename ft::iterator_traits<InputIt>::difference_type ret;
         for (ret = 0; first != last; ++first, ++ret);
         return ret;
     }
 
     template<class InputIt>
-    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, std::input_iterator_tag) {
-        typename ft::iterator_traits<InputIt>::difference_type ret;
-        for (ret = 0; first != last; ++first, ++ret);
-        return ret;
-    }
-
-    template<class InputIt>
-    typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last) {
+    inline typename ft::iterator_traits<InputIt>::difference_type distance(InputIt first, InputIt last) {
         return do_distance(first, last, typename ft::iterator_traits<InputIt>::iterator_category());
     }
 }
