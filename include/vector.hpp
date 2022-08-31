@@ -229,7 +229,7 @@ namespace ft {
          * @return A reference to the last object.
          */
         reference back() {
-            return *(start + size());
+            return *(start + size() - 1);
         }
 
         /**
@@ -238,7 +238,7 @@ namespace ft {
          * @return A const reference to the last object.
          */
         const_reference back() const {
-            return *(start + size());
+            return *(start + size() - 1);
         }
 
         /**
