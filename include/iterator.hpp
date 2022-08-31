@@ -85,7 +85,7 @@ namespace ft {
             return current;
         }
 
-        reference operator*() {
+        reference operator*() const {
             Iter tmp = current;
             return *--tmp;
         }
@@ -188,7 +188,19 @@ namespace ft {
     }
 
     template<class InputIt>
+    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, std::random_access_iterator_tag) {
+        return last - first;
+    }
+
+    template<class InputIt>
     typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::input_iterator_tag) {
+        typename ft::iterator_traits<InputIt>::difference_type ret;
+        for (ret = 0; first != last; ++first, ++ret);
+        return ret;
+    }
+
+    template<class InputIt>
+    typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, std::input_iterator_tag) {
         typename ft::iterator_traits<InputIt>::difference_type ret;
         for (ret = 0; first != last; ++first, ++ret);
         return ret;

@@ -103,7 +103,8 @@ namespace ft {
             for (pointer i = start; ((size_type) (i - start)) < object_count; ++i) {
                 alloc.destroy(i);
             }
-            alloc.deallocate(start, memory_capacity);
+            if (start != NULL) // The standard allows free(NULL)!
+                alloc.deallocate(start, memory_capacity);
         }
 
         /**
@@ -431,9 +432,9 @@ namespace ft {
          * @param last The end of the range.
          */
         template <class InputIt>
-        void insert(iterator pos, InputIt first, InputIt last) {
+        void insert(iterator pos, InputIt first, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
             long p = pos - begin();
-            size_type count = last - first;
+            size_type count = ft::distance(first, last);
             if (capacity() < size() + count) {
                 reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
             }
