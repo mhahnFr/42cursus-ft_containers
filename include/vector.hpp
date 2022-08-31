@@ -76,10 +76,13 @@ namespace ft {
          */
         template <class InputIt>
         vector(InputIt first, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator & alloc = Allocator())
-            : alloc(alloc), memory_capacity(ft::distance(first, last)), object_count(ft::distance(first, last)) {
-            start = vector::alloc.allocate(object_count);
-            for (pointer i = start; first != last; ++i, ++first) {
+            : alloc(alloc), memory_capacity(/*ft::distance(first, last)*/0), object_count(/*ft::distance(first, last)*/0) {
+            start = NULL;//vector::alloc.allocate(object_count);
+            /*for (pointer i = start; first != last; ++i, ++first) {
                 vector::alloc.construct(i, *first);
+            }*/
+            for (; first != last; ++first) {
+                push_back(*first);
             }
         }
 
