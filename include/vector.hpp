@@ -92,7 +92,7 @@ namespace ft {
             : alloc(other.get_allocator()), memory_capacity(other.capacity()), object_count(other.size()) {
             start = alloc.allocate(memory_capacity);
             for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
-                alloc.construct(start + (other.end() - it),  *it);
+                alloc.construct(start + ft::distance(other.begin(), it),  *it);
             }
         }
 
