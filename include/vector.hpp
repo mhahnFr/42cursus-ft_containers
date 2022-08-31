@@ -531,9 +531,7 @@ namespace ft {
                     pop_back();
                 }
             } else if (count > size()) {
-                while (size() < count) {
-                    push_back(value);
-                }
+                insert(end(), count - size(), value);
             }
         }
 
