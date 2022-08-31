@@ -357,7 +357,8 @@ namespace ft {
          * @return The maximum number of holdable objects.
          */
         size_type max_size() const {
-            return std::numeric_limits<size_type>::max();
+            return alloc.max_size() > static_cast<typename Allocator::size_type>(std::numeric_limits<difference_type>::max()) ?
+                std::numeric_limits<difference_type>::max() : alloc.max_size();
         }
 
         /**
