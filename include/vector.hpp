@@ -6,7 +6,7 @@
 #define FT_CONTAINERS_VECTOR_HPP
 
 #include <memory>
-#include <algorithm> // FIXME: ft version!
+#include "algorithm.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
 
@@ -663,8 +663,7 @@ namespace ft {
 
     template <class T, class Alloc>
     bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs) {
-        // FIXME: Use ft version!
-        return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     template <class T, class Alloc>
