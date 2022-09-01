@@ -76,14 +76,8 @@ namespace ft {
          */
         template <class InputIt>
         vector(InputIt first, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator & alloc = Allocator())
-            : alloc(alloc), memory_capacity(/*ft::distance(first, last)*/0), object_count(/*ft::distance(first, last)*/0) {
-            start = NULL;//vector::alloc.allocate(object_count);
-            /*for (pointer i = start; first != last; ++i, ++first) {
-                vector::alloc.construct(i, *first);
-            }*/
-            for (; first != last; ++first) {
-                push_back(*first);
-            }
+            : alloc(alloc), start(NULL), memory_capacity(0), object_count(0) {
+            initWithRange(first, last, typename ft::iterator_traits<InputIt>::iterator_category());
         }
 
         /**
@@ -106,8 +100,9 @@ namespace ft {
             for (pointer i = start; ((size_type) (i - start)) < object_count; ++i) {
                 alloc.destroy(i);
             }
-            if (start != NULL) // The standard allows free(NULL)!
+            if (start != NULL) {
                 alloc.deallocate(start, memory_capacity);
+            }
         }
 
         /**
@@ -360,8 +355,9 @@ namespace ft {
          * @return The maximum number of holdable objects.
          */
         size_type max_size() const {
-            return alloc.max_size() > static_cast<typename Allocator::size_type>(std::numeric_limits<difference_type>::max()) ?
-                std::numeric_limits<difference_type>::max() : alloc.max_size();
+            size_type am = alloc.max_size();
+            size_type om = static_cast<size_type>(std::numeric_limits<difference_type>::max());
+            return am > om ? om : am;
         }
 
         /**
@@ -378,8 +374,9 @@ namespace ft {
                     alloc.construct(tmp + (it - begin()), *it);
                     alloc.destroy(start + (it - begin()));
                 }
-                if (start != NULL) // Since when is it wrong to free NULL???
+                if (start != NULL) {
                     alloc.deallocate(start, memory_capacity);
+                }
                 memory_capacity = new_cap;
                 start = tmp;
             }
@@ -606,6 +603,42 @@ namespace ft {
             }
             object_count += count;
             return src - count;
+        }
+
+        template<class InputIt>
+        void initInputRange(InputIt first, InputIt last) {
+            for (; first != last; ++first) {
+                push_back(*first);
+            }
+        }
+
+        template<class InputIt>
+        void initRandRange(InputIt first, InputIt last) {
+            memory_capacity = object_count = ft::distance(first, last);
+            start = vector::alloc.allocate(object_count);
+            for (pointer i = start; first != last; ++i, ++first) {
+                vector::alloc.construct(i, *first);
+            }
+        }
+
+        template<class InputIt>
+        void initWithRange(InputIt first, InputIt last, std::input_iterator_tag) {
+            initInputRange(first, last);
+        }
+
+        template<class InputIt>
+        void initWithRange(InputIt first, InputIt last, ft::input_iterator_tag) {
+            initInputRange(first, last);
+        }
+
+        template<class InputIt>
+        void initWithRange(InputIt first, InputIt last, std::random_access_iterator_tag) {
+            initRandRange(first, last);
+        }
+
+        template<class InputIt>
+        void initWithRange(InputIt first, InputIt last, ft::random_access_iterator_tag) {
+            initRandRange(first, last);
         }
     };
 
