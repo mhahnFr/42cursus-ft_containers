@@ -434,27 +434,9 @@ namespace ft {
          */
         template <class InputIt>
         void insert(iterator pos, InputIt first, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
-            long p = pos - begin();
-            size_type count = ft::distance(first, last);
-            if (capacity() < size() + count) {
-                reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
-            }
-            iterator src = end() - 1;
-            iterator dst = end() + count - 1;
-            for (; src >= begin() + p; --src, --dst) {
-                if (dst < end()) {
-                    alloc.destroy(dst);
-                }
-                alloc.construct(dst, *src);
-            }
-            ++src;
-            for (; src <= dst; ++src) {
-                if (src < end()) {
-                    alloc.destroy(src);
-                }
-                alloc.construct(src, *(first++));
-            }
-            object_count += count;
+            if (first == last) return;
+
+            coreInsert(pos, first, last, typename ft::iterator_traits<InputIt>::iterator_category());
         }
 
         /**
@@ -575,6 +557,58 @@ namespace ft {
          * The count of objects currently held by this vector.
          */
         size_type object_count;
+
+        template<class InputIt>
+        void insertRand(iterator pos, InputIt first, InputIt last) {
+            long p = pos - begin();
+            size_type count = ft::distance(first, last);
+            if (capacity() < size() + count) {
+                reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
+            }
+            iterator src = end() - 1;
+            iterator dst = end() + count - 1;
+            for (; src >= begin() + p; --src, --dst) {
+                if (dst < end()) {
+                    alloc.destroy(dst);
+                }
+                alloc.construct(dst, *src);
+            }
+            ++src;
+            for (; src <= dst; ++src) {
+                if (src < end()) {
+                    alloc.destroy(src);
+                }
+                alloc.construct(src, *(first++));
+            }
+            object_count += count;
+        }
+
+        template<class InputIt>
+        void insertInput(iterator pos, InputIt first, InputIt last) {
+            for (; first != last; ++first) {
+                pos = insert(pos, *first) + 1;
+            }
+        }
+
+        template<class InputIt>
+        void coreInsert(iterator pos, InputIt first, InputIt last, std::random_access_iterator_tag) {
+            insertRand(pos, first, last);
+        }
+
+        template<class InputIt>
+        void coreInsert(iterator pos, InputIt first, InputIt last, ft::random_access_iterator_tag) {
+            insertRand(pos, first, last);
+        }
+
+        template<class InputIt>
+        void coreInsert(iterator pos, InputIt first, InputIt last, std::input_iterator_tag) {
+            insertInput(pos, first, last);
+        }
+
+        template<class InputIt>
+        void coreInsert(iterator pos, InputIt first, InputIt last, ft::input_iterator_tag) {
+            insertInput(pos, first, last);
+        }
 
         /**
          * Inserts the given count amount of copies of the given object into this vector.
