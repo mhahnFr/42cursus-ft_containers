@@ -128,9 +128,7 @@ namespace ft {
          */
         void assign(size_type count, const T & value) {
             clear();
-            for (size_type i = 0; i < count; ++i) {
-                push_back(value);
-            }
+            insert(begin(), count, value);
         }
 
         /**
@@ -143,9 +141,7 @@ namespace ft {
         template <class InputIt>
         void assign(InputIt first, InputIt last) {
             clear();
-            for (InputIt it = first; it != last; ++it) {
-                push_back(*it);
-            }
+            insert(begin(), first, last);
         }
 
         /**
