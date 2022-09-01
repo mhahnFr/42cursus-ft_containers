@@ -585,6 +585,9 @@ namespace ft {
          * @return The iterator to the beginning of the inserted range.
          */
         iterator coreInsert(iterator pos, size_type count, const T & value) {
+            if (count <= 0) {
+                return pos;
+            }
             long p = pos - begin();
             if (capacity() < size() + count) {
                 reserve(capacity() * 2 < size() + count ? size() + count : capacity() * 2);
