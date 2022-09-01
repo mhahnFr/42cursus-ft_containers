@@ -483,6 +483,9 @@ namespace ft {
          * @return An iterator to the next object after the range.
          */
         iterator erase(iterator first, iterator last) {
+            if (first == last) {
+                return first == end() ? end() : first + 1;
+            }
             size_type dist = last - first;
             size_type e = end() - last;
             for (; first != end(); ++first, ++last) {
