@@ -113,9 +113,7 @@ namespace ft {
          */
         vector & operator=(const vector & other) {
             clear();
-            for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
-                push_back(*it);
-            }
+            insert(begin(), other.begin(), other.end());
             return *this;
         }
 
