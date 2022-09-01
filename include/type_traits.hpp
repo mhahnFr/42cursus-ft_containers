@@ -67,6 +67,102 @@ namespace ft {
 
     template<>
     struct is_integral<const long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<unsigned char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<signed char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<unsigned short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<unsigned int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<unsigned long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const unsigned char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const signed char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const unsigned short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const unsigned int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const unsigned long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile bool>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile signed char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile unsigned char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile unsigned short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile unsigned int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile unsigned long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<volatile wchar_t>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile bool>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile signed char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile unsigned char>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile unsigned short>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile unsigned int>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile unsigned long>: public integral_constant<bool, true> {};
+
+    template<>
+    struct is_integral<const volatile wchar_t>: public integral_constant<bool, true> {};
 }
 
 #endif //FT_CONTAINERS_TYPE_TRAITS_HPP
