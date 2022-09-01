@@ -56,18 +56,24 @@ namespace ft {
     };
 
     template<class Iter>
-    class reverse_iterator: public iterator<typename iterator_traits<Iter>::iterator_category,
-                                            typename iterator_traits<Iter>::value_type,
-                                            typename iterator_traits<Iter>::difference_type,
-                                            typename iterator_traits<Iter>::pointer,
-                                            typename iterator_traits<Iter>::reference> {
+    class reverse_iterator: public ft::iterator<typename ft::iterator_traits<Iter>::iterator_category,
+                                                typename ft::iterator_traits<Iter>::value_type,
+                                                typename ft::iterator_traits<Iter>::difference_type,
+                                                typename ft::iterator_traits<Iter>::pointer,
+                                                typename ft::iterator_traits<Iter>::reference>,
+
+                            public std::iterator<typename std::iterator_traits<Iter>::iterator_category,
+                                                 typename std::iterator_traits<Iter>::value_type,
+                                                 typename std::iterator_traits<Iter>::difference_type,
+                                                 typename std::iterator_traits<Iter>::pointer,
+                                                 typename std::iterator_traits<Iter>::reference> {
     public:
-        typedef Iter                                              iterator_type;
-        typedef typename iterator_traits<Iter>::iterator_category iterator_category;
-        typedef typename iterator_traits<Iter>::value_type        value_type;
-        typedef typename iterator_traits<Iter>::difference_type   difference_type;
-        typedef typename iterator_traits<Iter>::pointer           pointer;
-        typedef typename iterator_traits<Iter>::reference         reference;
+        typedef Iter                                                   iterator_type;
+        typedef typename std::iterator_traits<Iter>::iterator_category iterator_category;
+        typedef typename iterator_traits<Iter>::value_type             value_type;
+        typedef typename iterator_traits<Iter>::difference_type        difference_type;
+        typedef typename iterator_traits<Iter>::pointer                pointer;
+        typedef typename iterator_traits<Iter>::reference              reference;
 
         reverse_iterator(): current() {}
         explicit reverse_iterator(iterator_type x): current(x) {}
