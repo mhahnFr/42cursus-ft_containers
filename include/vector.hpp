@@ -31,8 +31,8 @@ namespace ft {
         typedef const value_type &                   const_reference;
         typedef typename Allocator::pointer          pointer;
         typedef typename Allocator::const_pointer    const_pointer;
-        typedef pointer                              iterator;
-        typedef const_pointer                        const_iterator;
+        typedef __wrap_iter<pointer>                 iterator;
+        typedef __wrap_iter<const_pointer>           const_iterator;
         typedef ft::reverse_iterator<iterator>       reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -258,7 +258,7 @@ namespace ft {
          * @return An iterator pointing to the beginning.
          */
         iterator begin() {
-            return start;
+            return iterator(start);
         }
 
         /**
@@ -267,7 +267,7 @@ namespace ft {
          * @return A const iterator pointing to the beginning.
          */
         const_iterator begin() const {
-            return start;
+            return const_iterator(start);
         }
 
         /**
@@ -276,7 +276,7 @@ namespace ft {
          * @return An iterator pointing to the end.
          */
         iterator end() {
-            return start + object_count;
+            return iterator(start + object_count);
         }
 
         /**
@@ -285,7 +285,7 @@ namespace ft {
          * @return A const iterator pointing to the end.
          */
         const_iterator end() const {
-            return start + object_count;
+            return const_iterator(start + object_count);
         }
 
         /**
@@ -365,7 +365,7 @@ namespace ft {
             if (new_cap > max_size()) throw std::length_error("ft::vector<T>::reserve: Too much elements to be reserved!");
             if (new_cap > capacity()) {
                 pointer tmp = alloc.allocate(new_cap);
-                for (const_iterator it = begin(); it != end(); ++it) {
+                for (iterator it = begin(); it != end(); ++it) {
                     alloc.construct(tmp + (it - begin()), *it);
                     alloc.destroy(start + (it - begin()));
                 }
@@ -442,9 +442,9 @@ namespace ft {
          */
         iterator erase(iterator pos) {
             for (iterator it = pos; it != end(); ++it) {
-                alloc.destroy(it);
+                alloc.destroy(it.base());
                 if (it + 1 != end()) {
-                    alloc.construct(it, *(it + 1));
+                    alloc.construct(it.base(), *(it + 1));
                 }
             }
             --object_count;
@@ -466,9 +466,9 @@ namespace ft {
             size_type dist = last - first;
             size_type e = end() - last;
             for (; first != end(); ++first, ++last) {
-                alloc.destroy(first);
+                alloc.destroy(first.base());
                 if (last < end()) {
-                    alloc.construct(first, *last);
+                    alloc.construct(first.base(), *last);
                 }
             }
             object_count -= dist;
@@ -564,16 +564,16 @@ namespace ft {
             iterator dst = end() + count - 1;
             for (; src >= begin() + p; --src, --dst) {
                 if (dst < end()) {
-                    alloc.destroy(dst);
+                    alloc.destroy(dst.base());
                 }
-                alloc.construct(dst, *src);
+                alloc.construct(dst.base(), *src);
             }
             ++src;
             for (; src <= dst; ++src) {
                 if (src < end()) {
-                    alloc.destroy(src);
+                    alloc.destroy(src.base());
                 }
-                alloc.construct(src, *(first++));
+                alloc.construct(src.base(), *(first++));
             }
             object_count += count;
         }
@@ -625,16 +625,17 @@ namespace ft {
             iterator dst = end() + count - 1;
             for (; src >= begin() + p; --src, --dst) {
                 if (dst < end()) {
-                    alloc.destroy(dst);
+                    alloc.destroy(dst.base());
                 }
-                alloc.construct(dst, *src);
+                assert(dst.base() == start + (dst - begin()));
+                alloc.construct(dst.base(), *src);
             }
             ++src;
             for (; src <= dst; ++src) {
                 if (src < end()) {
-                    alloc.destroy(src);
+                    alloc.destroy(src.base());
                 }
-                alloc.construct(src, value);
+                alloc.construct(src.base(), value);
             }
             object_count += count;
             return src - count;
