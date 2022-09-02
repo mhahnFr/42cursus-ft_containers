@@ -627,7 +627,6 @@ namespace ft {
                 if (dst < end()) {
                     alloc.destroy(dst.base());
                 }
-                assert(dst.base() == start + (dst - begin()));
                 alloc.construct(dst.base(), *src);
             }
             ++src;
