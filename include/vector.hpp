@@ -6,6 +6,8 @@
 #define FT_CONTAINERS_VECTOR_HPP
 
 #include <memory>
+#include <limits>
+#include <stdexcept>
 #include "algorithm.hpp"
 #include "iterator.hpp"
 #include "type_traits.hpp"
@@ -59,6 +61,7 @@ namespace ft {
          */
         explicit vector(size_type count, const T & value = T(), const Allocator & alloc = Allocator())
             : alloc(alloc), memory_capacity(count), object_count(count) {
+            if (count > max_size()) throw std::length_error("ft::vector::vector: Too much elements to be created!");
             start = vector::alloc.allocate(count);
             for (pointer i = start; ((size_type) (i - start)) < count; ++i) {
                 vector::alloc.construct(i, value);
@@ -169,7 +172,7 @@ namespace ft {
          * @return A const reference to the object at the given position.
          */
         const_reference at(size_type pos) const {
-            if (pos >= size() || pos < 0) throw std::out_of_range("ft::vector<T, Allocator>::at: Out of range!");
+            if (pos >= size()) throw std::out_of_range("ft::vector<T, Allocator>::at: Out of range!");
             return *(start + pos);
         }
 
