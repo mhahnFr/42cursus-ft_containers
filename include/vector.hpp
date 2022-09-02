@@ -97,9 +97,7 @@ namespace ft {
          * Destroys this vector. Deallocates all memory previously hold by this instance.
          */
         ~vector() {
-            for (pointer i = start; ((size_type) (i - start)) < object_count; ++i) {
-                alloc.destroy(i);
-            }
+            clear();
             if (start != NULL) {
                 alloc.deallocate(start, memory_capacity);
             }
