@@ -188,6 +188,138 @@ namespace ft {
         return rhs.base() - lhs.base();
     }
 
+    template<class Iter>
+    class __wrap_iter: public ft::iterator<typename ft::iterator_traits<Iter>::iterator_category,
+                                           typename ft::iterator_traits<Iter>::value_type,
+                                           typename ft::iterator_traits<Iter>::difference_type,
+                                           typename ft::iterator_traits<Iter>::pointer,
+                                           typename ft::iterator_traits<Iter>::reference>,
+
+                              std::iterator<typename std::iterator_traits<Iter>::iterator_category,
+                                            typename std::iterator_traits<Iter>::value_type,
+                                            typename std::iterator_traits<Iter>::difference_type,
+                                            typename std::iterator_traits<Iter>::pointer,
+                                            typename std::iterator_traits<Iter>::reference> {
+    public:
+        typedef Iter                                                   iterator_type;
+        typedef typename std::iterator_traits<Iter>::iterator_category iterator_category;
+        typedef typename ft::iterator_traits<Iter>::value_type         value_type;
+        typedef typename ft::iterator_traits<Iter>::difference_type    difference_type;
+        typedef typename ft::iterator_traits<Iter>::pointer            pointer;
+        typedef typename ft::iterator_traits<Iter>::reference          reference;
+
+        __wrap_iter(): current() {}
+        explicit __wrap_iter(iterator_type x): current(x) {}
+
+        template<class U>
+        __wrap_iter(const __wrap_iter<U> & other): current(other.base()) {}
+
+        template<class U>
+        __wrap_iter & operator=(const __wrap_iter<U> & other) {
+            current = other.base();
+            return *this;
+        }
+
+        iterator_type base() const {
+            return current;
+        }
+
+        reference operator*() const {
+            return *current;
+        }
+
+        pointer operator->() const {
+            return &operator*();
+        }
+
+        reference operator[](difference_type n) const {
+            return current[n];
+        }
+
+        __wrap_iter & operator++() {
+            ++current;
+            return *this;
+        }
+
+        __wrap_iter & operator--() {
+            --current;
+            return *this;
+        }
+
+        __wrap_iter operator++(int) {
+            __wrap_iter tmp = *this;
+            ++current;
+            return tmp;
+        }
+
+        __wrap_iter operator--(int) {
+            __wrap_iter tmp = *this;
+            --current;
+            return tmp;
+        }
+
+        __wrap_iter operator+(difference_type n) const {
+            return __wrap_iter(current + n);
+        }
+
+        __wrap_iter operator-(difference_type n) const {
+            return __wrap_iter(current - n);
+        }
+
+        __wrap_iter & operator+=(difference_type n) {
+            current += n;
+            return *this;
+        }
+
+        __wrap_iter & operator-=(difference_type n) {
+            current -= n;
+            return *this;
+        }
+
+    protected:
+        iterator_type current;
+    };
+
+    template<class Iterator1, class Iterator2>
+    bool operator==(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() == rhs.base();
+    }
+
+    template<class Iterator1, class Iterator2>
+    bool operator!=(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() != rhs.base();
+    }
+
+    template<class Iterator1, class Iterator2>
+    bool operator<(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() < rhs.base();
+    }
+
+    template<class Iterator1, class Iterator2>
+    bool operator<=(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() <= rhs.base();
+    }
+
+    template<class Iterator1, class Iterator2>
+    bool operator>(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() > rhs.base();
+    }
+
+    template<class Iterator1, class Iterator2>
+    bool operator>=(const __wrap_iter<Iterator1> & lhs, const __wrap_iter<Iterator2> & rhs) {
+        return lhs.base() >= rhs.base();
+    }
+
+    template<class Iter>
+    __wrap_iter<Iter> operator+(typename __wrap_iter<Iter>::difference_type n, const __wrap_iter<Iter> & it) {
+        return __wrap_iter<Iter>(it.base() + n);
+    }
+
+    template<class Iterator>
+    typename __wrap_iter<Iterator>::difference_type operator-(const __wrap_iter<Iterator> & lhs, const __wrap_iter<Iterator> & rhs) {
+        return lhs.base() - rhs.base();
+    }
+
     template<class InputIt>
     typename ft::iterator_traits<InputIt>::difference_type do_distance(InputIt first, InputIt last, ft::random_access_iterator_tag) {
         return last - first;
