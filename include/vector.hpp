@@ -295,7 +295,7 @@ namespace ft {
          * @return A reverse iterator pointing to the last object.
          */
         reverse_iterator rbegin() {
-            return ft::reverse_iterator<iterator>(end());
+            return reverse_iterator(end());
         }
 
         /**
@@ -305,7 +305,7 @@ namespace ft {
          * @return A const reverse iterator pointing to the last object.
          */
         const_reverse_iterator rbegin() const {
-            return ft::reverse_iterator<const_iterator>(end());
+            return const_reverse_iterator(end());
         }
 
         /**
@@ -314,7 +314,7 @@ namespace ft {
          * @return A reverse iterator pointing before the beginning.
          */
         reverse_iterator rend() {
-            return ft::reverse_iterator<iterator>(begin());
+            return reverse_iterator(begin());
         }
 
         /**
@@ -323,7 +323,7 @@ namespace ft {
          * @return A const reverse iterator pointing before the beginning.
          */
         const_reverse_iterator rend() const {
-            return ft::reverse_iterator<const_iterator>(begin());
+            return const_reverse_iterator(begin());
         }
 
         /**
