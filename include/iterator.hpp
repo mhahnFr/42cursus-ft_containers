@@ -144,6 +144,11 @@ namespace ft {
             return *this;
         }
 
+        operator const reverse_iterator() const {
+            const iterator_type c = current;
+            return reverse_iterator(c);
+        }
+
     protected:
         iterator_type current;
     };
@@ -274,6 +279,11 @@ namespace ft {
         __wrap_iter & operator-=(difference_type n) {
             current -= n;
             return *this;
+        }
+
+        operator const __wrap_iter() const {
+            const iterator_type c = current;
+            return __wrap_iter(c);
         }
 
     protected:
