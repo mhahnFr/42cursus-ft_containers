@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <cstddef>
+#include "iterator.hpp"
 #include "utility.hpp"
 #include "functional.hpp"
 
@@ -34,7 +35,7 @@ namespace ft {
         typedef ft::reverse_iterator<iterator>       reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-        class value_compare: public ft::binary_function {
+        class value_compare: public ft::binary_function<value_type, value_type, bool> {
         public:
             typedef bool       result_type;
             typedef value_type first_argument_type;
@@ -126,7 +127,7 @@ namespace ft {
 
         key_compare key_comp() const;
 
-        ft::map::value_compare value_comp() const;
+        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const;
     };
 
     template<class Key, class T, class Compare, class Alloc>
