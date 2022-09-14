@@ -62,7 +62,9 @@ namespace ft {
 
         map & operator=(const map & other);
 
-        allocator_type get_allocator() const;
+        allocator_type get_allocator() const {
+            return alloc;
+        }
 
         T & at(const Key & key);
         const T & at(const Key & key) const;
@@ -125,9 +127,18 @@ namespace ft {
         iterator upper_bound(const Key & key);
         const_iterator upper_bound(const Key & key) const;
 
-        key_compare key_comp() const;
+        key_compare key_comp() const {
+            return valueCompare;
+        }
 
-        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const;
+        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const {
+            return keyCompare;
+        }
+
+    private:
+        allocator_type alloc;
+        key_compare    keyCompare;
+        value_compare  valueCompare;
     };
 
     template<class Key, class T, class Compare, class Alloc>
