@@ -84,11 +84,46 @@ namespace ft {
             }
         };
 
+        /**
+         * The root Node of this tree.
+         */
+        Node * root;
+
     public:
         typedef T                                                    contentType;
         typedef std::size_t                                          sizeType;
         typedef Node                                                 nodeType;
         typedef typename Allocator::template rebind<nodeType>::other alloc;
+
+        /**
+         * Default constructor. Initializes this tree with a NULL root node.
+         */
+        Tree(): root(NULL) {}
+
+        /**
+         * Copy constructor. Copies the whole tree, all elements are deeply copied.
+         *
+         * @param other The other tree to copy.
+         */
+        Tree(const Tree & other);
+
+        /**
+         * Default destructor. Destroys all elements properly.
+         */
+       ~Tree() { clear(); }
+
+        /**
+         * Copy assignment operator. Clears this tree and copies the given tree deeply.
+         *
+         * @param other The other tree to copy.
+         * @return A reference to this tree.
+         */
+        Tree & operator=(const Tree & other);
+
+        /**
+         * Clears this tree properly.
+         */
+        void clear();
     };
 }
 
