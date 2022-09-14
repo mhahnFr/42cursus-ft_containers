@@ -146,6 +146,13 @@ namespace ft {
              root = other.root;
              other.root = tmp;
          }
+
+         /**
+          * Returns whether this tree is empty, e. g. does not contain any nodes.
+          *
+          * @return Whether this tree is empty.
+          */
+         bool isEmpty() const { return root == NULL; }
     };
 }
 

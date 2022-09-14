@@ -63,9 +63,7 @@ namespace ft {
 
         map & operator=(const map & other);
 
-        allocator_type get_allocator() const {
-            return alloc;
-        }
+        allocator_type get_allocator() const { return alloc; }
 
         T & at(const Key & key);
         const T & at(const Key & key) const;
@@ -94,7 +92,7 @@ namespace ft {
             return const_reverse_iterator(end());
         }
 
-        bool empty() const;
+        bool empty() const { return tree.isEmpty(); }
 
         size_type size() const;
 
@@ -158,9 +156,7 @@ namespace ft {
     bool operator>=(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs);
 
     template<class Key, class T, class Compare, class Alloc>
-    void swap(ft::map<Key, T, Compare, Alloc> & lhs, ft::map<Key, T, Compare, Alloc> & rhs) {
-        lhs.swap(rhs);
-    }
+    void swap(ft::map<Key, T, Compare, Alloc> & lhs, ft::map<Key, T, Compare, Alloc> & rhs) { lhs.swap(rhs); }
 }
 
 #endif //FT_CONTAINERS_MAP_HPP
