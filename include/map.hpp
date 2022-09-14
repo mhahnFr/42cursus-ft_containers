@@ -100,7 +100,7 @@ namespace ft {
 
         size_type max_size() const;
 
-        void clear();
+        void clear() { tree.clear(); }
 
         ft::pair<iterator, bool> insert(const value_type & value);
         iterator insert(iterator hint, const value_type & value);
@@ -112,7 +112,7 @@ namespace ft {
         void erase(iterator first, iterator last);
         size_type erase(const Key & key);
 
-        void swap(map & other);
+        void swap(map & other) { tree.swap(other.tree); }
 
         size_type count(const Key & key);
 
@@ -128,19 +128,15 @@ namespace ft {
         iterator upper_bound(const Key & key);
         const_iterator upper_bound(const Key & key) const;
 
-        key_compare key_comp() const {
-            return valueCompare;
-        }
+        key_compare key_comp() const { return valueCompare; }
 
-        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const {
-            return keyCompare;
-        }
+        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const { return keyCompare; }
 
     private:
         allocator_type                  alloc;
         key_compare                     keyCompare;
         value_compare                   valueCompare;
-        ft::Tree<T, Compare, Allocator> tree;
+        ft::Tree<value_type, Compare, Allocator> tree;
     };
 
     template<class Key, class T, class Compare, class Alloc>

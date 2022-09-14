@@ -8,7 +8,6 @@
 #include <cstddef>
 
 namespace ft {
-
     /**
      * This class holds a tree structure.
      *
@@ -136,6 +135,17 @@ namespace ft {
          * Clears this tree properly.
          */
         void clear();
+
+        /**
+         * Swaps this tree with the other one.
+         *
+         * @param other The other tree to exchange the values with.
+         */
+         void swap(Tree & other) {
+             Node * tmp = root;
+             root = other.root;
+             other.root = tmp;
+         }
     };
 }
 
