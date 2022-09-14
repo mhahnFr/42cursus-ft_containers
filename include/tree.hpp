@@ -90,10 +90,22 @@ namespace ft {
         Node * root;
 
     public:
+        /**
+         * The type of the content held by the nodes.
+         */
         typedef T                                                    contentType;
+        /**
+         * The type used for sizes.
+         */
         typedef std::size_t                                          sizeType;
+        /**
+         * The type of the used Nodes.
+         */
         typedef Node                                                 nodeType;
-        typedef typename Allocator::template rebind<nodeType>::other alloc;
+        /**
+         * The type of the rebound allocator.
+         */
+        typedef typename Allocator::template rebind<nodeType>::other allocatorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
