@@ -10,6 +10,7 @@
 #include "iterator.hpp"
 #include "utility.hpp"
 #include "functional.hpp"
+#include "tree.hpp"
 
 namespace ft {
     template<
@@ -136,9 +137,10 @@ namespace ft {
         }
 
     private:
-        allocator_type alloc;
-        key_compare    keyCompare;
-        value_compare  valueCompare;
+        allocator_type                  alloc;
+        key_compare                     keyCompare;
+        value_compare                   valueCompare;
+        ft::Tree<T, Compare, Allocator> tree;
     };
 
     template<class Key, class T, class Compare, class Alloc>
