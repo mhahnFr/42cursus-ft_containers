@@ -97,14 +97,20 @@ namespace ft {
          */
         typedef Node *                                               nodeType;
         /**
+         * The type of the compare object.
+         */
+        typedef Compare                                              compareType;
+        /**
          * The type of the rebound allocator.
          */
         typedef typename Allocator::template rebind<nodeType>::other allocatorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
+         *
+         * @param comp The compare object to be used to sort the contents of this tree.
          */
-        Tree(): root(NULL), alloc(allocatorType()) {}
+        Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
@@ -164,11 +170,15 @@ namespace ft {
         /**
          * The root Node of this tree.
          */
-        nodeType root;
+        nodeType      root;
         /**
          * The allocator used to allocate nodes.
          */
         allocatorType alloc;
+        /**
+         * The compare object used to sort the contents of this tree.
+         */
+        compareType   compare;
 
         /**
          * @brief Destroys and deallocates the given node.
