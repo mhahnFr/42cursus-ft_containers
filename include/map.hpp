@@ -139,10 +139,21 @@ namespace ft {
     };
 
     template<class Key, class T, class Compare, class Alloc>
-    bool operator==(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs);
+    bool operator==(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs) {
+        typename ft::map<Key, T, Compare, Alloc>::const_iterator it,
+                                                                 it2;
+        for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); ++it, ++it2) {
+            if (!(*it == *it2)) {
+                return false;
+            }
+        }
+        return it == lhs.end() && it2 == rhs.end();
+    }
 
     template<class Key, class T, class Compare, class Alloc>
-    bool operator!=(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs);
+    bool operator!=(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs) {
+        return !(lhs == rhs);
+    }
 
     template<class Key, class T, class Compare, class Alloc>
     bool operator<(const ft::map<Key, T, Compare, Alloc> & lhs, const ft::map<Key, T, Compare, Alloc> & rhs);
