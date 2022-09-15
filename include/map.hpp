@@ -52,16 +52,27 @@ namespace ft {
             value_compare(Compare c): comp(c) {}
         };
 
-        map();
-        explicit map(const Compare & comp, const Allocator & alloc = Allocator());
+        map(): alloc(Allocator()), keyCompare(key_compare()), valueCompare(keyCompare), tree() {}
+
+        explicit map(const Compare & comp, const Allocator & alloc = Allocator())
+            : alloc(alloc), keyCompare(comp), valueCompare(comp), tree() {}
 
         template<class InputIt>
         map(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator & alloc = Allocator());
 
-        map(const map & other);
-        ~map();
+        map(const map & other)
+            : alloc(other.alloc), keyCompare(other.keyCompare), valueCompare(other.valueCompare), tree(other.tree) {}
 
-        map & operator=(const map & other);
+       ~map() {}
+
+        map & operator=(const map & other) {
+            if (&other != this) {
+                alloc        = other.alloc;
+                keyCompare   = other.keyCompare;
+                valueCompare = other.valueCompare;
+                tree         = other.tree;
+            }
+        }
 
         allocator_type get_allocator() const { return alloc; }
 
