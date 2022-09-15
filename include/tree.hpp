@@ -126,17 +126,9 @@ namespace ft {
          */
         Tree & operator=(const Tree & other) {
             if (&other != this) {
-                if (root != NULL) {
-                    // TODO How to destroy the rest?
-                    alloc.destroy(root);
-                    alloc.deallocate(root, sizeof(Node));
-                }
+                clear();
                 if (other.root != NULL) {
-                    alloc.allocate(root, sizeof(Node));
-                    alloc.construct(root, *other.root);
-                    // TODO: How to copy the rest?
-                } else {
-                    root = NULL;
+                    recursiveCopy(root, other.root);
                 }
             }
         }
@@ -144,7 +136,10 @@ namespace ft {
         /**
          * Clears this tree properly.
          */
-        void clear();
+        void clear() {
+            recursiveDestroy(root);
+            root = NULL;
+        }
 
         /**
          * Swaps this tree with the other one.
@@ -173,6 +168,35 @@ namespace ft {
          * The allocator used to allocate nodes.
          */
         allocatorType alloc;
+
+        /**
+         * @brief Destroys and deallocates the given node.
+         *
+         * Destroys all children of the given node beforehand.
+         *
+         * @param node The node to destroy.
+         */
+        void recursiveDestroy(nodeType node) {
+            if (node->left  != NULL) { recursiveDestroy(node->left);  }
+            if (node->right != NULL) { recursiveDestroy(node->right); }
+            alloc.destroy(node);
+            alloc.deallocate(node, sizeof(Node));
+        }
+
+        /**
+         * @brief Copies the given (sub-) tree recursively.
+         *
+         * Firstly the given node is copied. Then its children are copied.
+         *
+         * @param dst The destination of the new tree.
+         * @param src The tree to copy.
+         */
+        void recursiveCopy(nodeType dst, nodeType src) {
+            alloc.allocate(dst, sizeof(Node));
+            alloc.construct(dst, *src);
+            if (src->left  != NULL) { recursiveCopy(dst->left, src->left);   }
+            if (src->right != NULL) { recursiveCopy(dst->right, src->right); }
+        }
     };
 }
 
