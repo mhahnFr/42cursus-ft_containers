@@ -131,6 +131,7 @@ namespace ft {
                     recursiveCopy(root, other.root);
                 }
             }
+            return *this;
         }
 
         /**
