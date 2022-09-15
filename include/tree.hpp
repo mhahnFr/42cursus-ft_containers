@@ -83,11 +83,6 @@ namespace ft {
             }
         };
 
-        /**
-         * The root Node of this tree.
-         */
-        Node * root;
-
     public:
         /**
          * The type of the content held by the nodes.
@@ -100,7 +95,7 @@ namespace ft {
         /**
          * The type of the used Nodes.
          */
-        typedef Node                                                 nodeType;
+        typedef Node *                                               nodeType;
         /**
          * The type of the rebound allocator.
          */
@@ -109,7 +104,7 @@ namespace ft {
         /**
          * Default constructor. Initializes this tree with a NULL root node.
          */
-        Tree(): root(NULL) {}
+        Tree(): root(NULL), alloc(allocatorType()) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
@@ -129,7 +124,22 @@ namespace ft {
          * @param other The other tree to copy.
          * @return A reference to this tree.
          */
-        Tree & operator=(const Tree & other);
+        Tree & operator=(const Tree & other) {
+            if (&other != this) {
+                if (root != NULL) {
+                    // TODO How to destroy the rest?
+                    alloc.destroy(root);
+                    alloc.deallocate(root, sizeof(Node));
+                }
+                if (other.root != NULL) {
+                    alloc.allocate(root, sizeof(Node));
+                    alloc.construct(root, *other.root);
+                    // TODO: How to copy the rest?
+                } else {
+                    root = NULL;
+                }
+            }
+        }
 
         /**
          * Clears this tree properly.
@@ -153,6 +163,16 @@ namespace ft {
           * @return Whether this tree is empty.
           */
          bool isEmpty() const { return root == NULL; }
+
+    private:
+        /**
+         * The root Node of this tree.
+         */
+        nodeType root;
+        /**
+         * The allocator used to allocate nodes.
+         */
+        allocatorType alloc;
     };
 }
 
