@@ -77,10 +77,10 @@ namespace ft {
 
         allocator_type get_allocator() const { return alloc; }
 
-        T &       at(const Key & key)       { return tree.find(ft::make_pair(key, mapped_type())).second; }
-        const T & at(const Key & key) const { return tree.find(ft::make_pair(key, mapped_type())).second; }
+        T &       at(const Key & key)       { return tree.find(ft::make_pair(key, mapped_type())).second;         }
+        const T & at(const Key & key) const { return tree.find(ft::make_pair(key, mapped_type())).second;         }
 
-        T & operator[](const Key & key);
+        T & operator[](const Key & key)     { return tree.findOrInsert(ft::make_pair(key, mapped_type())).second; }
 
         iterator begin();
         const_iterator begin() const;

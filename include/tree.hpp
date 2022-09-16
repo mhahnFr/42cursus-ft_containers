@@ -186,6 +186,23 @@ namespace ft {
              return result.first->content;
          }
 
+         /**
+          * Searches for the given content. If no node containing the given content is found, a new node with a
+          * default constructed content is inserted and a reference to that content is returned. Otherwise, a
+          * reference to the content of the found node is returned.
+          *
+          * @param c The content to search for.
+          * @return A reference to the content of the found or inserted node.
+          */
+         contentType & findOrInsert(const contentType & c) {
+             ft::pair<nodeType, nodeType *> result = find(c, root);
+             if (result.first == NULL) {
+                 // TODO: insert
+             } else {
+                 return result.first->content;
+             }
+         }
+
     private:
         /**
          * The root Node of this tree.
