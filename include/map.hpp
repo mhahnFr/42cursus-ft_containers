@@ -50,7 +50,7 @@ namespace ft {
         protected:
             Compare comp;
 
-            value_compare(Compare c): comp(c) {}
+            explicit value_compare(Compare c): comp(c) {}
         };
 
         map(): alloc(Allocator()), keyCompare(key_compare()), valueCompare(keyCompare), tree() {}

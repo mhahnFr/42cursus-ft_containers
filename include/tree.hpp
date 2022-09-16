@@ -110,14 +110,18 @@ namespace ft {
          *
          * @param comp The compare object to be used to sort the contents of this tree.
          */
-        Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp) {}
+        explicit Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
          *
          * @param other The other tree to copy.
          */
-        Tree(const Tree & other);
+        Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare) {
+            if (other.root != NULL) {
+                recursiveCopy(root, other.root);
+            }
+        }
 
         /**
          * Default destructor. Destroys all elements properly.
