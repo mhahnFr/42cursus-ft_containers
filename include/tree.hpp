@@ -111,14 +111,14 @@ namespace ft {
          *
          * @param comp The compare object to be used to sort the contents of this tree.
          */
-        explicit Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp) {}
+        explicit Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp), count(0) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
          *
          * @param other The other tree to copy.
          */
-        Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare) {
+        Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(0) {
             if (other.root != NULL) {
                 recursiveCopy(root, other.root);
             }
@@ -160,8 +160,11 @@ namespace ft {
          */
          void swap(Tree & other) {
              Node * tmp = root;
+             std::size_t tmpSize = size();
              root = other.root;
+             count = other.size();
              other.root = tmp;
+             other.count = tmpSize;
          }
 
          /**
@@ -203,6 +206,13 @@ namespace ft {
              }
          }
 
+         /**
+          * Returns the size of this tree.
+          *
+          * @return The size of this tree.
+          */
+         std::size_t size() const { return count; }
+
     private:
         /**
          * The root Node of this tree.
@@ -216,6 +226,10 @@ namespace ft {
          * The compare object used to sort the contents of this tree.
          */
         compareType   compare;
+        /**
+         * The count of stored elements.
+         */
+        std::size_t   count;
 
         /**
          * @brief Destroys and deallocates the given node.

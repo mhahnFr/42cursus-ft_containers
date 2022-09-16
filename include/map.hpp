@@ -96,7 +96,7 @@ namespace ft {
 
         bool empty() const { return tree.isEmpty(); }
 
-        size_type size() const;
+        size_type size() const { return tree.size(); }
 
         size_type max_size() const;
 
