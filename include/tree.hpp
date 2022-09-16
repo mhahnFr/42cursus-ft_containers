@@ -183,7 +183,7 @@ namespace ft {
           */
          contentType & find(const contentType & c) {
              ft::pair<nodeType, nodeType *> result = find(c, root);
-             if (result.first == NULL) {
+             if (result.second != NULL) {
                  throw std::out_of_range("Value not found!");
              }
              return result.first->content;
@@ -199,10 +199,10 @@ namespace ft {
           */
          contentType & findOrInsert(const contentType & c) {
              ft::pair<nodeType, nodeType *> result = find(c, root);
-             if (result.first == NULL) {
-                 // TODO: insert
-             } else {
+             if (result.second == NULL) {
                  return result.first->content;
+             } else {
+                 // TODO: insert
              }
          }
 
@@ -212,6 +212,18 @@ namespace ft {
           * @return The size of this tree.
           */
          std::size_t size() const { return count; }
+
+         /* Undefined */ void insert(const contentType & value) {
+             ft::pair<nodeType, nodeType *> position = find(value, root);
+             if (position.first == NULL) {
+                 Node tmp;
+                 tmp.content = value;
+                 tmp.root = position.first;
+                 alloc.allocate(*position.second, sizeof(Node));
+                 alloc.construct(*position.second, tmp);
+                 // TODO: rebalance
+             }
+         }
 
     private:
         /**
@@ -270,9 +282,9 @@ namespace ft {
          */
         ft::pair<nodeType, nodeType *> find(contentType & c, nodeType begin) {
             if (compare(begin->content, c)) {
-                return begin->left  == NULL ? ft::make_pair(NULL, &begin->left)  : find(c, begin->left);
+                return begin->left  == NULL ? ft::make_pair(begin, &begin->left)  : find(c, begin->left);
             } else if (compare(c, begin->content)) {
-                return begin->right == NULL ? ft::make_pair(NULL, &begin->right) : find(c, begin->right);
+                return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
             } else {
                 return ft::make_pair(begin, NULL);
             }

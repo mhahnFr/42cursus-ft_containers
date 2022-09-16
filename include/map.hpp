@@ -102,7 +102,11 @@ namespace ft {
 
         void clear() { tree.clear(); }
 
-        ft::pair<iterator, bool> insert(const value_type & value);
+        ft::pair<iterator, bool> insert(const value_type & value) {
+            tree.insert(value);
+            // TODO: Return value!
+        }
+
         iterator insert(iterator hint, const value_type & value);
 
         template<class InputIt>
@@ -114,7 +118,7 @@ namespace ft {
 
         void swap(map & other) { tree.swap(other.tree); }
 
-        size_type count(const Key & key);
+        size_type count(const Key & key) { return find(key) == end() ? 0 : 1; }
 
         iterator find(const Key & key);
         const_iterator find(const Key & key) const;
