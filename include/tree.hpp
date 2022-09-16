@@ -202,7 +202,8 @@ namespace ft {
              if (result.second == NULL) {
                  return result.first->content;
              } else {
-                 // TODO: insert
+                 coreInsert(result, c);
+                 // TODO: Return value
              }
          }
 
@@ -213,16 +214,10 @@ namespace ft {
           */
          std::size_t size() const { return count; }
 
-         /* Undefined */ void insert(const contentType & value) {
+         /* TODO */ void insert(const contentType & value) {
              ft::pair<nodeType, nodeType *> position = find(value, root);
-             if (position.first == NULL) {
-                 Node tmp;
-                 tmp.content = value;
-                 tmp.root = position.first;
-                 alloc.allocate(*position.second, sizeof(Node));
-                 alloc.construct(*position.second, tmp);
-                 // TODO: rebalance
-             }
+             coreInsert(position, value);
+             // TODO: Return value
          }
 
     private:
@@ -287,6 +282,17 @@ namespace ft {
                 return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
             } else {
                 return ft::make_pair(begin, NULL);
+            }
+        }
+
+        /* TODO */ void coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
+            if (position.first == NULL) {
+                Node tmp;
+                tmp.content = value;
+                tmp.root = position.first;
+                alloc.allocate(*position.second, sizeof(Node));
+                alloc.construct(*position.second, tmp);
+                // TODO: rebalance
             }
         }
     };
