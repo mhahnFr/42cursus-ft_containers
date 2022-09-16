@@ -170,6 +170,17 @@ namespace ft {
           */
          bool isEmpty() const { return root == NULL; }
 
+         /**
+          * Attempts to find the given value in this tree. A pair containing the node containing the content
+          * and the insertion direction is returned.
+          *
+          * @param c The content to be found.
+          * @return A pair with the node containing the content and an insertion point.
+          */
+         ft::pair<nodeType, nodeType *> find(contentType c) {
+             return find(c, root);
+         }
+
     private:
         /**
          * The root Node of this tree.
@@ -211,6 +222,25 @@ namespace ft {
             alloc.construct(dst, *src);
             if (src->left  != NULL) { recursiveCopy(dst->left, src->left);   }
             if (src->right != NULL) { recursiveCopy(dst->right, src->right); }
+        }
+
+
+        /**
+         * Searches in the given (sub-) tree for the given content. Returns a pair consisting of the node containing the
+         * searched element or NULL and an insertion point.
+         *
+         * @param c The content to be found.
+         * @param begin The (sub-) tree to be searched.
+         * @return A pair with the node containing the element and an insertion point.
+         */
+        ft::pair<nodeType, nodeType *> find(contentType c, nodeType begin) {
+            if (compare(begin->content, c)) {
+                return begin->left  == NULL ? ft::make_pair(NULL, &begin->left)  : find(c, begin->left);
+            } else if (compare(c, begin->content)) {
+                return begin->right == NULL ? ft::make_pair(NULL, &begin->right) : find(c, begin->right);
+            } else {
+                return ft::make_pair(begin, NULL);
+            }
         }
     };
 }
