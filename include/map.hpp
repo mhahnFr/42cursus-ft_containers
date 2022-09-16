@@ -77,8 +77,8 @@ namespace ft {
 
         allocator_type get_allocator() const { return alloc; }
 
-        T & at(const Key & key);
-        const T & at(const Key & key) const;
+        T &       at(const Key & key)       { return tree.find(ft::make_pair(key, mapped_type())).second; }
+        const T & at(const Key & key) const { return tree.find(ft::make_pair(key, mapped_type())).second; }
 
         T & operator[](const Key & key);
 

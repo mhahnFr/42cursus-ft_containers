@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_TREE_HPP
 
 #include <cstddef>
+#include <stdexcept>
 
 namespace ft {
     /**
@@ -171,14 +172,18 @@ namespace ft {
          bool isEmpty() const { return root == NULL; }
 
          /**
-          * Attempts to find the given value in this tree. A pair containing the node containing the content
-          * and the insertion direction is returned.
+          * Searches for a node containing the given content. If no such node is found an out of range exception
+          * is thrown.
           *
-          * @param c The content to be found.
-          * @return A pair with the node containing the content and an insertion point.
+          * @param c The content to search for.
+          * @return A reference to that content.
           */
-         ft::pair<nodeType, nodeType *> find(contentType c) {
-             return find(c, root);
+         contentType & find(const contentType & c) {
+             ft::pair<nodeType, nodeType *> result = find(c, root);
+             if (result.first == NULL) {
+                 throw std::out_of_range("Value not found!");
+             }
+             return result.first->content;
          }
 
     private:
@@ -224,7 +229,6 @@ namespace ft {
             if (src->right != NULL) { recursiveCopy(dst->right, src->right); }
         }
 
-
         /**
          * Searches in the given (sub-) tree for the given content. Returns a pair consisting of the node containing the
          * searched element or NULL and an insertion point.
@@ -233,7 +237,7 @@ namespace ft {
          * @param begin The (sub-) tree to be searched.
          * @return A pair with the node containing the element and an insertion point.
          */
-        ft::pair<nodeType, nodeType *> find(contentType c, nodeType begin) {
+        ft::pair<nodeType, nodeType *> find(contentType & c, nodeType begin) {
             if (compare(begin->content, c)) {
                 return begin->left  == NULL ? ft::make_pair(NULL, &begin->left)  : find(c, begin->left);
             } else if (compare(c, begin->content)) {
