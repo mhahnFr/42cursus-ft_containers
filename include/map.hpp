@@ -21,21 +21,25 @@ namespace ft {
         class Allocator = std::allocator<ft::pair<const Key, T> >
     > class map {
     public:
-        typedef Key                                  key_type;
-        typedef T                                    mapped_type;
-        typedef ft::pair<const Key, T>               value_type;
-        typedef std::size_t                          size_type;
-        typedef std::ptrdiff_t                       difference_type;
-        typedef Compare                              key_compare;
-        typedef Allocator                            allocator_type;
-        typedef value_type &                         reference;
-        typedef const value_type &                   const_reference;
-        typedef typename Allocator::pointer          pointer;
-        typedef typename Allocator::const_pointer    const_pointer;
-        typedef void *       /* TODO */              iterator;
-        typedef const void * /* TODO */              const_iterator;
-        typedef ft::reverse_iterator<iterator>       reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef Key                                           key_type;
+        typedef T                                             mapped_type;
+        typedef ft::pair<const Key, T>                        value_type;
+        typedef std::size_t                                   size_type;
+        typedef std::ptrdiff_t                                difference_type;
+        typedef Compare                                       key_compare;
+        typedef Allocator                                     allocator_type;
+        typedef value_type &                                  reference;
+        typedef const value_type &                            const_reference;
+        typedef typename Allocator::pointer                   pointer;
+        typedef typename Allocator::const_pointer             const_pointer;
+        /*
+         * The type of the used tree.
+         */
+        typedef typename Tree<value_type, Compare, Allocator> treeType;
+        typedef typename treeType::iteratorType               iterator;
+        typedef typename treeType::constIteratorType          const_iterator;
+        typedef ft::reverse_iterator<iterator>                reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>          const_reverse_iterator;
 
         class value_compare: public ft::binary_function<value_type, value_type, bool> {
         public:
@@ -137,10 +141,10 @@ namespace ft {
         ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const { return keyCompare; }
 
     private:
-        allocator_type                  alloc;
-        key_compare                     keyCompare;
-        value_compare                   valueCompare;
-        ft::Tree<value_type, Compare, Allocator> tree;
+        allocator_type alloc;
+        key_compare    keyCompare;
+        value_compare  valueCompare;
+        treeType       tree;
     };
 
     template<class Key, class T, class Compare, class Alloc>

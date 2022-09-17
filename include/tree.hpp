@@ -7,6 +7,7 @@
 
 #include <cstddef>
 #include <stdexcept>
+#include "TreeIterator.hpp"
 
 namespace ft {
     /**
@@ -105,6 +106,8 @@ namespace ft {
          * The type of the rebound allocator.
          */
         typedef typename Allocator::template rebind<nodeType>::other allocatorType;
+        typedef typename TreeIterator      <contentType, nodeType>   iteratorType;
+        typedef typename TreeIterator<const contentType, nodeType>   constIteratorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
@@ -214,7 +217,7 @@ namespace ft {
           */
          std::size_t size() const { return count; }
 
-         /* TODO */ void insert(const contentType & value) {
+         iteratorType insert(const contentType & value) {
              ft::pair<nodeType, nodeType *> position = find(value, root);
              coreInsert(position, value);
              // TODO: Return value
@@ -291,7 +294,7 @@ namespace ft {
          * @param position The position where to insert the new node.
          * @param value    The value to be inserted.
          */
-        /* TODO */ void coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
+        iteratorType coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL) {
                 Node tmp;
                 tmp.content = value;
