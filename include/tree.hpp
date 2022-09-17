@@ -167,73 +167,75 @@ namespace ft {
          *
          * @param other The other tree to exchange the values with.
          */
-         void swap(Tree & other) {
-             Node * tmp = root;
-             std::size_t tmpSize = size();
-             root = other.root;
-             count = other.size();
-             other.root = tmp;
-             other.count = tmpSize;
-         }
+        void swap(Tree & other) {
+            Node * tmp = root;
+            std::size_t tmpSize = size();
+            root = other.root;
+            count = other.size();
+            other.root = tmp;
+            other.count = tmpSize;
+        }
 
-         /**
-          * Returns whether this tree is empty, e. g. does not contain any nodes.
-          *
-          * @return Whether this tree is empty.
-          */
-         bool isEmpty() const { return root == NULL; }
+        /**
+         * Returns whether this tree is empty, e. g. does not contain any nodes.
+         *
+         * @return Whether this tree is empty.
+         */
+        bool isEmpty() const { return root == NULL; }
 
-         /**
-          * Searches for a node containing the given content. If no such node is found an out of range exception
-          * is thrown.
-          *
-          * @param c The content to search for.
-          * @return A reference to that content.
-          */
-         contentType & find(const contentType & c) {
-             ft::pair<nodeType, nodeType *> result = find(c, root);
-             if (result.second != NULL) {
-                 throw std::out_of_range("Value not found!");
-             }
-             return result.first->content;
-         }
+        
 
-         /**
-          * Searches for the given content. If no node containing the given content is found, a new node with a
-          * default constructed content is inserted and a reference to that content is returned. Otherwise, a
-          * reference to the content of the found node is returned.
-          *
-          * @param c The content to search for.
-          * @return A reference to the content of the found or inserted node.
-          */
-         contentType & findOrInsert(const contentType & c) {
-             ft::pair<nodeType, nodeType *> result = find(c, root);
-             if (result.second == NULL) {
-                 return result.first->content;
-             } else {
-                 return *coreInsert(result, c).first;
-             }
-         }
+        /**
+         * Searches for a node containing the given content. If no such node is found an out of range exception
+         * is thrown.
+         *
+         * @param c The content to search for.
+         * @return A reference to that content.
+         */
+        contentType & findOrThrow(const contentType & c) {
+            ft::pair<nodeType, nodeType *> result = find(c, root);
+            if (result.second != NULL) {
+                throw std::out_of_range("Value not found!");
+            }
+            return result.first->content;
+        }
 
-         /**
-          * Returns the size of this tree.
-          *
-          * @return The size of this tree.
-          */
-         std::size_t size() const { return count; }
+        /**
+         * Searches for the given content. If no node containing the given content is found, a new node with a
+         * default constructed content is inserted and a reference to that content is returned. Otherwise, a
+         * reference to the content of the found node is returned.
+         *
+         * @param c The content to search for.
+         * @return A reference to the content of the found or inserted node.
+         */
+        contentType & findOrInsert(const contentType & c) {
+            ft::pair<nodeType, nodeType *> result = find(c, root);
+            if (result.second == NULL) {
+                return result.first->content;
+            } else {
+                return *coreInsert(result, c).first;
+            }
+        }
 
-         /**
-          * @brief Inserts the given value into this tree if it is not already present.
-          *
-          * If the given value already exists, nothing happens.
-          *
-          * @return A pair consisting of an iterator pointing to the inserted or already
-          * existing node and a boolean value representing whether the value has been inserted or not.
-          */
-         ft::pair<iteratorType, bool> insert(const contentType & value) {
-             ft::pair<nodeType, nodeType *> position = find(value, root);
-             return coreInsert(position, value);
-         }
+        /**
+         * Returns the size of this tree.
+         *
+         * @return The size of this tree.
+         */
+        std::size_t size() const { return count; }
+
+        /**
+         * @brief Inserts the given value into this tree if it is not already present.
+         *
+         * If the given value already exists, nothing happens.
+         *
+         * @return A pair consisting of an iterator pointing to the inserted or already
+         * existing node and a boolean value representing whether the value has been inserted or not.
+         */
+        ft::pair<iteratorType, bool> insert(const contentType & value) {
+            ft::pair<nodeType, nodeType *> position = find(value, root);
+            return coreInsert(position, value);
+        }
 
     private:
         /**
