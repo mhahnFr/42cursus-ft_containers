@@ -183,7 +183,39 @@ namespace ft {
          */
         bool isEmpty() const { return root == NULL; }
 
-        
+        /**
+         * @brief Searches for a node consisting of the given value.
+         *
+         * If no such node is found, an iterator pointing to the end of the tree
+         * is returned.
+         *
+         * @param value The value to search for.
+         * @return An iterator pointing to the found node or to the end of the tree.
+         */
+        iteratorType find(const contentType & value) {
+            ft::pair<nodeType, nodeType *> result = find(value, root);
+            if (result.second == NULL) {
+                return iteratorType(result.first);
+            }
+            return iteratorType(end());
+        }
+
+        /**
+         * @brief Searches for a node consisting of the given value.
+         *
+         * If no such node is found, an iterator pointing to the end of the tree
+         * is returned.
+         *
+         * @param value The value to search for.
+         * @return An iterator pointing to the found node or to the end of the tree.
+         */
+        constIteratorType find(const contentType & value) const {
+            ft::pair<nodeType, nodeType *> result = find(value, root);
+            if (result.second == NULL) {
+                return constIteratorType(result.first);
+            }
+            return constIteratorType(end());
+        }
 
         /**
          * Searches for a node containing the given content. If no such node is found an out of range exception
@@ -193,6 +225,21 @@ namespace ft {
          * @return A reference to that content.
          */
         contentType & findOrThrow(const contentType & c) {
+            ft::pair<nodeType, nodeType *> result = find(c, root);
+            if (result.second != NULL) {
+                throw std::out_of_range("Value not found!");
+            }
+            return result.first->content;
+        }
+
+        /**
+         * Searches for a node containing the given content. If no such node is found an out of range exception
+         * is thrown.
+         *
+         * @param c The content to search for.
+         * @return A reference to that content.
+         */
+        const contentType & findOrThrow(const contentType & c) const {
             ft::pair<nodeType, nodeType *> result = find(c, root);
             if (result.second != NULL) {
                 throw std::out_of_range("Value not found!");

@@ -119,10 +119,10 @@ namespace ft {
 
         void swap(map & other) { tree.swap(other.tree); }
 
-        size_type count(const Key & key) { return find(key) == end() ? 0 : 1; }
+        size_type count(const Key & key) const { return find(key) == end() ? 0 : 1; }
 
-        iterator find(const Key & key);
-        const_iterator find(const Key & key) const;
+        iterator       find(const Key & key)       { return tree.find(ft::make_pair(key, mapped_type())); }
+        const_iterator find(const Key & key) const { return tree.find(ft::make_pair(key, mapped_type())); }
 
         ft::pair<iterator, iterator> equal_range(const Key & key);
         ft::pair<const_iterator, const_iterator> equal_range(const Key & key) const;
