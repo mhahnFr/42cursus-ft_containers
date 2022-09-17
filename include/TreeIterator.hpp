@@ -51,21 +51,24 @@ namespace ft {
         /**
          * Default constructor.
          */
-        TreeIterator();
+        TreeIterator()
+            : baseNode() {}
 
         /**
          * Constructs an instance using a specified node.
          *
          * @param x The node to which this instance will point to.
          */
-        explicit TreeIterator(nodeType x);
+        explicit TreeIterator(nodeType x)
+            : baseNode(x) {}
 
         /**
          * Trivial copy constructor.
          *
          * @param other The other tree iterator to copy.
          */
-        TreeIterator(const TreeIterator & other);
+        TreeIterator(const TreeIterator & other)
+            : baseNode(other.base()) {}
 
         /**
          * Trivial destructor.
@@ -77,14 +80,18 @@ namespace ft {
          *
          * @param other The other tree iterator to copy.
          */
-        TreeIterator & operator=(const TreeIterator & other);
+        TreeIterator & operator=(const TreeIterator & other) {
+            if (&other != this) {
+                baseNode = other.base();
+            }
+        }
 
         /**
          * Returns the node on which this iterator is based.
          *
          * @return The base node of this iterator.
          */
-        nodeType base() const;
+        nodeType base() const { return baseNode; }
 
         /**
          * @brief Returns a reference to the content of the node this iterator points to.
@@ -93,7 +100,7 @@ namespace ft {
          *
          * @return A reference to the content of the base node.
          */
-        reference operator*() const;
+        reference operator*() const { return baseNode->content; }
 
         /**
          * Returns the address of the content of the base node.
@@ -129,7 +136,23 @@ namespace ft {
          * @return A copy of this instance before the decrementation.
          */
         TreeIterator operator--(int);
+
+    private:
+        /**
+         * The node this iterator is based on.
+         */
+        nodeType baseNode;
     };
+
+    template<class Content, class Node>
+    bool operator==(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+        return lhs.base() == rhs.base();
+    }
+
+    template<class Content, class Node>
+    bool operator!=(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+        return lhs.base() != rhs.base();
+    }
 }
 
 #endif
