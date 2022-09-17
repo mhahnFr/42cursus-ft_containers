@@ -106,7 +106,13 @@ namespace ft {
          * The type of the rebound allocator.
          */
         typedef typename Allocator::template rebind<nodeType>::other allocatorType;
+        /**
+         * The type of an iterator for this tree.
+         */
         typedef typename TreeIterator      <contentType, nodeType>   iteratorType;
+        /**
+         * The type of a const iterator for this tree.
+         */
         typedef typename TreeIterator<const contentType, nodeType>   constIteratorType;
 
         /**
@@ -217,6 +223,13 @@ namespace ft {
           */
          std::size_t size() const { return count; }
 
+         /**
+          * @brief Inserts the given value into this tree if it is not already present.
+          *
+          * If the given value already exists, nothing happens.
+          *
+          * @return An iterator pointing to the inserted element or ??? if the value already exists.
+          */
          iteratorType insert(const contentType & value) {
              ft::pair<nodeType, nodeType *> position = find(value, root);
              coreInsert(position, value);
@@ -271,8 +284,9 @@ namespace ft {
         }
 
         /**
-         * Searches in the given (sub-) tree for the given content. Returns a pair consisting of the node containing the
-         * searched element or NULL and an insertion point.
+         * @brief Searches in the given (sub-) tree for the given content.
+         * Returns a pair consisting of the node containing the searched element
+         * or NULL and an insertion point.
          *
          * @param c The content to be found.
          * @param begin The (sub-) tree to be searched.
@@ -289,10 +303,13 @@ namespace ft {
         }
 
         /**
-         * Inserts the given content value at the given position.
+         * @brief Inserts the given content value at the given position.
+         *
+         * Does nothing if the content already exists.
          *
          * @param position The position where to insert the new node.
          * @param value    The value to be inserted.
+         * @return An iterator pointing to the inserted node or ??? if the value is already present.
          */
         iteratorType coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL) {

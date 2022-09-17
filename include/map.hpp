@@ -32,7 +32,7 @@ namespace ft {
         typedef const value_type &                            const_reference;
         typedef typename Allocator::pointer                   pointer;
         typedef typename Allocator::const_pointer             const_pointer;
-        /*
+        /**
          * The type of the used tree.
          */
         typedef typename Tree<value_type, Compare, Allocator> treeType;
