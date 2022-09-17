@@ -211,8 +211,7 @@ namespace ft {
              if (result.second == NULL) {
                  return result.first->content;
              } else {
-                 coreInsert(result, c);
-                 // TODO: Return value
+                 return *coreInsert(result, c).first;
              }
          }
 
@@ -228,12 +227,12 @@ namespace ft {
           *
           * If the given value already exists, nothing happens.
           *
-          * @return An iterator pointing to the inserted element or ??? if the value already exists.
+          * @return A pair consisting of an iterator pointing to the inserted or already
+          * existing node and a boolean value representing whether the value has been inserted or not.
           */
-         iteratorType insert(const contentType & value) {
+         ft::pair<iteratorType, bool> insert(const contentType & value) {
              ft::pair<nodeType, nodeType *> position = find(value, root);
-             coreInsert(position, value);
-             // TODO: Return value
+             return coreInsert(position, value);
          }
 
     private:
@@ -309,9 +308,11 @@ namespace ft {
          *
          * @param position The position where to insert the new node.
          * @param value    The value to be inserted.
-         * @return An iterator pointing to the inserted node or ??? if the value is already present.
+         * @return A pair consisting of an iterator pointing to the inserted node or to the node
+         * that already consists of the given value and a boolean value representing the information
+         * whether the value has been inserted or not.
          */
-        iteratorType coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
+        ft::pair<iteratorType, bool> coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL) {
                 Node tmp;
                 tmp.content = value;
@@ -319,7 +320,9 @@ namespace ft {
                 alloc.allocate(*position.second, sizeof(Node));
                 alloc.construct(*position.second, tmp);
                 // TODO: rebalance
+                return ft::make_pair(iteratorType(*position.second), true);
             }
+            return ft::make_pair(iteratorType(position.first), false);
         }
     };
 }
