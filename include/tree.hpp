@@ -285,6 +285,12 @@ namespace ft {
             }
         }
 
+        /**
+         * Inserts the given content value at the given position.
+         *
+         * @param position The position where to insert the new node.
+         * @param value    The value to be inserted.
+         */
         /* TODO */ void coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL) {
                 Node tmp;
