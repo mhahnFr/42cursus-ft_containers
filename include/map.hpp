@@ -17,10 +17,12 @@ namespace ft {
     template<
         class Key,
         class T,
-        class Compare = ft::less<T>,
+        class Compare = ft::less<Key>,
         class Allocator = std::allocator<ft::pair<const Key, T> >
     > class map {
     public:
+        class value_compare;
+
         typedef Key                                  key_type;
         typedef T                                    mapped_type;
         typedef ft::pair<const Key, T>               value_type;
@@ -35,7 +37,7 @@ namespace ft {
         /**
          * The type of the used tree.
          */
-        typedef Tree<value_type, Compare, Allocator> treeType;
+        typedef Tree<value_type, value_compare, Allocator> treeType;
         typedef typename treeType::iteratorType      iterator;
         typedef typename treeType::constIteratorType const_iterator;
         typedef ft::reverse_iterator<iterator>       reverse_iterator;
@@ -59,10 +61,10 @@ namespace ft {
             explicit value_compare(Compare c): comp(c) {}
         };
 
-        map(): alloc(Allocator()), keyCompare(key_compare()), valueCompare(keyCompare), tree() {}
+        map(): alloc(Allocator()), keyCompare(key_compare()), valueCompare(keyCompare), tree(valueCompare) {}
 
         explicit map(const Compare & comp, const Allocator & alloc = Allocator())
-            : alloc(alloc), keyCompare(comp), valueCompare(comp), tree() {}
+            : alloc(alloc), keyCompare(comp), valueCompare(comp), tree(valueCompare) {}
 
         template<class InputIt>
         map(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator & alloc = Allocator());
@@ -83,10 +85,10 @@ namespace ft {
 
         allocator_type get_allocator() const { return alloc; }
 
-        T &       at(const Key & key)       { return tree.findOrThrow(ft::make_pair(key, mapped_type()));  }
-        const T & at(const Key & key) const { return tree.findOrThrow(ft::make_pair(key, mapped_type()));  }
+        T &       at(const Key & key)       { return tree.findOrThrow(ft::make_pair(key, mapped_type())).second;  }
+        const T & at(const Key & key) const { return tree.findOrThrow(ft::make_pair(key, mapped_type())).second;  }
 
-        T & operator[](const Key & key)     { return tree.findOrInsert(ft::make_pair(key, mapped_type())); }
+        T & operator[](const Key & key)     { return tree.findOrInsert(ft::make_pair(key, mapped_type())).second; }
 
         iterator begin();
         const_iterator begin() const;

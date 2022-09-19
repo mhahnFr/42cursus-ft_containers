@@ -120,7 +120,7 @@ namespace ft {
          *
          * @param comp The compare object to be used to sort the contents of this tree.
          */
-        explicit Tree(Compare comp = Compare()): root(NULL), alloc(allocatorType()), compare(comp), count(0) {}
+        explicit Tree(Compare comp): root(NULL), alloc(allocatorType()), compare(comp), count(0) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
@@ -350,14 +350,15 @@ namespace ft {
          * @param begin The (sub-) tree to be searched.
          * @return A pair with the node containing the element and an insertion point.
          */
-        ft::pair<nodeType, nodeType *> find(contentType & c, nodeType begin) {
-            if (compare(begin->content, c)) {
-                return begin->left  == NULL ? ft::make_pair(begin, &begin->left)  : find(c, begin->left);
-            } else if (compare(c, begin->content)) {
-                return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
-            } else {
-                return ft::make_pair(begin, NULL);
+        ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType begin) {
+            if (begin != NULL) {
+                if (compare(begin->content, c)) {
+                    return begin->left == NULL ? ft::make_pair(begin, &begin->left) : find(c, begin->left);
+                } else if (compare(c, begin->content)) {
+                    return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
+                }
             }
+            return ft::make_pair(begin, reinterpret_cast<nodeType *>(NULL));
         }
 
         /**

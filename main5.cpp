@@ -7,4 +7,6 @@
 
 int main() {
     ft::map<int, std::string> m;
+
+    m.at(5);
 }
