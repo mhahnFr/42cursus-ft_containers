@@ -158,8 +158,10 @@ namespace ft {
          * Clears this tree properly.
          */
         void clear() {
-            recursiveDestroy(root);
-            root = NULL;
+            if (root != NULL) {
+                recursiveDestroy(root);
+                root = NULL;
+            }
         }
 
         /**
