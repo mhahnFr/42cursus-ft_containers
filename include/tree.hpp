@@ -109,11 +109,11 @@ namespace ft {
         /**
          * The type of an iterator for this tree.
          */
-        typedef typename TreeIterator      <contentType, nodeType>   iteratorType;
+        typedef TreeIterator      <contentType, nodeType>            iteratorType;
         /**
          * The type of a const iterator for this tree.
          */
-        typedef typename TreeIterator<const contentType, nodeType>   constIteratorType;
+        typedef TreeIterator<const contentType, nodeType>            constIteratorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
