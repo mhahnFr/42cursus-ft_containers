@@ -89,31 +89,31 @@ namespace ft {
         /**
          * The type of the content held by the nodes.
          */
-        typedef T                                                    contentType;
+        typedef T                                                contentType;
         /**
          * The type used for sizes.
          */
-        typedef std::size_t                                          sizeType;
+        typedef std::size_t                                      sizeType;
         /**
          * The type of the used Nodes.
          */
-        typedef Node *                                               nodeType;
+        typedef Node *                                           nodeType;
         /**
          * The type of the compare object.
          */
-        typedef Compare                                              compareType;
+        typedef Compare                                          compareType;
         /**
          * The type of the rebound allocator.
          */
-        typedef typename Allocator::template rebind<nodeType>::other allocatorType;
+        typedef typename Allocator::template rebind<Node>::other allocatorType;
         /**
          * The type of an iterator for this tree.
          */
-        typedef TreeIterator      <contentType, nodeType>            iteratorType;
+        typedef TreeIterator      <contentType, nodeType>        iteratorType;
         /**
          * The type of a const iterator for this tree.
          */
-        typedef TreeIterator<const contentType, nodeType>            constIteratorType;
+        typedef TreeIterator<const contentType, nodeType>        constIteratorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
