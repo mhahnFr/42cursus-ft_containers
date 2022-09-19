@@ -183,6 +183,14 @@ namespace ft {
          */
         bool isEmpty() const { return root == NULL; }
 
+        iteratorType end() {
+            return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
+        }
+
+        constIteratorType end() const {
+            return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
+        }
+
         /**
          * @brief Searches for a node consisting of the given value.
          *
