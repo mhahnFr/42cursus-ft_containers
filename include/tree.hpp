@@ -53,6 +53,8 @@ namespace ft {
              */
             Node(): left(NULL), root(NULL), right(NULL), content() {}
 
+            explicit Node(const valueType & content): left(NULL), root(NULL), right(NULL), content(content) {}
+
             /**
              * Copy constructor. Initializes all values with the ones of the other Node.
              *
@@ -205,9 +207,9 @@ namespace ft {
         iteratorType find(const contentType & value) {
             ft::pair<nodeType, nodeType *> result = find(value, root);
             if (result.second == NULL) {
-                return iteratorType(result.first);
+                return iteratorType(end());
             }
-            return iteratorType(end());
+            return iteratorType(result.first);
         }
 
         /**
@@ -222,9 +224,9 @@ namespace ft {
         constIteratorType find(const contentType & value) const {
             ft::pair<nodeType, nodeType *> result = find(value, root);
             if (result.second == NULL) {
-                return constIteratorType(result.first);
+                return constIteratorType(end());
             }
-            return constIteratorType(end());
+            return constIteratorType(result.first);
         }
 
         /**
@@ -236,7 +238,7 @@ namespace ft {
          */
         contentType & findOrThrow(const contentType & c) {
             ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second != NULL) {
+            if (result.second == NULL) {
                 throw std::out_of_range("Value not found!");
             }
             return result.first->content;
@@ -251,7 +253,7 @@ namespace ft {
          */
         const contentType & findOrThrow(const contentType & c) const {
             ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second != NULL) {
+            if (result.second == NULL) {
                 throw std::out_of_range("Value not found!");
             }
             return result.first->content;
@@ -267,10 +269,10 @@ namespace ft {
          */
         contentType & findOrInsert(const contentType & c) {
             ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second == NULL) {
-                return result.first->content;
-            } else {
+            if (result.second == &result.first) { // TODO: Find out whether found or not
                 return *coreInsert(result, c).first;
+            } else {
+                return result.first->content;
             }
         }
 
@@ -358,7 +360,7 @@ namespace ft {
                     return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
                 }
             }
-            return ft::make_pair(begin, reinterpret_cast<nodeType *>(NULL));
+            return ft::make_pair(begin, &begin);
         }
 
         /**
@@ -374,10 +376,9 @@ namespace ft {
          */
         ft::pair<iteratorType, bool> coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL) {
-                Node tmp;
-                tmp.content = value;
+                Node tmp(value);
                 tmp.root = position.first;
-                alloc.allocate(*position.second, sizeof(Node));
+                *position.second = alloc.allocate(sizeof(Node));
                 alloc.construct(*position.second, tmp);
                 // TODO: rebalance
                 return ft::make_pair(iteratorType(*position.second), true);
