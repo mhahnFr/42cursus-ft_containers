@@ -123,7 +123,8 @@ namespace ft {
          *
          * @param comp The compare object to be used to sort the contents of this tree.
          */
-        explicit Tree(Compare comp): root(NULL), alloc(allocatorType()), compare(comp), count(0) {}
+        explicit Tree(Compare comp)
+            : root(NULL), beginSentinel(NULL), endSentinel(NULL), alloc(allocatorType()), compare(comp), count(0) {}
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
@@ -133,6 +134,8 @@ namespace ft {
         Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(0) {
             if (other.root != NULL) {
                 recursiveCopy(&root, other.root);
+                beginSentinel = findBeginSentinel();
+                endSentinel   = findEndSentinel();
             }
         }
 
@@ -152,6 +155,8 @@ namespace ft {
                 clear();
                 if (other.root != NULL) {
                     recursiveCopy(&root, other.root);
+                    beginSentinel = findBeginSentinel();
+                    endSentinel   = findEndSentinel();
                 }
             }
             return *this;
@@ -163,7 +168,7 @@ namespace ft {
         void clear() {
             if (root != NULL) {
                 recursiveDestroy(root);
-                root = NULL;
+                root = beginSentinel = endSentinel = NULL;
             }
         }
 
@@ -173,12 +178,21 @@ namespace ft {
          * @param other The other tree to exchange the values with.
          */
         void swap(Tree & other) {
-            Node * tmp = root;
+            Node * tmpRoot          = root,
+                   tmpBeginSentinel = beginSentinel,
+                   tmpEndSentinel   = endSentinel;
+
             std::size_t tmpSize = size();
-            root = other.root;
-            count = other.size();
-            other.root = tmp;
-            other.count = tmpSize;
+
+            root          = other.root;
+            beginSentinel = other.beginSentinel;
+            endSentinel   = other.endSentinel;
+            count         = other.size();
+
+            other.root          = tmpRoot;
+            other.beginSentinel = tmpBeginSentinel;
+            other.endSentinel   = tmpEndSentinel;
+            other.count         = tmpSize;
         }
 
         /**
@@ -330,6 +344,14 @@ namespace ft {
          * The root Node of this tree.
          */
         nodeType      root;
+        /**
+         * A pointer to the element preceding the first element of this tree.
+         */
+        nodeType      beginSentinel;
+        /**
+         * A pointer to the element past the last element of this tree.
+         */
+        nodeType      endSentinel;
         /**
          * The allocator used to allocate nodes.
          */
