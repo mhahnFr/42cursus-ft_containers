@@ -23,25 +23,25 @@ namespace ft {
     public:
         class value_compare;
 
-        typedef Key                                  key_type;
-        typedef T                                    mapped_type;
-        typedef ft::pair<const Key, T>               value_type;
-        typedef std::size_t                          size_type;
-        typedef std::ptrdiff_t                       difference_type;
-        typedef Compare                              key_compare;
-        typedef Allocator                            allocator_type;
-        typedef value_type &                         reference;
-        typedef const value_type &                   const_reference;
-        typedef typename Allocator::pointer          pointer;
-        typedef typename Allocator::const_pointer    const_pointer;
+        typedef Key                                        key_type;
+        typedef T                                          mapped_type;
+        typedef ft::pair<const Key, T>                     value_type;
+        typedef std::size_t                                size_type;
+        typedef std::ptrdiff_t                             difference_type;
+        typedef Compare                                    key_compare;
+        typedef Allocator                                  allocator_type;
+        typedef value_type &                               reference;
+        typedef const value_type &                         const_reference;
+        typedef typename Allocator::pointer                pointer;
+        typedef typename Allocator::const_pointer          const_pointer;
         /**
          * The type of the used tree.
          */
         typedef Tree<value_type, value_compare, Allocator> treeType;
-        typedef typename treeType::iteratorType      iterator;
-        typedef typename treeType::constIteratorType const_iterator;
-        typedef ft::reverse_iterator<iterator>       reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef typename treeType::iteratorType            iterator;
+        typedef typename treeType::constIteratorType       const_iterator;
+        typedef ft::reverse_iterator<iterator>             reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator>       const_reverse_iterator;
 
         class value_compare: public ft::binary_function<value_type, value_type, bool> {
             friend class map;
@@ -91,14 +91,14 @@ namespace ft {
 
         T & operator[](const Key & key)     { return tree.findOrInsert(ft::make_pair(key, mapped_type())).second; }
 
-        iterator       begin()       { return iterator(tree.begin());       }
-        const_iterator begin() const { return const_iterator(tree.begin()); }
-
-        iterator       end()         { return iterator(tree.end());         }
-        const_iterator end()   const { return const_iterator(tree.end());   }
+        iterator                begin()       { return iterator(tree.begin());          }
+        const_iterator          begin() const { return const_iterator(tree.begin());    }
 
         reverse_iterator       rbegin()       { return reverse_iterator(begin());       }
         const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }
+
+        iterator                end()         { return iterator(tree.end());            }
+        const_iterator          end()   const { return const_iterator(tree.end());      }
 
         reverse_iterator       rend()         { return reverse_iterator(end());         }
         const_reverse_iterator rend()   const { return const_reverse_iterator(end());   }
