@@ -24,4 +24,6 @@ int main() {
     }
     m.insert(ft::make_pair(6, "Arsch2"));
     std::cout << std::boolalpha << m.at(6) << std::endl;
+    m[54] = "Arsch3";
+    std::cout << m.at(54) << " : " << m[5] << std::endl;
 }

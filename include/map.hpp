@@ -90,11 +90,11 @@ namespace ft {
 
         T & operator[](const Key & key)     { return tree.findOrInsert(ft::make_pair(key, mapped_type())).second; }
 
-        iterator begin();
-        const_iterator begin() const;
+        iterator       begin()       { return iterator(tree.begin());       }
+        const_iterator begin() const { return const_iterator(tree.begin()); }
 
-        iterator end();
-        const_iterator end() const;
+        iterator       end()       { return iterator(tree.end());       }
+        const_iterator end() const { return const_iterator(tree.end()); }
 
         reverse_iterator       rbegin()       { return reverse_iterator(begin());       }
         const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }

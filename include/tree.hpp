@@ -195,6 +195,14 @@ namespace ft {
             return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
         }
 
+        iteratorType begin() {
+            return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
+        }
+
+        constIteratorType begin() const {
+            return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
+        }
+
         /**
          * @brief Searches for a node consisting of the given value.
          *
