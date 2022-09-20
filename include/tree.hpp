@@ -205,11 +205,11 @@ namespace ft {
          * @return An iterator pointing to the found node or to the end of the tree.
          */
         iteratorType find(const contentType & value) {
-            ft::pair<nodeType, nodeType *> result = find(value, root);
-            if (result.second == NULL) {
-                return iteratorType(end());
+            ft::pair<nodeType, nodeType *> result = find(value, &root);
+            if (*result.second == result.first && result.first != NULL) {
+                return iteratorType(result.first);
             }
-            return iteratorType(result.first);
+            return iteratorType(end());
         }
 
         /**
@@ -222,11 +222,11 @@ namespace ft {
          * @return An iterator pointing to the found node or to the end of the tree.
          */
         constIteratorType find(const contentType & value) const {
-            ft::pair<nodeType, nodeType *> result = find(value, root);
-            if (result.second == NULL) {
-                return constIteratorType(end());
+            ft::pair<nodeType, nodeType *> result = find(value, &root);
+            if (*result.second == result.first && result.first != NULL) {
+                return constIteratorType(result.first);
             }
-            return constIteratorType(result.first);
+            return constIteratorType(end());
         }
 
         /**
@@ -237,11 +237,11 @@ namespace ft {
          * @return A reference to that content.
          */
         contentType & findOrThrow(const contentType & c) {
-            ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second == NULL) {
-                throw std::out_of_range("Value not found!");
+            ft::pair<nodeType, nodeType *> result = find(c, &root);
+            if (*result.second == result.first && result.first != NULL) {
+                return result.first->content;
             }
-            return result.first->content;
+            throw std::out_of_range("Value not found!");
         }
 
         /**
@@ -252,11 +252,11 @@ namespace ft {
          * @return A reference to that content.
          */
         const contentType & findOrThrow(const contentType & c) const {
-            ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second == NULL) {
-                throw std::out_of_range("Value not found!");
+            ft::pair<nodeType, nodeType *> result = find(c, &root);
+            if (*result.second == result.first && result.first != NULL) {
+                return result.first->content;
             }
-            return result.first->content;
+            throw std::out_of_range("Value not found!");
         }
 
         /**
@@ -268,11 +268,11 @@ namespace ft {
          * @return A reference to the content of the found or inserted node.
          */
         contentType & findOrInsert(const contentType & c) {
-            ft::pair<nodeType, nodeType *> result = find(c, root);
-            if (result.second == &result.first) { // TODO: Find out whether found or not
-                return *coreInsert(result, c).first;
-            } else {
+            ft::pair<nodeType, nodeType *> result = find(c, &root);
+            if (*result.second == result.first && result.first != NULL) {
                 return result.first->content;
+            } else {
+                return *coreInsert(result, c).first;
             }
         }
 
@@ -292,7 +292,7 @@ namespace ft {
          * existing node and a boolean value representing whether the value has been inserted or not.
          */
         ft::pair<iteratorType, bool> insert(const contentType & value) {
-            ft::pair<nodeType, nodeType *> position = find(value, root);
+            ft::pair<nodeType, nodeType *> position = find(value, &root);
             return coreInsert(position, value);
         }
 
@@ -352,15 +352,15 @@ namespace ft {
          * @param begin The (sub-) tree to be searched.
          * @return A pair with the node containing the element and an insertion point.
          */
-        ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType begin) {
-            if (begin != NULL) {
-                if (compare(begin->content, c)) {
-                    return begin->left == NULL ? ft::make_pair(begin, &begin->left) : find(c, begin->left);
-                } else if (compare(c, begin->content)) {
-                    return begin->right == NULL ? ft::make_pair(begin, &begin->right) : find(c, begin->right);
+        ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType * begin) {
+            if (*begin != NULL) {
+                if (compare((*begin)->content, c)) {
+                    return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left) : find(c, &(*begin)->left);
+                } else if (compare(c, (*begin)->content)) {
+                    return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right) : find(c, &(*begin)->right);
                 }
             }
-            return ft::make_pair(begin, &begin);
+            return ft::make_pair(*begin, begin);
         }
 
         /**
@@ -375,7 +375,7 @@ namespace ft {
          * whether the value has been inserted or not.
          */
         ft::pair<iteratorType, bool> coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
-            if (position.first == NULL) {
+            if (position.first == NULL || position.first != *position.second) {
                 Node tmp(value);
                 tmp.root = position.first;
                 *position.second = alloc.allocate(sizeof(Node));
