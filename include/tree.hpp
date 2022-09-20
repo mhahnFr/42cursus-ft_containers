@@ -100,6 +100,7 @@ namespace ft {
          * The type of the used Nodes.
          */
         typedef Node *                                           nodeType;
+        typedef Node * const                                     constNodeType;
         /**
          * The type of the compare object.
          */
@@ -230,7 +231,7 @@ namespace ft {
          * @return An iterator pointing to the found node or to the end of the tree.
          */
         constIteratorType find(const contentType & value) const {
-            ft::pair<nodeType, nodeType *> result = find(value, &root);
+            ft::pair<constNodeType, constNodeType *> result = find(value, &root);
             if (*result.second == result.first && result.first != NULL) {
                 return constIteratorType(result.first);
             }
@@ -260,7 +261,7 @@ namespace ft {
          * @return A reference to that content.
          */
         const contentType & findOrThrow(const contentType & c) const {
-            ft::pair<nodeType, nodeType *> result = find(c, &root);
+            ft::pair<constNodeType, constNodeType *> result = find(c, &root);
             if (*result.second == result.first && result.first != NULL) {
                 return result.first->content;
             }
@@ -353,6 +354,7 @@ namespace ft {
 
         /**
          * @brief Searches in the given (sub-) tree for the given content.
+         *
          * Returns a pair consisting of the node containing the searched element
          * or NULL and an insertion point.
          *
@@ -366,6 +368,29 @@ namespace ft {
                     return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left) : find(c, &(*begin)->left);
                 } else if (compare(c, (*begin)->content)) {
                     return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right) : find(c, &(*begin)->right);
+                }
+            }
+            return ft::make_pair(*begin, begin);
+        }
+
+        /**
+         * @brief Searches in the given (sub-) tree for the given content.
+         *
+         * Returns a pair consisting of the node containing the searched element
+         * or NULL and an insertion point.
+         *
+         * @param c The content to be found.
+         * @param begin The (sub-) tree to be searched.
+         * @return A pair with the node containing the element and an insertion point.
+         */
+        ft::pair<constNodeType, constNodeType *> find(const contentType & c, constNodeType * begin) const {
+            if (*begin != NULL) {
+                if (compare((*begin)->content, c)) {
+                    return (*begin)->left == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->left)
+                                                  : find(c, &(*begin)->left);
+                } else if (compare(c, (*begin)->content)) {
+                    return (*begin)->right == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->right)
+                                                   : find(c, &(*begin)->right);
                 }
             }
             return ft::make_pair(*begin, begin);

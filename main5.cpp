@@ -29,8 +29,7 @@ int main() {
 
     std::cout << std::endl << std::endl;
 
-    ft::map<int, std::string> m2;
-    m2 = m;
+    const ft::map<int, std::string> m2 = m;
     try {
         std::cout << std::boolalpha << m2.at(5) << std::endl;
     } catch (std::exception & ex) {
@@ -43,6 +42,6 @@ int main() {
         std::cout << ex.what() << std::endl;
     }
     std::cout << std::boolalpha << m2.at(6) << std::endl;
-    m2[54] = "Arsch3";
-    std::cout << m2.at(54) << " : " << m2[5] << std::endl;
+    std::cout << m2.at(54) << std::endl;
+    std::cout << m2.find(5)->second << std::endl;
 }
