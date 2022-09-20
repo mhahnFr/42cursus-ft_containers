@@ -93,8 +93,8 @@ namespace ft {
         iterator       begin()       { return iterator(tree.begin());       }
         const_iterator begin() const { return const_iterator(tree.begin()); }
 
-        iterator       end()       { return iterator(tree.end());       }
-        const_iterator end() const { return const_iterator(tree.end()); }
+        iterator       end()         { return iterator(tree.end());         }
+        const_iterator end()   const { return const_iterator(tree.end());   }
 
         reverse_iterator       rbegin()       { return reverse_iterator(begin());       }
         const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }

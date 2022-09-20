@@ -131,7 +131,7 @@ namespace ft {
          */
         Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(0) {
             if (other.root != NULL) {
-                recursiveCopy(root, other.root);
+                recursiveCopy(&root, other.root);
             }
         }
 
@@ -150,7 +150,7 @@ namespace ft {
             if (&other != this) {
                 clear();
                 if (other.root != NULL) {
-                    recursiveCopy(root, other.root);
+                    recursiveCopy(&root, other.root);
                 }
             }
             return *this;
@@ -344,11 +344,11 @@ namespace ft {
          * @param dst The destination of the new tree.
          * @param src The tree to copy.
          */
-        void recursiveCopy(nodeType dst, nodeType src) {
-            alloc.allocate(dst, sizeof(Node));
-            alloc.construct(dst, *src);
-            if (src->left  != NULL) { recursiveCopy(dst->left, src->left);   }
-            if (src->right != NULL) { recursiveCopy(dst->right, src->right); }
+        void recursiveCopy(nodeType * dst, nodeType src) {
+            *dst = alloc.allocate(sizeof(Node));
+            alloc.construct(*dst, *src);
+            if (src->left  != NULL) { recursiveCopy(&(*dst)->left,  src->left);  }
+            if (src->right != NULL) { recursiveCopy(&(*dst)->right, src->right); }
         }
 
         /**
