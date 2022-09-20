@@ -29,7 +29,8 @@ int main() {
 
     std::cout << std::endl << std::endl;
 
-    ft::map<int, std::string> m2 = m;
+    ft::map<int, std::string> m2;
+    m2 = m;
     try {
         std::cout << std::boolalpha << m2.at(5) << std::endl;
     } catch (std::exception & ex) {

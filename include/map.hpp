@@ -81,6 +81,7 @@ namespace ft {
                 valueCompare = other.valueCompare;
                 tree         = other.tree;
             }
+            return *this;
         }
 
         allocator_type get_allocator() const { return alloc; }
