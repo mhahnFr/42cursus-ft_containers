@@ -188,18 +188,38 @@ namespace ft {
          */
         bool isEmpty() const { return root == NULL; }
 
+        /**
+         * Returns an iterator pointing past the last element of this tree.
+         *
+         * @return A past the last iterator for this tree.
+         */
         iteratorType end() {
             return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
         }
 
+        /**
+         * Returns an iterator pointing past the last element of this tree.
+         *
+         * @return A past the last iterator for this tree.
+         */
         constIteratorType end() const {
             return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
         }
 
+        /**
+         * Returns an iterator pointing to the first element of this tree.
+         *
+         * @return An iterator to the beginning of this tree.
+         */
         iteratorType begin() {
             return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
         }
 
+         /**
+         * Returns an iterator pointing to the first element of this tree.
+         *
+         * @return An iterator to the beginning of this tree.
+         */
         constIteratorType begin() const {
             return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
         }
