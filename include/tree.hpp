@@ -452,6 +452,14 @@ namespace ft {
             }
             return ft::make_pair(iteratorType(position.first), false);
         }
+
+        nodeType findBeginSentinel() {
+
+        }
+
+        nodeType findEndSentinel() {
+            
+        }
     };
 }
 
