@@ -207,36 +207,28 @@ namespace ft {
          *
          * @return A past the last iterator for this tree.
          */
-        iteratorType end() {
-            return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
-        }
+        iteratorType end() { return iteratorType(endSentinel); }
 
         /**
          * Returns an iterator pointing past the last element of this tree.
          *
          * @return A past the last iterator for this tree.
          */
-        constIteratorType end() const {
-            return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
-        }
+        constIteratorType end() const { return constIteratorType(endSentinel); }
 
         /**
          * Returns an iterator pointing to the first element of this tree.
          *
          * @return An iterator to the beginning of this tree.
          */
-        iteratorType begin() {
-            return iteratorType(); // TODO, FIXME, XXX: Implement properly!!!
-        }
+        iteratorType begin() { return ++iteratorType(beginSentinel); }
 
          /**
          * Returns an iterator pointing to the first element of this tree.
          *
          * @return An iterator to the beginning of this tree.
          */
-        constIteratorType begin() const {
-            return constIteratorType(); // TODO, FIXME, XXX: Implement properly!!!
-        }
+        constIteratorType begin() const { return ++constIteratorType(beginSentinel); }
 
         /**
          * @brief Searches for a node consisting of the given value.
