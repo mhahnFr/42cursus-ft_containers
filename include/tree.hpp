@@ -454,11 +454,13 @@ namespace ft {
         }
 
         nodeType findBeginSentinel() {
-
+            // TODO
+            return NULL;
         }
 
         nodeType findEndSentinel() {
-            
+            // TODO
+            return NULL;
         }
     };
 }
