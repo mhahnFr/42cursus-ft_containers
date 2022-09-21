@@ -398,9 +398,9 @@ namespace ft {
          */
         ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType * begin) {
             if (*begin != NULL) {
-                if (compare((*begin)->content, c)) {
+                if (compare(c, (*begin)->content)) {
                     return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left) : find(c, &(*begin)->left);
-                } else if (compare(c, (*begin)->content)) {
+                } else if (compare((*begin)->content, c)) {
                     return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right) : find(c, &(*begin)->right);
                 }
             }
@@ -419,10 +419,10 @@ namespace ft {
          */
         ft::pair<constNodeType, constNodeType *> find(const contentType & c, constNodeType * begin) const {
             if (*begin != NULL) {
-                if (compare((*begin)->content, c)) {
+                if (compare(c, (*begin)->content)) {
                     return (*begin)->left == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->left)
                                                   : find(c, &(*begin)->left);
-                } else if (compare(c, (*begin)->content)) {
+                } else if (compare((*begin)->content, c)) {
                     return (*begin)->right == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->right)
                                                    : find(c, &(*begin)->right);
                 }
