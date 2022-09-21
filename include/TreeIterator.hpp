@@ -128,14 +128,22 @@ namespace ft {
          *
          * @return A copy of this instance before the incrementation.
          */
-        TreeIterator operator++(int);
+        TreeIterator operator++(int) {
+            TreeIterator tmp = *this;
+            operator++();
+            return tmp;
+        }
 
         /**
          * Decrements this iterator.
          *
          * @return A copy of this instance before the decrementation.
          */
-        TreeIterator operator--(int);
+        TreeIterator operator--(int) {
+            TreeIterator tmp = *this;
+            operator--();
+            return tmp;
+        }
 
     private:
         /**
