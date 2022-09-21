@@ -132,7 +132,18 @@ namespace ft {
          *
          * @return A reference to this instance.
          */
-        TreeIterator & operator--();
+        TreeIterator & operator--() {
+            if (baseNode->left != NULL) {
+                baseNode = baseNode->left;
+            } else {
+                nodeType tmp;
+                do {
+                    tmp = baseNode;
+                    baseNode = baseNode->root;
+                } while ((baseNode->left == NULL || baseNode->left == tmp) && baseNode->right != tmp);
+            }
+            return *this;
+        }
 
         /**
          * Increments this iterator.
