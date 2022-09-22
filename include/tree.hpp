@@ -424,11 +424,13 @@ namespace ft {
         ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType * begin) {
             if (*begin != NULL) {
                 if (compare(c, (*begin)->content)) {
-                    return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left)
-                                                  : find(c, &(*begin)->left);
+                    return (*begin)->left == NULL || (*begin)->left->sentinel
+                    /* true:  */ ? ft::make_pair(*begin, &(*begin)->left)
+                    /* false: */ : find(c, &(*begin)->left);
                 } else if (compare((*begin)->content, c)) {
-                    return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right)
-                                                   : find(c, &(*begin)->right);
+                    return (*begin)->right == NULL || (*begin)->right->sentinel
+                    /* true:  */ ? ft::make_pair(*begin, &(*begin)->right)
+                    /* false: */ : find(c, &(*begin)->right);
                 }
             }
             return ft::make_pair(*begin, begin);
@@ -447,11 +449,13 @@ namespace ft {
         ft::pair<constNodeType, constNodeType *> find(const contentType & c, constNodeType * begin) const {
             if (*begin != NULL) {
                 if (compare(c, (*begin)->content)) {
-                    return (*begin)->left == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->left)
-                                                  : find(c, &(*begin)->left);
+                    return (*begin)->left == NULL || (*begin)->left->sentinel
+                    /* true:  */ ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->left)
+                    /* false: */ : find(c, &(*begin)->left);
                 } else if (compare((*begin)->content, c)) {
-                    return (*begin)->right == NULL ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->right)
-                                                   : find(c, &(*begin)->right);
+                    return (*begin)->right == NULL || (*begin)->right->sentinel
+                    /* true:  */ ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->right)
+                    /* false: */ : find(c, &(*begin)->right);
                 }
             }
             return ft::make_pair(*begin, begin);
@@ -520,10 +524,14 @@ namespace ft {
         void initSentinels() {
             root = alloc.allocate(sizeof(Node));
             alloc.construct(root);
+            Node tmp(true);
+            tmp.root = root;
             root->left = alloc.allocate(sizeof(Node));
-            alloc.construct(root->left, true);
+            alloc.construct(root->left, tmp);
             root->right = alloc.allocate(sizeof(Node));
-            alloc.construct(root->right, true);
+            alloc.construct(root->right, tmp);
+            beginSentinel = root->left;
+            endSentinel = root->right;
         }
     };
 }
