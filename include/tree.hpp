@@ -44,23 +44,41 @@ namespace ft {
              */
             Node * right;
             /**
+             * A boolean value indicating whether this node is to be treated as a sentinel node.
+             */
+            bool sentinel;
+            /**
              * The actual content of this node.
              */
             valueType content;
 
             /**
-             * Default constructor. Initializes the pointers with NULL, the content is default constructed.
+             * @brief Default constructor.
+             *
+             * Initializes the pointers with NULL, the content is default constructed.
+             *
+             * @param sentinel Optionally marks this node as a sentinel node.
              */
-            Node(): left(NULL), root(NULL), right(NULL), content() {}
+            explicit Node(bool sentinel = false)
+                : left(NULL), root(NULL), right(NULL), sentinel(sentinel), content() {}
 
-            explicit Node(const valueType & content): left(NULL), root(NULL), right(NULL), content(content) {}
+            /**
+             * @brief Initializes this node using the given content.
+             *
+             * The pointers are set to NULL.
+             *
+             * @param content The content this node will store.
+             */
+            explicit Node(const valueType & content)
+                : left(NULL), root(NULL), right(NULL), sentinel(false), content(content) {}
 
             /**
              * Copy constructor. Initializes all values with the ones of the other Node.
              *
              * @param other The other node to copy the values from.
              */
-            Node(const Node & other): left(other.left), root(other.root), right(other.right), content(other.content) {}
+            Node(const Node & other)
+                : left(other.left), root(other.root), right(other.right), sentinel(other.sentinel), content(other.content) {}
 
             /**
              * Trivial destructor.
@@ -79,10 +97,11 @@ namespace ft {
             */
             Node & operator=(const Node & other) {
                 if (&other != this) {
-                    left    = other.left;
-                    root    = other.root;
-                    right   = other.right;
-                    content = other.content;
+                    left     = other.left;
+                    root     = other.root;
+                    right    = other.right;
+                    sentinel = other.sentinel;
+                    content  = other.content;
                 }
             }
         };
