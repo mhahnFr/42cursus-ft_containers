@@ -173,6 +173,17 @@ namespace ft {
             return tmp;
         }
 
+        /**
+         * @brief Casts this iterator to a const iterator.
+         *
+         * Returns a copy of this iterator.
+         *
+         * @return A const version of this iterator.
+         */
+        operator const TreeIterator<const contentType, nodeType>() {
+            return TreeIterator<const contentType, nodeType>(baseNode);
+        }
+
     private:
         /**
          * The node this iterator is based on.
@@ -180,13 +191,13 @@ namespace ft {
         nodeType baseNode;
     };
 
-    template<class Content, class Node>
-    bool operator==(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+    template<class Content1, class Content2, class Node>
+    bool operator==(const TreeIterator<Content1, Node> & lhs, const TreeIterator<Content2, Node> & rhs) {
         return lhs.base() == rhs.base();
     }
 
-    template<class Content, class Node>
-    bool operator!=(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+    template<class Content1, class Content2, class Node>
+    bool operator!=(const TreeIterator<Content1, Node> & lhs, const TreeIterator<Content2, Node> & rhs) {
         return lhs.base() != rhs.base();
     }
 }
