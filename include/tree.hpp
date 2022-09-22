@@ -476,19 +476,24 @@ namespace ft {
             if (position.first == NULL || position.first != *position.second) {
                 Node tmp(value);
                 tmp.root = position.first;
-                nodeType maybeSentinel = *position.second;
-                const bool right = maybeSentinel == position.first->right;
+                //if (position.first != NULL) {
+                    nodeType maybeSentinel = *position.second;
+                    const bool right = maybeSentinel == position.first->right;
                 nodeType newOne = alloc.allocate(sizeof(Node));
-                if (maybeSentinel != NULL) { // sentinel
-                    if (right) {
-                        tmp.right = maybeSentinel;
-                    } else {
-                        tmp.left = maybeSentinel;
+                    if (maybeSentinel != NULL) { // sentinel
+                        if (right) {
+                            tmp.right = maybeSentinel;
+                        } else {
+                            tmp.left = maybeSentinel;
+                        }
+                        maybeSentinel->root = newOne;
                     }
-                    maybeSentinel->root = newOne;
-                }
+                //}
                 *position.second = newOne;
                 alloc.construct(*position.second, tmp);
+                // if (newRoot) {
+                //    initSentinels();
+                // }
                 // TODO: rebalance
                 ++count;
                 return ft::make_pair(iteratorType(*position.second), true);
