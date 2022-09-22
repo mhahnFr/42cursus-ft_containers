@@ -100,6 +100,9 @@ namespace ft {
          * The type of the used Nodes.
          */
         typedef Node *                                           nodeType;
+        /**
+         * The const type of the used Nodes.
+         */
         typedef Node * const                                     constNodeType;
         /**
          * The type of the compare object.
@@ -453,11 +456,21 @@ namespace ft {
             return ft::make_pair(iteratorType(position.first), false);
         }
 
+        /**
+         * Searches for the begin sentinel of this tree.
+         *
+         * @return The begin sentinel of this tree.
+         */
         nodeType findBeginSentinel() {
             // TODO
             return NULL;
         }
 
+        /**
+         * Searches for the end sentinel of this tree.
+         *
+         * @return The end sentinel of this tree.
+         */
         nodeType findEndSentinel() {
             // TODO
             return NULL;
