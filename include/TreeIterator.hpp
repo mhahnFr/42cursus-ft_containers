@@ -18,35 +18,39 @@ namespace ft {
         /**
          * The type of this iterator.
          */
-        typedef ft::iterator <ft::bidirectional_iterator_tag, Content>         iterator_type;
+        typedef  ft::iterator <ft::bidirectional_iterator_tag, Content>             iterator_type;
         /**
-         * The category of this iterator.
+         * The standard compliant type of this iterator.
          */
-        typedef typename ft::iterator_traits<iterator_type>::iterator_category iterator_category;
+        typedef std::iterator<std::bidirectional_iterator_tag, Content>             std_iterator_type;
+        /**
+         * The category of this iterator. (Standard compliant.)
+         */
+        typedef typename std::iterator_traits<std_iterator_type>::iterator_category iterator_category;
         /**
          * The type of the value this iterator points to.
          */
-        typedef typename ft::iterator_traits<iterator_type>::value_type        value_type;
+        typedef typename ft::iterator_traits<iterator_type>::value_type             value_type;
         /**
          * The difference type used for calculations with this iterator.
          */
-        typedef typename ft::iterator_traits<iterator_type>::difference_type   difference_type;
+        typedef typename ft::iterator_traits<iterator_type>::difference_type        difference_type;
         /**
          * The pointer type of this iterator.
          */
-        typedef typename ft::iterator_traits<iterator_type>::pointer           pointer;
+        typedef typename ft::iterator_traits<iterator_type>::pointer                pointer;
         /**
          * The reference type of this iterator.
          */
-        typedef typename ft::iterator_traits<iterator_type>::reference         reference;
+        typedef typename ft::iterator_traits<iterator_type>::reference              reference;
         /**
          * The content type of this iterator.
          */
-        typedef Content                                                        contentType;
+        typedef Content                                                             contentType;
         /**
          * The node type used for this tree iterator.
          */
-        typedef Node                                                           nodeType;
+        typedef Node                                                                nodeType;
 
         /**
          * Default constructor.
