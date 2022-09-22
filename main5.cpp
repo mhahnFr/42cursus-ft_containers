@@ -10,6 +10,8 @@
 int main() {
     ft::map<int, std::string> m;
 
+    std::cout << std::boolalpha << (m.begin() == m.end()) << std::endl;
+
     try {
         std::cout << std::boolalpha << m.at(5) << std::endl;
     } catch (std::exception & ex) {
@@ -63,4 +65,5 @@ int main() {
         std::cout << it->second << std::endl;
     }
     std::cout << std::endl;
+    std::cout << std::boolalpha << (m.begin() == m.end()) << std::endl;
 }

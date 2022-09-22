@@ -146,7 +146,9 @@ namespace ft {
          * @param comp The compare object to be used to sort the contents of this tree.
          */
         explicit Tree(Compare comp)
-            : root(NULL), beginSentinel(NULL), endSentinel(NULL), alloc(allocatorType()), compare(comp), count(0) {}
+            : root(NULL), beginSentinel(NULL), endSentinel(NULL), alloc(allocatorType()), compare(comp), count(0) {
+            initSentinels();
+        }
 
         /**
          * Copy constructor. Copies the whole tree, all elements are deeply copied.
@@ -164,7 +166,7 @@ namespace ft {
         /**
          * Default destructor. Destroys all elements properly.
          */
-       ~Tree() { clear(); }
+       ~Tree() { clearAll(); }
 
         /**
          * Copy assignment operator. Clears this tree and copies the given tree deeply.
@@ -186,14 +188,13 @@ namespace ft {
         }
 
         /**
-         * Clears this tree properly.
+         * @brief Clears this tree properly.
+         *
+         * Recreates the sentinels.
          */
         void clear() {
-            if (root != NULL) {
-                recursiveDestroy(root);
-                root = beginSentinel = endSentinel = NULL;
-            }
-            count = 0;
+            clearAll();
+            initSentinels();
         }
 
         /**
@@ -500,6 +501,29 @@ namespace ft {
             nodeType tmp = root;
             for (; tmp != NULL && !tmp->sentinel && tmp->right != NULL; tmp = tmp->right);
             return tmp;
+        }
+
+        /**
+         * Clears this tree entirely.
+         */
+        void clearAll() {
+            if (root != NULL) {
+                recursiveDestroy(root);
+                root = beginSentinel = endSentinel = NULL;
+            }
+            count = 0;
+        }
+
+        /**
+         * Initializes the begin and end sentinels.
+         */
+        void initSentinels() {
+            root = alloc.allocate(sizeof(Node));
+            alloc.construct(root);
+            root->left = alloc.allocate(sizeof(Node));
+            alloc.construct(root->left, true);
+            root->right = alloc.allocate(sizeof(Node));
+            alloc.construct(root->right, true);
         }
     };
 }
