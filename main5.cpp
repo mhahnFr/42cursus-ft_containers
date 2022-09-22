@@ -66,4 +66,10 @@ int main() {
     }
     std::cout << std::endl;
     std::cout << std::boolalpha << (m.begin() == m.end()) << std::endl;
+
+    std::cout << std::endl;
+    for (ft::map<int, std::string>::const_iterator it = m.begin(); it != m.end(); ++it) {
+        std::cout << it->second << "," << std::endl;
+    }
+    std::cout << std::endl;
 }

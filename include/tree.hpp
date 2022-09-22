@@ -476,7 +476,18 @@ namespace ft {
             if (position.first == NULL || position.first != *position.second) {
                 Node tmp(value);
                 tmp.root = position.first;
-                *position.second = alloc.allocate(sizeof(Node));
+                nodeType maybeSentinel = *position.second;
+                const bool right = maybeSentinel == position.first->right;
+                nodeType newOne = alloc.allocate(sizeof(Node));
+                if (maybeSentinel != NULL) { // sentinel
+                    if (right) {
+                        tmp.right = maybeSentinel;
+                    } else {
+                        tmp.left = maybeSentinel;
+                    }
+                    maybeSentinel->root = newOne;
+                }
+                *position.second = newOne;
                 alloc.construct(*position.second, tmp);
                 // TODO: rebalance
                 ++count;
