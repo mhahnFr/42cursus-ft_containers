@@ -153,7 +153,7 @@ namespace ft {
          *
          * @param other The other tree to copy.
          */
-        Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(0) {
+        Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(other.count) {
             if (other.root != NULL) {
                 recursiveCopy(&root, other.root);
                 beginSentinel = findBeginSentinel();
@@ -180,6 +180,7 @@ namespace ft {
                     beginSentinel = findBeginSentinel();
                     endSentinel   = findEndSentinel();
                 }
+                count = other.count;
             }
             return *this;
         }
@@ -192,6 +193,7 @@ namespace ft {
                 recursiveDestroy(root);
                 root = beginSentinel = endSentinel = NULL;
             }
+            count = 0;
         }
 
         /**
@@ -472,6 +474,7 @@ namespace ft {
                 *position.second = alloc.allocate(sizeof(Node));
                 alloc.construct(*position.second, tmp);
                 // TODO: rebalance
+                ++count;
                 return ft::make_pair(iteratorType(*position.second), true);
             }
             return ft::make_pair(iteratorType(position.first), false);
