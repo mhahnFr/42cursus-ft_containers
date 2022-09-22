@@ -58,8 +58,8 @@ int main() {
     std::cout << m.at(33) << std::endl;
     std::cout << std::endl;
 
-    const ft::map<int, std::string>::iterator end = m.find(54);
-    for (ft::map<int, std::string>::iterator it = m.find(2); it != end; ++it) {
+    const ft::map<int, std::string>::iterator end = m.find(2);
+    for (ft::map<int, std::string>::iterator it = m.find(54); it != end; --it) {
         std::cout << it->second << std::endl;
     }
     std::cout << std::endl;

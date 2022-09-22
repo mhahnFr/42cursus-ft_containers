@@ -117,6 +117,9 @@ namespace ft {
         TreeIterator & operator++() {
             if (baseNode->right != NULL) {
                 baseNode = baseNode->right;
+                while (baseNode->left != NULL) {
+                    baseNode = baseNode->left;
+                }
             } else {
                 nodeType tmp;
                 do {
@@ -135,6 +138,9 @@ namespace ft {
         TreeIterator & operator--() {
             if (baseNode->left != NULL) {
                 baseNode = baseNode->left;
+                while (baseNode->right != NULL) {
+                    baseNode = baseNode->right;
+                }
             } else {
                 nodeType tmp;
                 do {
