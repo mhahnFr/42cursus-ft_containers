@@ -421,9 +421,11 @@ namespace ft {
         ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType * begin) {
             if (*begin != NULL) {
                 if (compare(c, (*begin)->content)) {
-                    return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left) : find(c, &(*begin)->left);
+                    return (*begin)->left == NULL ? ft::make_pair(*begin, &(*begin)->left)
+                                                  : find(c, &(*begin)->left);
                 } else if (compare((*begin)->content, c)) {
-                    return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right) : find(c, &(*begin)->right);
+                    return (*begin)->right == NULL ? ft::make_pair(*begin, &(*begin)->right)
+                                                   : find(c, &(*begin)->right);
                 }
             }
             return ft::make_pair(*begin, begin);
@@ -481,8 +483,9 @@ namespace ft {
          * @return The begin sentinel of this tree.
          */
         nodeType findBeginSentinel() {
-            // TODO
-            return NULL;
+            nodeType tmp = root;
+            for (; tmp != NULL && !tmp->sentinel && tmp->left != NULL; tmp = tmp->left);
+            return tmp;
         }
 
         /**
@@ -491,8 +494,9 @@ namespace ft {
          * @return The end sentinel of this tree.
          */
         nodeType findEndSentinel() {
-            // TODO
-            return NULL;
+            nodeType tmp = root;
+            for (; tmp != NULL && !tmp->sentinel && tmp->right != NULL; tmp = tmp->right);
+            return tmp;
         }
     };
 }
