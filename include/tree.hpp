@@ -370,6 +370,26 @@ namespace ft {
             return coreInsert(position, value);
         }
 
+        iteratorType lowerBound(const contentType & value) {
+            // TODO: Implement
+            return end();
+        }
+
+        constIteratorType lowerBound(const contentType & value) const {
+            // TODO: Implement
+            return end();
+        }
+
+        iteratorType upperBound(const contentType & value) {
+            // TODO: Implement
+            return end();
+        }
+
+        constIteratorType upperBound(const contentType & value) const {
+            // TODO: Implement
+            return end();
+        }
+
     private:
         /**
          * The root Node of this tree.

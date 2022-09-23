@@ -144,11 +144,11 @@ namespace ft {
             return ft::make_pair(lower_bound(key), upper_bound(key));
         }
 
-        iterator lower_bound(const Key & key);
-        const_iterator lower_bound(const Key & key) const;
+        iterator       lower_bound(const Key & key)       { return tree.lowerBound(ft::make_pair(key, mapped_type())); }
+        const_iterator lower_bound(const Key & key) const { return tree.lowerBound(ft::make_pair(key, mapped_type())); }
 
-        iterator upper_bound(const Key & key);
-        const_iterator upper_bound(const Key & key) const;
+        iterator upper_bound(const Key & key)             { return tree.upperBound(ft::make_pair(key, mapped_type())); }
+        const_iterator upper_bound(const Key & key) const { return tree.upperBound(ft::make_pair(key, mapped_type())); }
 
         key_compare key_comp() const { return keyCompare; }
 
