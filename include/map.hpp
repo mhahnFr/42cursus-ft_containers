@@ -138,9 +138,9 @@ namespace ft {
         iterator upper_bound(const Key & key);
         const_iterator upper_bound(const Key & key) const;
 
-        key_compare key_comp() const { return valueCompare; }
+        key_compare key_comp() const { return keyCompare; }
 
-        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const { return keyCompare; }
+        ft::map<Key, T, Compare, Allocator>::value_compare value_comp() const { return valueCompare; }
 
     private:
         allocator_type alloc;

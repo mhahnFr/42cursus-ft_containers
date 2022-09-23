@@ -88,6 +88,7 @@ namespace ft {
             if (&other != this) {
                 baseNode = other.base();
             }
+            return *this;
         }
 
         /**

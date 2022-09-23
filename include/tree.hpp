@@ -201,9 +201,9 @@ namespace ft {
          * @param other The other tree to exchange the values with.
          */
         void swap(Tree & other) {
-            Node * tmpRoot          = root,
-                   tmpBeginSentinel = beginSentinel,
-                   tmpEndSentinel   = endSentinel;
+            nodeType tmpRoot          = root,
+                     tmpBeginSentinel = beginSentinel,
+                     tmpEndSentinel   = endSentinel;
 
             std::size_t tmpSize = size();
 
