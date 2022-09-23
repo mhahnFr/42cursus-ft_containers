@@ -18,6 +18,7 @@ int main() {
         std::cout << ex.what() << std::endl;
     }
     m.insert(ft::make_pair(5, "ArschA"));
+    std::cout << std::boolalpha << (m.begin() == m.end()) << std::endl;
     std::cout << std::boolalpha << m.at(5) << std::endl;
     try {
         std::cout << std::boolalpha << m.at(6) << std::endl;

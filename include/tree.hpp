@@ -147,7 +147,6 @@ namespace ft {
          */
         explicit Tree(Compare comp)
             : root(NULL), beginSentinel(NULL), endSentinel(NULL), alloc(allocatorType()), compare(comp), count(0) {
-            initSentinels();
         }
 
         /**
@@ -194,7 +193,6 @@ namespace ft {
          */
         void clear() {
             clearAll();
-            initSentinels();
         }
 
         /**
@@ -246,14 +244,28 @@ namespace ft {
          *
          * @return An iterator to the beginning of this tree.
          */
-        iteratorType begin() { return ++iteratorType(beginSentinel); }
+        iteratorType begin() {
+            iteratorType it = iteratorType(beginSentinel);
+            if (isEmpty()) {
+                return it;
+            } else {
+                return ++it;
+            }
+        }
 
          /**
          * Returns an iterator pointing to the first element of this tree.
          *
          * @return An iterator to the beginning of this tree.
          */
-        constIteratorType begin() const { return ++constIteratorType(beginSentinel); }
+        constIteratorType begin() const {
+            constIteratorType it = constIteratorType(beginSentinel);
+            if (isEmpty()) {
+                return it;
+            } else {
+                return ++it;
+            }
+        }
 
         /**
          * @brief Searches for a node consisting of the given value.
@@ -476,11 +488,17 @@ namespace ft {
             if (position.first == NULL || position.first != *position.second) {
                 Node tmp(value);
                 tmp.root = position.first;
-                //if (position.first != NULL) {
+                if (isEmpty()) {
+                    // Create the root and init sentinels
+                    *position.second = alloc.allocate(sizeof(Node));
+                    alloc.construct(*position.second, tmp);
+                    initSentinels();
+                } else {
+                    // Make sure to not lose the sentinels
                     nodeType maybeSentinel = *position.second;
                     const bool right = maybeSentinel == position.first->right;
-                nodeType newOne = alloc.allocate(sizeof(Node));
-                    if (maybeSentinel != NULL) { // sentinel
+                    nodeType newOne = alloc.allocate(sizeof(Node));
+                    if (maybeSentinel != NULL) {
                         if (right) {
                             tmp.right = maybeSentinel;
                         } else {
@@ -488,12 +506,9 @@ namespace ft {
                         }
                         maybeSentinel->root = newOne;
                     }
-                //}
-                *position.second = newOne;
-                alloc.construct(*position.second, tmp);
-                // if (newRoot) {
-                //    initSentinels();
-                // }
+                    *position.second = newOne;
+                    alloc.construct(*position.second, tmp);
+                }
                 // TODO: rebalance
                 ++count;
                 return ft::make_pair(iteratorType(*position.second), true);
@@ -538,8 +553,6 @@ namespace ft {
          * Initializes the begin and end sentinels.
          */
         void initSentinels() {
-            root = alloc.allocate(sizeof(Node));
-            alloc.construct(root);
             Node tmp(true);
             tmp.root = root;
             root->left = alloc.allocate(sizeof(Node));
