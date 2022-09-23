@@ -84,4 +84,22 @@ int main() {
     for (ft::map<int, std::string>::const_iterator it = m2.begin(); it != m2.end(); ++it) {
         std::cout << it->second << "," << std::endl;
     }
+
+    ft::map<int, std::string> a1, a2;
+    a1 = a2;
+    for (ft::map<int, std::string>::iterator it = a1.begin(); it != a2.end(); ++it) {
+        std::cout << "K: " << it->first << " V: " << it->second << " ";
+    }
+    std::cout << std::endl;
+
+    const int isaLength = 64;
+    ft::pair<int, std::string> isa[64];
+
+    //ft::map<int, std::string> a3 = ft::map<int, std::string>(isa, isa + isaLength);
+    a2 = ft::map<int, std::string>(isa, isa + isaLength);
+
+    for (ft::map<int, std::string>::iterator it = a2.begin(); it != a2.end(); ++it) {
+        std::cout << "K: " << it->first << " V: " << it->second << " ";
+    }
+    std::cout << std::endl;
 }

@@ -156,7 +156,7 @@ namespace ft {
          */
         Tree(const Tree & other): root(NULL), alloc(other.alloc), compare(other.compare), count(other.count) {
             if (other.root != NULL) {
-                recursiveCopy(&root, other.root);
+                recursiveCopy(&root, other.root, NULL);
                 beginSentinel = findBeginSentinel();
                 endSentinel   = findEndSentinel();
             }
@@ -177,7 +177,7 @@ namespace ft {
             if (&other != this) {
                 clear();
                 if (other.root != NULL) {
-                    recursiveCopy(&root, other.root);
+                    recursiveCopy(&root, other.root, NULL);
                     beginSentinel = findBeginSentinel();
                     endSentinel   = findEndSentinel();
                 }
@@ -418,11 +418,13 @@ namespace ft {
          * @param dst The destination of the new tree.
          * @param src The tree to copy.
          */
-        void recursiveCopy(nodeType * dst, nodeType src) {
+        nodeType recursiveCopy(nodeType * dst, nodeType src, nodeType parent) {
             *dst = alloc.allocate(sizeof(Node));
             alloc.construct(*dst, *src);
-            if (src->left  != NULL) { recursiveCopy(&(*dst)->left,  src->left);  }
-            if (src->right != NULL) { recursiveCopy(&(*dst)->right, src->right); }
+            (*dst)->root = parent;
+            if (src->left  != NULL) { (*dst)->left  = recursiveCopy(&(*dst)->left,  src->left,  *dst); }
+            if (src->right != NULL) { (*dst)->right = recursiveCopy(&(*dst)->right, src->right, *dst); }
+            return *dst;
         }
 
         /**
