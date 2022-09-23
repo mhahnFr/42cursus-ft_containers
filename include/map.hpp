@@ -136,8 +136,13 @@ namespace ft {
         iterator       find(const Key & key)       { return tree.find(ft::make_pair(key, mapped_type())); }
         const_iterator find(const Key & key) const { return tree.find(ft::make_pair(key, mapped_type())); }
 
-        ft::pair<iterator, iterator> equal_range(const Key & key);
-        ft::pair<const_iterator, const_iterator> equal_range(const Key & key) const;
+        ft::pair<iterator, iterator> equal_range(const Key & key) {
+            return ft::make_pair(lower_bound(key), upper_bound(key));
+        }
+
+        ft::pair<const_iterator, const_iterator> equal_range(const Key & key) const {
+            return ft::make_pair(lower_bound(key), upper_bound(key));
+        }
 
         iterator lower_bound(const Key & key);
         const_iterator lower_bound(const Key & key) const;
