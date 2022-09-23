@@ -32,7 +32,7 @@ int main() {
 
     std::cout << std::endl << std::endl;
 
-    const ft::map<int, std::string> m2 = m;
+    ft::map<int, std::string> m2 = m;
     try {
         std::cout << std::boolalpha << m2.at(5) << std::endl;
     } catch (std::exception & ex) {
@@ -73,4 +73,10 @@ int main() {
         std::cout << it->second << "," << std::endl;
     }
     std::cout << std::endl;
+
+    m2.clear();
+    m2.insert(m.begin(), m.end());
+    for (ft::map<int, std::string>::const_iterator it = m2.begin(); it != m2.end(); ++it) {
+        std::cout << it->second << "," << std::endl;
+    }
 }

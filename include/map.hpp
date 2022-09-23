@@ -67,7 +67,10 @@ namespace ft {
             : alloc(alloc), keyCompare(comp), valueCompare(comp), tree(valueCompare) {}
 
         template<class InputIt>
-        map(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator & alloc = Allocator());
+        map(InputIt first, InputIt last, const Compare & comp = Compare(), const Allocator & alloc = Allocator())
+            : alloc(alloc), keyCompare(comp), valueCompare(comp), tree(valueCompare) {
+            insert(first, last);
+        }
 
         map(const map & other)
             : alloc(other.alloc), keyCompare(other.keyCompare), valueCompare(other.valueCompare), tree(other.tree) {}
@@ -116,7 +119,11 @@ namespace ft {
         iterator insert(iterator hint, const value_type & value);
 
         template<class InputIt>
-        void insert(InputIt first, InputIt last);
+        void insert(InputIt first, InputIt last) {
+            for (; first != last; ++first) {
+                insert(*first);
+            }
+        }
 
         void erase(iterator pos);
         void erase(iterator first, iterator last);
