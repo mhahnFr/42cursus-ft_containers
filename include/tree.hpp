@@ -613,14 +613,16 @@ namespace ft {
          * @return The first element greater than the given value.
          */
         iteratorType upperBound(const contentType & value, nodeType begin) {
-            if (begin != NULL) {
+            nodeType result = end().base();
+            while (begin != NULL && !begin->sentinel) {
                 if (compare(value, begin->content)) {
-                    return iteratorType(begin);
+                    result = begin;
+                    begin = begin->left;
                 } else {
-                    return upperBound(value, begin->right);
+                    begin = begin->right;
                 }
             }
-            return end();
+            return iteratorType(result);
         }
 
         /**
@@ -632,14 +634,16 @@ namespace ft {
          * @return The first element greater than the given value.
          */
         constIteratorType upperBound(const contentType & value, nodeType begin) const {
-            if (begin != NULL) {
+            nodeType result = end().base();
+            while (begin != NULL && !begin->sentinel) {
                 if (compare(value, begin->content)) {
-                    return constIteratorType(begin);
+                    result = begin;
+                    begin = begin->left;
                 } else {
-                    return upperBound(value, begin->right);
+                    begin = begin->right;
                 }
             }
-            return end();
+            return constIteratorType(result);
         }
 
         /**
