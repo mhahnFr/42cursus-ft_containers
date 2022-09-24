@@ -87,14 +87,14 @@ namespace ft {
              */
            ~Node() {}
 
-           /**
-            * Trivial copy assignment operator. Copies all values from the right Node.
-            *
-            * Since C++11: Node & operator=(const Node &) = default;
-            *
-            * @param other The other Node to copy the values from.
-            * @return A reference to this Node.
-            */
+            /**
+             * Trivial copy assignment operator. Copies all values from the right Node.
+             *
+             * Since C++11: Node & operator=(const Node &) = default;
+             *
+             * @param other The other Node to copy the values from.
+             * @return A reference to this Node.
+             */
             Node & operator=(const Node & other) {
                 if (&other != this) {
                     left     = other.left;
