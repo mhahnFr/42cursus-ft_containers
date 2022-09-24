@@ -207,7 +207,7 @@ namespace ft {
                      tmpBeginSentinel = beginSentinel,
                      tmpEndSentinel   = endSentinel;
 
-            std::size_t tmpSize = size();
+            sizeType tmpSize = size();
 
             root          = other.root;
             beginSentinel = other.beginSentinel;
@@ -355,7 +355,7 @@ namespace ft {
          *
          * @return The size of this tree.
          */
-        std::size_t size() const { return count; }
+        sizeType size() const { return count; }
 
         /**
          * @brief Inserts the given value into this tree if it is not already present.
@@ -418,6 +418,8 @@ namespace ft {
             return constIteratorType(upperBound(value, root));
         }
 
+
+
     private:
         /**
          * The root Node of this tree.
@@ -442,7 +444,7 @@ namespace ft {
         /**
          * The count of stored elements.
          */
-        std::size_t   count;
+        sizeType      count;
 
         /**
          * @brief Destroys and deallocates the given node.
