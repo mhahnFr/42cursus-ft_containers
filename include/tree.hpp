@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_TREE_HPP
 
 #include <cstddef>
+#include <limits>
 #include <stdexcept>
 #include "TreeIterator.hpp"
 
@@ -112,9 +113,17 @@ namespace ft {
          */
         typedef T                                                contentType;
         /**
+         * The type of the rebound allocator.
+         */
+        typedef typename Allocator::template rebind<Node>::other allocatorType;
+        /**
          * The type used for sizes.
          */
-        typedef std::size_t                                      sizeType;
+        typedef typename allocatorType::size_type                sizeType;
+        /**
+         * The type used for differences.
+         */
+        typedef std::ptrdiff_t                                   differenceType;
         /**
          * The type of the used Nodes.
          */
@@ -127,10 +136,6 @@ namespace ft {
          * The type of the compare object.
          */
         typedef Compare                                          compareType;
-        /**
-         * The type of the rebound allocator.
-         */
-        typedef typename Allocator::template rebind<Node>::other allocatorType;
         /**
          * The type of an iterator for this tree.
          */
@@ -418,7 +423,16 @@ namespace ft {
             return constIteratorType(upperBound(value, root));
         }
 
-
+        /**
+         * Returns the maximal count of nodes this tree can hold.
+         *
+         * @return The maximum count of nodes.
+         */
+        sizeType maxSize() const {
+            sizeType allocatorSize  = alloc.max_size(),
+                     diffSize       = static_cast<sizeType>(std::numeric_limits<differenceType>::max());
+            return allocatorSize > diffSize ? diffSize : allocatorSize;
+        }
 
     private:
         /**

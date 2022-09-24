@@ -102,4 +102,7 @@ int main() {
         std::cout << "K: " << it->first << " V: " << it->second << " ";
     }
     std::cout << std::endl;
+
+    std::cout << a2.max_size() << std::endl;
+    std::cout << std::map<int, std::string>().max_size() << std::endl;
 }

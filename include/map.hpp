@@ -26,8 +26,6 @@ namespace ft {
         typedef Key                                        key_type;
         typedef T                                          mapped_type;
         typedef ft::pair<const Key, T>                     value_type;
-        typedef std::size_t                                size_type;
-        typedef std::ptrdiff_t                             difference_type;
         typedef Compare                                    key_compare;
         typedef Allocator                                  allocator_type;
         typedef value_type &                               reference;
@@ -38,6 +36,8 @@ namespace ft {
          * The type of the used tree.
          */
         typedef Tree<value_type, value_compare, Allocator> treeType;
+        typedef typename treeType::sizeType                size_type;
+        typedef typename treeType::differenceType          difference_type;
         typedef typename treeType::iteratorType            iterator;
         typedef typename treeType::constIteratorType       const_iterator;
         typedef ft::reverse_iterator<iterator>             reverse_iterator;
@@ -108,9 +108,8 @@ namespace ft {
 
         bool empty() const { return tree.isEmpty(); }
 
-        size_type size() const { return tree.size(); }
-
-        size_type max_size() const;
+        size_type     size() const { return tree.size();    }
+        size_type max_size() const { return tree.maxSize(); }
 
         void clear() { tree.clear(); }
 
