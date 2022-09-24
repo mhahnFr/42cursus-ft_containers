@@ -370,21 +370,53 @@ namespace ft {
             return coreInsert(position, value);
         }
 
+        /**
+         * @brief Searches for the first element whose value is not less than the key.
+         *
+         * Returns the past the end iterator if no such element exists.
+         *
+         * @param value The value whose lower bound to be found.
+         * @return The first element not lower than the given one.
+         */
         iteratorType lowerBound(const contentType & value) {
             // TODO: Implement
             return end();
         }
 
+        /**
+         * @brief Searches for the first element whose value is not less than the key.
+         *
+         * Returns the past the end iterator if no such element exists.
+         *
+         * @param value The value whose lower bound to be found.
+         * @return The first element not lower than the given one.
+         */
         constIteratorType lowerBound(const contentType & value) const {
             // TODO: Implement
             return end();
         }
 
+        /**
+         * @brief Searches for the first element whose value is greater than the given one.
+         *
+         * If no such element exists, the past the end iterator is returned.
+         *
+         * @param value The value whose upper bound to be found.
+         * @return The first element greater than the given value.
+         */
         iteratorType upperBound(const contentType & value) {
             // TODO: Implement
             return end();
         }
 
+        /**
+         * @brief Searches for the first element whose value is greater than the given one.
+         *
+         * If no such element exists, the past the end iterator is returned.
+         *
+         * @param value The value whose upper bound to be found.
+         * @return The first element greater than the given value.
+         */
         constIteratorType upperBound(const contentType & value) const {
             // TODO: Implement
             return end();
