@@ -379,7 +379,7 @@ namespace ft {
          * @return The first element not lower than the given one.
          */
         iteratorType lowerBound(const contentType & value) {
-            return lowerBound(value, root);
+            return iteratorType(lowerBound(value, root));
         }
 
         /**
@@ -391,7 +391,7 @@ namespace ft {
          * @return The first element not lower than the given one.
          */
         constIteratorType lowerBound(const contentType & value) const {
-            return lowerBound(value, root);
+            return constIteratorType(lowerBound(value, root));
         }
 
         /**
@@ -403,7 +403,7 @@ namespace ft {
          * @return The first element greater than the given value.
          */
         iteratorType upperBound(const contentType & value) {
-            return upperBound(value, root);
+            return iteratorType(upperBound(value, root));
         }
 
         /**
@@ -415,7 +415,7 @@ namespace ft {
          * @return The first element greater than the given value.
          */
         constIteratorType upperBound(const contentType & value) const {
-            return upperBound(value, root);
+            return constIteratorType(upperBound(value, root));
         }
 
     private:
@@ -612,7 +612,7 @@ namespace ft {
          * @param value The value whose upper bound to be found.
          * @return The first element greater than the given value.
          */
-        iteratorType upperBound(const contentType & value, nodeType begin) {
+        nodeType upperBound(const contentType & value, nodeType begin) const {
             nodeType result = end().base();
             while (begin != NULL && !begin->sentinel) {
                 if (compare(value, begin->content)) {
@@ -622,28 +622,7 @@ namespace ft {
                     begin = begin->right;
                 }
             }
-            return iteratorType(result);
-        }
-
-        /**
-         * @brief Searches for the first element whose value is greater than the given one.
-         *
-         * If no such element exists, the past the end iterator is returned.
-         *
-         * @param value The value whose upper bound to be found.
-         * @return The first element greater than the given value.
-         */
-        constIteratorType upperBound(const contentType & value, nodeType begin) const {
-            nodeType result = end().base();
-            while (begin != NULL && !begin->sentinel) {
-                if (compare(value, begin->content)) {
-                    result = begin;
-                    begin = begin->left;
-                } else {
-                    begin = begin->right;
-                }
-            }
-            return constIteratorType(result);
+            return result;
         }
 
         /**
@@ -655,7 +634,7 @@ namespace ft {
          * @param begin The node where to start the search.
          * @return The first element not lower than the given one.
          */
-        iteratorType lowerBound(const contentType & value, nodeType begin) {
+        nodeType lowerBound(const contentType & value, nodeType begin) const {
             nodeType result = end().base();
             while (begin != NULL && !begin->sentinel) {
                 if (!compare(begin->content, value)) {
@@ -665,29 +644,7 @@ namespace ft {
                     begin = begin->right;
                 }
             }
-            return iteratorType(result);
-        }
-
-        /**
-         * @brief Searches for the first element whose value is not less than the key.
-         *
-         * Returns the past the end iterator if no such element exists.
-         *
-         * @param value The value whose lower bound to be found.
-         * @param begin The node where to start the search.
-         * @return The first element not lower than the given one.
-         */
-        constIteratorType lowerBound(const contentType & value, nodeType begin) const {
-            nodeType result = end().base();
-            while (begin != NULL && !begin->sentinel) {
-                if (!compare(begin->content, value)) {
-                    result = begin;
-                    begin = begin->left;
-                } else {
-                    begin = begin->right;
-                }
-            }
-            return constIteratorType(result);
+            return result;
         }
     };
 }
