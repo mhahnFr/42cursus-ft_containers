@@ -626,9 +626,18 @@ namespace ft {
                 if (uncle == NULL || uncle->type == Node::BLACK || uncle->type == Node::SENTINEL) {
                     // E3
                     if (current != (right ? parent->right : parent->left)) {
-                        (right ? parent->left       : parent->right)     = (right ? current->right : current->left);
-                        (right ? current->right     : current->left)     = parent;
-                        (right ? grandParent->right : grandParent->left) = current;
+                        (right ? parent->left       : parent->right)       = (right ? current->right : current->left);
+
+                        (right ? current->right     : current->left)->root = parent;
+
+                        (right ? current->right     : current->left)       = parent;
+
+                        parent->root = current;
+
+                        (right ? grandParent->right : grandParent->left)   = current;
+
+                        current->root = right ? grandParent->right : grandParent->left;
+
                         current = parent;
                         parent  = right ? grandParent->right
                                         : grandParent->left;
