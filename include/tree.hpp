@@ -613,37 +613,50 @@ namespace ft {
                      helperParent = parent,
                      current      = *position.second;
             // --- loop
-            // do {
-            if (parent->type == Node::BLACK) {
-                return;
-            } else if (parent == root) {
-                parent->type = Node::BLACK;
-                return;
-            }
-            grandParent = parent->root;
-            bool right  = parent == grandParent->right;
-            uncle       = right ? grandParent->left : grandParent->right;
-            if (uncle == NULL || uncle->type == Node::BLACK || uncle->type == Node::SENTINEL) {
-                // E3
-                if (current != right ? parent->right : parent->left) {
-                    (right ? parent->left : parent->right)           = (right ? current->right : current->left);
-                    (right ? current->right : current->left)         = parent;
-                    (right ? grandParent->right : grandParent->left) = current;
-                    current = parent;
-                    parent  = right ? grandParent->right : grandParent->left;
+            do {
+                if (parent->type == Node::BLACK) {
+                    return;
+                } else if (parent == root) {
+                    parent->type = Node::BLACK;
+                    return;
                 }
-                // E4
-
-                return;
-            }
-            parent->type = Node::BLACK;
-            helperParent = parent->root;
-            grandParent->type = Node::RED;
-            if (uncle != NULL) {
-                uncle->type = Node::BLACK;
-            }
-            helperParent = helperParent->root;
-            // } while (helperParent != root);
+                grandParent = parent->root;
+                bool right  = parent == grandParent->right;
+                uncle       = right ? grandParent->left : grandParent->right;
+                if (uncle == NULL || uncle->type == Node::BLACK || uncle->type == Node::SENTINEL) {
+                    // E3
+                    if (current != (right ? parent->right : parent->left)) {
+                        (right ? parent->left : parent->right)           = (right ? current->right : current->left);
+                        (right ? current->right : current->left)         = parent;
+                        (right ? grandParent->right : grandParent->left) = current;
+                        current = parent;
+                        parent  = right ? grandParent->right : grandParent->left;
+                    }
+                    // E4
+                    (right ? grandParent->right : grandParent->left) = (right ? parent->left : parent->right);
+                    (right ? parent->left : parent->right)           = grandParent;
+                    if (helperParent->root != root) {
+                        uncle = helperParent->root;
+                        (grandParent == uncle->right ? uncle->right : uncle->left) = parent;
+                    } else {
+                        root = parent;
+                    }
+                    parent->type = Node::BLACK;
+                    grandParent->type = Node::RED;
+                    return;
+                }
+                parent->type = Node::BLACK;
+                helperParent = parent->root;
+                grandParent->type = Node::RED;
+                if (uncle != NULL) {
+                    uncle->type = Node::BLACK;
+                }
+                helperParent = helperParent->root;
+                if (helperParent != root) {
+                    current = grandParent;
+                    parent = current->root;
+                }
+            } while (helperParent != root);
             // --- loop end
         }
 
