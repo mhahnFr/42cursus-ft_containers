@@ -593,12 +593,58 @@ namespace ft {
                     }
                     *position.second = newOne;
                     alloc.construct(*position.second, tmp);
+                    rebalance(position);
                 }
-                // TODO: rebalance
                 ++count;
                 return ft::make_pair(iteratorType(*position.second), true);
             }
             return ft::make_pair(iteratorType(position.first), false);
+        }
+
+        /**
+         * Rebalances this tree using the logic of the red / black tree.
+         *
+         * @param position The position of the inserted element.
+         */
+        void rebalance(ft::pair<nodeType, nodeType *> position) {
+            nodeType parent       = position.first,
+                     grandParent  = NULL,
+                     uncle        = NULL,
+                     helperParent = parent,
+                     current      = *position.second;
+            // --- loop
+            // do {
+            if (parent->type == Node::BLACK) {
+                return;
+            } else if (parent == root) {
+                parent->type = Node::BLACK;
+                return;
+            }
+            grandParent = parent->root;
+            bool right  = parent == grandParent->right;
+            uncle       = right ? grandParent->left : grandParent->right;
+            if (uncle == NULL || uncle->type == Node::BLACK || uncle->type == Node::SENTINEL) {
+                // E3
+                if (current != right ? parent->right : parent->left) {
+                    (right ? parent->left : parent->right)           = (right ? current->right : current->left);
+                    (right ? current->right : current->left)         = parent;
+                    (right ? grandParent->right : grandParent->left) = current;
+                    current = parent;
+                    parent  = right ? grandParent->right : grandParent->left;
+                }
+                // E4
+
+                return;
+            }
+            parent->type = Node::BLACK;
+            helperParent = parent->root;
+            grandParent->type = Node::RED;
+            if (uncle != NULL) {
+                uncle->type = Node::BLACK;
+            }
+            helperParent = helperParent->root;
+            // } while (helperParent != root);
+            // --- loop end
         }
 
         /**
