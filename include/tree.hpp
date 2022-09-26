@@ -644,7 +644,15 @@ namespace ft {
                     }
                     // E4
                     (right ? grandParent->right : grandParent->left) = right ? parent->left : parent->right;
+
+                    (right ? parent->left : parent->right)->root = right ? grandParent->right : grandParent->left;
+
                     (right ? parent->left       : parent->right)     = grandParent;
+
+                    grandParent->root = parent;
+
+                    parent->root = helperParent->root->root;
+
                     if (helperParent->root == root) {
                         root = parent;
                     } else {
