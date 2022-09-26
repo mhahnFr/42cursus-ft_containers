@@ -628,7 +628,9 @@ namespace ft {
                     if (current != (right ? parent->right : parent->left)) {
                         (right ? parent->left       : parent->right)       = (right ? current->right : current->left);
 
-                        (right ? current->right     : current->left)->root = parent;
+                        if ((right ? current->right : current->left) != NULL) {
+                            (right ? current->right : current->left)->root = parent;
+                        }
 
                         (right ? current->right     : current->left)       = parent;
 
@@ -645,7 +647,9 @@ namespace ft {
                     // E4
                     (right ? grandParent->right : grandParent->left) = right ? parent->left : parent->right;
 
-                    (right ? parent->left : parent->right)->root = right ? grandParent->right : grandParent->left;
+                    if ((right ? parent->left : parent->right) != NULL) {
+                        (right ? parent->left : parent->right)->root = right ? grandParent->right : grandParent->left;
+                    }
 
                     (right ? parent->left       : parent->right)     = grandParent;
 
