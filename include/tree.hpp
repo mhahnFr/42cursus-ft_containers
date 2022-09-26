@@ -22,11 +22,28 @@ namespace ft {
              class Compare,
              class Allocator>
     class Tree {
-
         /**
          * A node of the tree.
          */
         struct Node {
+            /**
+             * The types specifying the type of the node.
+             */
+            enum Type {
+                /**
+                 * Indicating the node is red.
+                 */
+                RED,
+                /**
+                 * Indicating the node is black.
+                 */
+                BLACK,
+                /**
+                 * Indicating the node is a sentinel (which are considered to be black).
+                 */
+                SENTINEL
+            };
+
             /**
              * The type of the value the node can hold.
              */
@@ -45,9 +62,9 @@ namespace ft {
              */
             Node * right;
             /**
-             * A boolean value indicating whether this node is to be treated as a sentinel node.
+             * The type of this node.
              */
-            bool sentinel;
+            Type type;
             /**
              * The actual content of this node.
              */
@@ -61,7 +78,7 @@ namespace ft {
              * @param sentinel Optionally marks this node as a sentinel node.
              */
             explicit Node(bool sentinel = false)
-                : left(NULL), root(NULL), right(NULL), sentinel(sentinel), content() {}
+                : left(NULL), root(NULL), right(NULL), type(sentinel ? SENTINEL : RED), content() {}
 
             /**
              * @brief Initializes this node using the given content.
@@ -71,7 +88,7 @@ namespace ft {
              * @param content The content this node will store.
              */
             explicit Node(const valueType & content)
-                : left(NULL), root(NULL), right(NULL), sentinel(false), content(content) {}
+                : left(NULL), root(NULL), right(NULL), type(RED), content(content) {}
 
             /**
              * Copy constructor. Initializes all values with the ones of the other Node.
@@ -79,7 +96,7 @@ namespace ft {
              * @param other The other node to copy the values from.
              */
             Node(const Node & other)
-                : left(other.left), root(other.root), right(other.right), sentinel(other.sentinel), content(other.content) {}
+                : left(other.left), root(other.root), right(other.right), type(other.type), content(other.content) {}
 
             /**
              * Trivial destructor.
@@ -98,11 +115,11 @@ namespace ft {
              */
             Node & operator=(const Node & other) {
                 if (&other != this) {
-                    left     = other.left;
-                    root     = other.root;
-                    right    = other.right;
-                    sentinel = other.sentinel;
-                    content  = other.content;
+                    left    = other.left;
+                    root    = other.root;
+                    right   = other.right;
+                    type    = other.type;
+                    content = other.content;
                 }
             }
         };
@@ -504,11 +521,11 @@ namespace ft {
         ft::pair<nodeType, nodeType *> find(const contentType & c, nodeType * begin) {
             if (*begin != NULL) {
                 if (compare(c, (*begin)->content)) {
-                    return (*begin)->left == NULL || (*begin)->left->sentinel
+                    return ((*begin)->left == NULL || (*begin)->left->type == Node::SENTINEL)
                     /* true:  */ ? ft::make_pair(*begin, &(*begin)->left)
                     /* false: */ : find(c, &(*begin)->left);
                 } else if (compare((*begin)->content, c)) {
-                    return (*begin)->right == NULL || (*begin)->right->sentinel
+                    return ((*begin)->right == NULL || (*begin)->right->type == Node::SENTINEL)
                     /* true:  */ ? ft::make_pair(*begin, &(*begin)->right)
                     /* false: */ : find(c, &(*begin)->right);
                 }
@@ -529,11 +546,11 @@ namespace ft {
         ft::pair<constNodeType, constNodeType *> find(const contentType & c, constNodeType * begin) const {
             if (*begin != NULL) {
                 if (compare(c, (*begin)->content)) {
-                    return (*begin)->left == NULL || (*begin)->left->sentinel
+                    return ((*begin)->left == NULL || (*begin)->left->type == Node::SENTINEL)
                     /* true:  */ ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->left)
                     /* false: */ : find(c, &(*begin)->left);
                 } else if (compare((*begin)->content, c)) {
-                    return (*begin)->right == NULL || (*begin)->right->sentinel
+                    return ((*begin)->right == NULL || (*begin)->right->type == Node::SENTINEL)
                     /* true:  */ ? ft::make_pair<constNodeType, constNodeType *>(*begin, &(*begin)->right)
                     /* false: */ : find(c, &(*begin)->right);
                 }
@@ -591,7 +608,7 @@ namespace ft {
          */
         nodeType findBeginSentinel() {
             nodeType tmp = root;
-            for (; tmp != NULL && !tmp->sentinel && tmp->left != NULL; tmp = tmp->left);
+            for (; tmp != NULL && tmp->type != Node::SENTINEL && tmp->left != NULL; tmp = tmp->left);
             return tmp;
         }
 
@@ -602,7 +619,7 @@ namespace ft {
          */
         nodeType findEndSentinel() {
             nodeType tmp = root;
-            for (; tmp != NULL && !tmp->sentinel && tmp->right != NULL; tmp = tmp->right);
+            for (; tmp != NULL && tmp->type != Node::SENTINEL && tmp->right != NULL; tmp = tmp->right);
             return tmp;
         }
 
@@ -630,7 +647,7 @@ namespace ft {
          */
         nodeType upperBound(const contentType & value, nodeType begin) const {
             nodeType result = end().base();
-            while (begin != NULL && !begin->sentinel) {
+            while (begin != NULL && begin->type != Node::SENTINEL) {
                 if (compare(value, begin->content)) {
                     result = begin;
                     begin = begin->left;
@@ -652,7 +669,7 @@ namespace ft {
          */
         nodeType lowerBound(const contentType & value, nodeType begin) const {
             nodeType result = end().base();
-            while (begin != NULL && !begin->sentinel) {
+            while (begin != NULL && begin->type != Node::SENTINEL) {
                 if (!compare(begin->content, value)) {
                     result = begin;
                     begin = begin->left;
