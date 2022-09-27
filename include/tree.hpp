@@ -408,6 +408,15 @@ namespace ft {
         }
         
         /**
+         * @brief Erases the node pointed to by the given iterator.
+         *
+         * @param position The position that should be removed.
+         */
+        void erase(iteratorType position) {
+            (void) position;
+        }
+        
+        /**
          * @brief Searches for the first element whose value is not less than the key.
          *
          * Returns the past the end iterator if no such element exists.

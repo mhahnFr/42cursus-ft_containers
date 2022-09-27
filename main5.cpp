@@ -105,4 +105,6 @@ int main() {
 
     std::cout << a2.max_size() << std::endl;
     std::cout << std::map<int, std::string>().max_size() << std::endl;
+    
+    std::cout << m2.insert(m2.begin(), ft::make_pair(5, "Arsch5"))->second << std::endl;
 }
