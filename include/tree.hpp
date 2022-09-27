@@ -384,6 +384,7 @@ namespace ft {
          *
          * If the given value already exists, nothing happens.
          *
+         * @param value The value that should be inserted.
          * @return A pair consisting of an iterator pointing to the inserted or already
          * existing node and a boolean value representing whether the value has been inserted or not.
          */
