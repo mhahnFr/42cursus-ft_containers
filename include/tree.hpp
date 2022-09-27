@@ -600,6 +600,58 @@ namespace ft {
             }
             return ft::make_pair(iteratorType(position.first), false);
         }
+        
+        /**
+         * Exchanges the children of the given nodes.
+         *
+         * @param parent The parent of the old child.
+         * @param oldChild The old child to be replaced.
+         * @param newChild The new child to replace the old one.
+         */
+        inline void rotateReplace(nodeType parent, nodeType oldChild, nodeType newChild) {
+            if (parent == NULL) {
+                root = newChild;
+            } else {
+                (parent->right == oldChild ? parent->right : parent->left) = newChild;
+            }
+            if (newChild != NULL) {
+                newChild->root = parent;
+            }
+        }
+        
+        /**
+         * Performs a rotation to the right around the given node.
+         *
+         * @param node The node to rotate around.
+         */
+        inline void rotateRight(nodeType node) {
+            nodeType parent    = node->root,
+                     leftChild = node->left;
+            node->left = leftChild->right;
+            if (leftChild->right != NULL) {
+                leftChild->right->root = node;
+            }
+            leftChild->right = node;
+            node->root = leftChild;
+            rotateReplace(parent, node, leftChild);
+        }
+        
+        /**
+         * Performs a rotation to the left around the given node.
+         *
+         * @param node The node to rotate around.
+         */
+        inline void rotateLeft(nodeType node) {
+            nodeType parent     = node->root,
+                     rightChild = node->right;
+            node->right = rightChild->left;
+            if (rightChild->left != NULL) {
+                rightChild->left->root = node;
+            }
+            rightChild->left = node;
+            node->root = rightChild;
+            rotateReplace(parent, node, rightChild);
+        }
 
         /**
          * Rebalances this tree using the logic of the red / black tree.
