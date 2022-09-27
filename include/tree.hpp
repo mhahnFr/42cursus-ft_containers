@@ -393,6 +393,20 @@ namespace ft {
         }
 
         /**
+         * @brief Inserts the given value into this tree if it is not already present.
+         *
+         * If the given value already exists, nothing happens. The iterator is used as a hint where to
+         * start the search of the insertion point.
+         *
+         * @param hint The hint where the insertion point should be.
+         * @param value The value that should be inserted.
+         */
+        iteratorType insert(iteratorType hint, const contentType & value) {
+            (void) hint;
+            return insert(value).first;
+        }
+        
+        /**
          * @brief Searches for the first element whose value is not less than the key.
          *
          * Returns the past the end iterator if no such element exists.

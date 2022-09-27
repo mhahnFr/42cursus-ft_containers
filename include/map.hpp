@@ -115,7 +115,7 @@ namespace ft {
 
         ft::pair<iterator, bool> insert(const value_type & value) { return tree.insert(value); }
 
-        iterator insert(iterator hint, const value_type & value);
+        iterator insert(iterator hint, const value_type & value) { return tree.insert(hint, value); }
 
         template<class InputIt>
         void insert(InputIt first, InputIt last) {
