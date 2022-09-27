@@ -593,7 +593,7 @@ namespace ft {
                     }
                     *position.second = newOne;
                     alloc.construct(*position.second, tmp);
-                    rebalance(position);
+                    rebalance(*position.second);
                 }
                 ++count;
                 return ft::make_pair(iteratorType(*position.second), true);
@@ -654,62 +654,54 @@ namespace ft {
         }
 
         /**
+         * Returns the uncle of the given node.
+         *
+         * @param node The node whose uncle to return.
+         * @return The found uncle or NULL if not found.
+         */
+        inline nodeType getUncle(nodeType node) {
+            nodeType grandParent = node->root;
+            return grandParent->right == node ? grandParent->left : grandParent->right;
+        }
+        
+        /**
          * Rebalances this tree using the logic of the red / black tree.
          *
-         * @param position The position of the inserted element.
+         * @param node The inserted node.
          */
-        void rebalance(ft::pair<nodeType, nodeType *> position) {
-            nodeType parent       = position.first,
-                     grandParent  = NULL,
-                     uncle        = NULL,
-                     helperParent = parent,
-                     current      = *position.second;
-             do {
-                 if (parent->type == Node::BLACK) {
-                     return;
-                 } else if (parent == root) {
-                     parent->type = Node::BLACK;
-                     return;
-                 }
-                 grandParent = parent->root;
-                 bool right  = parent == grandParent->right;
-                 uncle       = right ? grandParent->left
-                                     : grandParent->right;
-                 if (uncle == NULL || uncle->type == Node::BLACK || uncle->type == Node::SENTINEL) {
-                     // E3
-                     if (current != (right ? parent->right : parent->left)) {
-                         (right ? parent->left       : parent->right)     = (right ? current->right : current->left);
-                         (right ? current->right     : current->left)     = parent;
-                         (right ? grandParent->right : grandParent->left) = current;
-                         current = parent;
-                         parent  = right ? grandParent->right
-                                         : grandParent->left;
-                     }
-                     // E4
-                     (right ? grandParent->right : grandParent->left) = right ? parent->left : parent->right;
-                     (right ? parent->left       : parent->right)     = grandParent;
-                     if (helperParent->root == root) {
-                         root = parent;
-                     } else {
-                         uncle = helperParent->root;
-                         (grandParent == uncle->right ? uncle->right : uncle->left) = parent;
-                     }
-                     parent->type      = Node::BLACK;
-                     grandParent->type = Node::RED;
-                     return;
-                 }
-                 parent->type      = Node::BLACK;
-                 helperParent      = parent->root;
-                 grandParent->type = Node::RED;
-                 if (uncle != NULL) {
-                     uncle->type = Node::BLACK;
-                 }
-                 helperParent = helperParent->root;
-                 if (helperParent != root) {
-                     current = grandParent;
-                     parent  = current->root;
-                 }
-            } while (helperParent != root && helperParent != NULL); // <----
+        void rebalance(nodeType node) {
+            nodeType parent = node->root;
+            if (parent == NULL || parent->type == Node::BLACK) {
+                return;
+            }
+            nodeType grandParent = parent->root;
+            if (grandParent == NULL) {
+                parent->type = Node::RED;
+                return;
+            }
+            nodeType uncle = getUncle(parent);
+            if (uncle != NULL && uncle->type == Node::RED) {
+                parent->type = Node::BLACK;
+                grandParent->type = Node::RED;
+                uncle->type = Node::BLACK;
+                rebalance(grandParent);
+            } else if (parent == grandParent->left) {
+                if (node == parent->right) {
+                    rotateLeft(parent);
+                    parent = node;
+                }
+                rotateRight(grandParent);
+                parent->type = Node::BLACK;
+                grandParent->type = Node::RED;
+            } else {
+                if (node == parent->left) {
+                    rotateRight(parent);
+                    parent = node;
+                }
+                rotateLeft(grandParent);
+                parent->type = Node::BLACK;
+                grandParent->type = Node::RED;
+            }
         }
 
         /**
