@@ -124,9 +124,22 @@ namespace ft {
             }
         }
 
-        void erase(iterator pos);
-        void erase(iterator first, iterator last);
-        size_type erase(const Key & key);
+        void erase(iterator pos) { tree.erase(pos); }
+        
+        void erase(iterator first, iterator last) {
+            for (; first != last; ++first) {
+                erase(first);
+            }
+        }
+        
+        size_type erase(const Key & key) {
+            iterator it = find(key);
+            if (it != end()) {
+                erase(it);
+                return 1;
+            }
+            return 0;
+        }
 
         void swap(map & other) { tree.swap(other.tree); }
 
