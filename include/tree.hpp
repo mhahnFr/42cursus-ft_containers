@@ -431,6 +431,7 @@ namespace ft {
                 if (toDelete->left == NULL || toDelete->right == NULL) {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
+                    deleteNode(toDelete);
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
                     
@@ -444,6 +445,7 @@ namespace ft {
 
                     movedUp = deleteSingleChildNode(successor);
                     wasType = successor->type;
+                    deleteNode(successor);
                 }
                 if (wasType != Node::RED) {
                     rebalanceDelete(movedUp);
@@ -785,6 +787,20 @@ namespace ft {
             alloc.deallocate(beginSentinel, sizeof(Node));
             alloc.deallocate(endSentinel,   sizeof(Node));
             beginSentinel = endSentinel = root = NULL;
+        }
+        
+        /**
+         * @brief Deletes the given node.
+         *
+         * If no node is given, nothing happens.
+         *
+         * @param node The node to be deleted.
+         */
+        inline void deleteNode(nodeType node) {
+            if (node != NULL) {
+                alloc.destroy(node);
+                alloc.deallocate(node, sizeof(Node));
+            }
         }
         
         /**
