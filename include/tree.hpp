@@ -595,12 +595,14 @@ namespace ft {
          */
         ft::pair<iteratorType, bool> coreInsert(ft::pair<nodeType, nodeType *> position, const contentType & value) {
             if (position.first == NULL || position.first != *position.second) {
+                iteratorType retIt;
                 Node tmp(value);
                 tmp.root = position.first;
                 if (isEmpty()) {
                     // Create the root and init sentinels
                     *position.second = alloc.allocate(sizeof(Node));
                     alloc.construct(*position.second, tmp);
+                    retIt = iteratorType(*position.second);
                     initSentinels();
                 } else {
                     // Make sure to not lose the sentinels
@@ -617,10 +619,11 @@ namespace ft {
                     }
                     *position.second = newOne;
                     alloc.construct(*position.second, tmp);
+                    retIt = iteratorType(*position.second);
                     rebalance(*position.second);
                 }
                 ++count;
-                return ft::make_pair(iteratorType(*position.second), true);
+                return ft::make_pair(retIt, true);
             }
             return ft::make_pair(iteratorType(position.first), false);
         }
