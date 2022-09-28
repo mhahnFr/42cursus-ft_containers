@@ -432,7 +432,7 @@ namespace ft {
                     tmp.type  = toDelete->type;
                     alloc.destroy(toDelete);
                     alloc.construct(toDelete, tmp);
-//                    toDelete->content = successor->content; // TODO: <---- Copy construct!
+
                     movedUp = deleteSingleChildNode(successor);
                     wasType = successor->type;
                 }
