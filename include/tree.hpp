@@ -39,6 +39,10 @@ namespace ft {
                  */
                 BLACK,
                 /**
+                 * Indicating the node is a NIL node (which are considered to be black).
+                 */
+                NIL,
+                /**
                  * Indicating the node is a sentinel (which are considered to be black).
                  */
                 SENTINEL
@@ -417,6 +421,11 @@ namespace ft {
         void erase(iteratorType position) {
             nodeType toDelete = position.base();
             if (toDelete != beginSentinel && toDelete != endSentinel) {
+                if (toDelete == root && count == 1) {
+                    rootDeletion();
+                    count = 0;
+                    return;
+                }
                 nodeType            movedUp = NULL;
                 typename Node::Type wasType = Node::SENTINEL;
                 if (toDelete->left == NULL || toDelete->right == NULL) {
@@ -436,14 +445,15 @@ namespace ft {
                     movedUp = deleteSingleChildNode(successor);
                     wasType = successor->type;
                 }
-                if (movedUp->type != Node::RED) {
+                if (wasType != Node::RED) {
                     rebalanceDelete(movedUp);
-                    if (movedUp->type == Node::SENTINEL) {
+                    if (movedUp->type == Node::NIL) {
                         rotateReplace(movedUp->root, movedUp, NULL);
                         alloc.destroy(movedUp);
                         alloc.deallocate(movedUp, sizeof(Node));
                     }
                 }
+                --count;
             }
         }
         
@@ -620,7 +630,7 @@ namespace ft {
          * @return The left most child of the given node.
          */
         inline nodeType findMinimum(nodeType node) {
-            for (; node != NULL; node = node->left);
+            for (; node->left != NULL; node = node->left);
             return node;
         }
         
@@ -743,22 +753,38 @@ namespace ft {
          * @return The node that replaces the given one.
          */
         inline nodeType deleteSingleChildNode(nodeType node) {
-            if (node->left == NULL) {
+            if (node->right != NULL) {
                 rotateReplace(node->root, node, node->right);
                 return node->right;
-            } else if (node->right == NULL) {
+            } else if (node->left != NULL) {
                 rotateReplace(node->root, node, node->left);
                 return node->left;
             } else {
                 nodeType newOne = NULL;
                 if (node->type != Node::RED) {
                     Node tmp(true);
+                    tmp.type = Node::NIL;
                     newOne = alloc.allocate(sizeof(Node));
                     alloc.construct(newOne, tmp);
                 }
                 rotateReplace(node->root, node, newOne);
                 return newOne;
             }
+        }
+
+        /**
+         * @brief Deletes the root node and the sentinels.
+         *
+         * Sets the pointers to NULL.
+         */
+        inline void rootDeletion() {
+            alloc.destroy(root);
+            alloc.destroy(beginSentinel);
+            alloc.destroy(endSentinel);
+            alloc.deallocate(root,          sizeof(Node));
+            alloc.deallocate(beginSentinel, sizeof(Node));
+            alloc.deallocate(endSentinel,   sizeof(Node));
+            beginSentinel = endSentinel = root = NULL;
         }
         
         /**
