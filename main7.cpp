@@ -26,11 +26,36 @@ int main() {
     m.erase(1);
     print(m);
     
+    m[1] = "Arsch1";
+    m[2] = "Arsch2";
+    print(m);
+    m.erase(2);
+    print(m);
+    
+    m[2] = "Arsch2";
+    print(m);
+    m.erase(1);
+    print(m);
+    
     m[35] = "Arsch35";
     m[20] = "Arsch20";
     m[21] = "Arsch21";
 
     print(m);
     
-    //m.erase(20);
+    m.erase(20);
+    print(m);
+    
+    m.erase(21);
+    print(m);
+    m[21] = "Arsch21";
+    print(m);
+    m.erase(2);
+    print(m);
+    m[2] = "Arsch2";
+    print(m);
+    m.erase(35);
+    print(m);
+    m[35] = "Arsch35";
+    print(m);
 }
