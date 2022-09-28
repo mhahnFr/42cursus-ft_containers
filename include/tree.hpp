@@ -410,10 +410,41 @@ namespace ft {
         /**
          * @brief Erases the node pointed to by the given iterator.
          *
+         * Rebalances this tree using the logic of the red / black tree if necessary.
+         *
          * @param position The position that should be removed.
          */
         void erase(iteratorType position) {
-            (void) position;
+            nodeType toDelete = position.base();
+            if (toDelete != beginSentinel && toDelete != endSentinel) {
+                nodeType            movedUp = NULL;
+                typename Node::Type wasType = Node::SENTINEL;
+                if (toDelete->left == NULL || toDelete->right == NULL) {
+                    wasType = toDelete->type;
+                    movedUp = deleteSingleChildNode(toDelete);
+                } else {
+                    nodeType successor = findMinimum(toDelete->right);
+                    
+                    Node tmp(successor->content);
+                    tmp.left  = toDelete->left;
+                    tmp.right = toDelete->right;
+                    tmp.root  = toDelete->root;
+                    tmp.type  = toDelete->type;
+                    alloc.destroy(toDelete);
+                    alloc.construct(toDelete, tmp);
+//                    toDelete->content = successor->content; // TODO: <---- Copy construct!
+                    movedUp = deleteSingleChildNode(successor);
+                    wasType = successor->type;
+                }
+                if (movedUp->type != Node::RED) {
+                    rebalanceDelete(movedUp);
+                    if (movedUp->type == Node::SENTINEL) {
+                        rotateReplace(movedUp->root, movedUp, NULL);
+                        alloc.destroy(movedUp);
+                        alloc.deallocate(movedUp, sizeof(Node));
+                    }
+                }
+            }
         }
         
         /**
@@ -583,6 +614,17 @@ namespace ft {
         }
 
         /**
+         * Finds the left most child of the given node.
+         *
+         * @param node The node whose left most child should be found.
+         * @return The left most child of the given node.
+         */
+        inline nodeType findMinimum(nodeType node) {
+            for (; node != NULL; node = node->left);
+            return node;
+        }
+        
+        /**
          * @brief Inserts the given content value at the given position.
          *
          * Does nothing if the content already exists.
@@ -692,6 +734,34 @@ namespace ft {
         }
         
         /**
+         * @brief Removes the given node from this tree.
+         *
+         * Replaces the node by its single child if it as one, or by NULL or a temporary node
+         * depending on the colour of the given node.
+         *
+         * @param node The node to be deleted.
+         * @return The node that replaces the given one.
+         */
+        inline nodeType deleteSingleChildNode(nodeType node) {
+            if (node->left == NULL) {
+                rotateReplace(node->root, node, node->right);
+                return node->right;
+            } else if (node->right == NULL) {
+                rotateReplace(node->root, node, node->left);
+                return node->left;
+            } else {
+                nodeType newOne = NULL;
+                if (node->type != Node::RED) {
+                    Node tmp(true);
+                    newOne = alloc.allocate(sizeof(Node));
+                    alloc.construct(newOne, tmp);
+                }
+                rotateReplace(node->root, node, newOne);
+                return newOne;
+            }
+        }
+        
+        /**
          * Rebalances this tree using the logic of the red / black tree.
          *
          * @param node The inserted node.
@@ -731,6 +801,100 @@ namespace ft {
             }
         }
 
+        /**
+         * Returns whether the given node is to be treaten like a black node.
+         *
+         * @param node The node to be checked.
+         * @return Whether the given node can be treaten as a black node.
+         */
+        inline bool isBlack(nodeType node) { return node == NULL || node->type == Node::SENTINEL
+                                                                 || node->type == Node::BLACK;
+                                           }
+        
+        /**
+         * Returns the sibling of the given node.
+         *
+         * @param node The node whose sibling to return.
+         * @return The sibling of the given node.
+         */
+        inline nodeType getSibling(nodeType node) {
+            nodeType parent = node->root;
+            return node == parent->left ? parent->right
+                                        : parent->left;
+        }
+        
+        /**
+         * Balances the given node and its sibling.
+         *
+         * @param node The node where to balance.
+         * @param sibling The sibling of the given node.
+         */
+        inline void balanceRedSibling(nodeType node, nodeType sibling) {
+            sibling->type = Node::BLACK;
+            node->root->type = Node::RED;
+            if (node == node->root->left) {
+                rotateLeft(node->root);
+            } else {
+                rotateRight(node->root);
+            }
+        }
+        
+        /**
+         * Performs the balancing if the sibling of the given node has at least one black child.
+         *
+         * @param node The node to handle.
+         * @param sibling The sibling of the given node.
+         */
+        inline void balanceRedSiblingBlackChild(nodeType node, nodeType sibling) {
+            const bool isLeft = node == node->root->left;
+            if (isLeft && isBlack(sibling->right)) {
+                sibling->left->type = Node::BLACK;
+                sibling->type       = Node::RED;
+                rotateRight(sibling);
+                sibling = node->root->right;
+            } else if (!isLeft && isBlack(sibling->left)) {
+                sibling->right->type = Node::BLACK;
+                sibling->type        = Node::RED;
+                rotateLeft(sibling);
+                sibling = node->root->left;
+            }
+            sibling->type    = node->root->type;
+            node->root->type = Node::BLACK;
+            if (isLeft) {
+                sibling->right->type = Node::BLACK;
+                rotateLeft(node->root);
+            } else {
+                sibling->left->type  = Node::BLACK;
+                rotateRight(node->root);
+            }
+        }
+        
+        /**
+         * Rebalances this tree after a deletion using the logic of the red / black tree.
+         *
+         * @param node The node where to begin the rebalancing.
+         */
+        void rebalanceDelete(nodeType node) {
+            if (node == root) {
+                return;
+            }
+            nodeType sibling = getSibling(node);
+            if (sibling->type == Node::RED) {
+                balanceRedSibling(node, sibling);
+                sibling = getSibling(node);
+            }
+            if (isBlack(sibling->left) && isBlack(sibling->right)) {
+                sibling->type = Node::RED;
+                if (node->root->type == Node::RED) {
+                    node->root->type = Node::BLACK;
+                } else {
+                    rebalanceDelete(node->root);
+                }
+            } else {
+                balanceRedSiblingBlackChild(node, sibling);
+            }
+        }
+        
         /**
          * Searches for the begin sentinel of this tree.
          *
