@@ -468,11 +468,10 @@ namespace ft {
                 if (toDelete->left == NULL || toDelete->right == NULL) {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
-                    deleteNode(toDelete);
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
-                    
-                    Node tmp(successor->content);
+
+                    /*Node tmp(successor->content);
                     tmp.left  = toDelete->left;
                     tmp.right = toDelete->right;
                     tmp.root  = toDelete->root;
@@ -482,8 +481,14 @@ namespace ft {
 
                     movedUp = deleteSingleChildNode(successor);
                     wasType = successor->type;
-                    deleteNode(successor);
+                    deleteNode(successor);*/
+
+                    // FIXME: swapping sometimes points to itself!
+                    toDelete->swap(successor);
+                    movedUp = deleteSingleChildNode(toDelete);
+                    wasType = toDelete->type;
                 }
+                deleteNode(toDelete);
                 if (wasType != Node::RED) {
                     rebalanceDelete(movedUp);
                     if (movedUp->type == Node::NIL) {
