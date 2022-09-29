@@ -126,6 +126,43 @@ namespace ft {
                     content = other.content;
                 }
             }
+
+            void swap(Node * other) {
+                Node * tmpLeft  = other->left;
+                Node * tmpRight = other->right;
+                Node * tmpRoot  = other->root;
+                Type   tmpType  = other->type;
+
+                other->type  = type;
+                other->root  = root;
+                other->left  = left;
+                other->right = right;
+
+                type  = tmpType;
+                left  = tmpLeft;
+                right = tmpRight;
+                root  = tmpRoot;
+
+                if (left != NULL) {
+                    left->root = this;
+                }
+                if (right != NULL) {
+                    right->root = this;
+                }
+                if (root != NULL) {
+                    (other == root->left ? root->left : root->right) = this;
+                }
+
+                if (other->left != NULL) {
+                    other->left->root = other;
+                }
+                if (other->right != NULL) {
+                    other->right->root = other;
+                }
+                if (other->root != NULL) {
+                    (this == other->root->left ? other->root->left : other->root->right) = other;
+                }
+            }
         };
 
     public:
