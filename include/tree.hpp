@@ -127,6 +127,14 @@ namespace ft {
                 }
             }
 
+            /**
+             * @brief Exchanges the two given nodes.
+             *
+             * All pointers are exchanged, also the nodes that might point to the two nodes
+             * are exchanged. The contents of the nodes are NOT exchanged.
+             *
+             * @param other The node to exchange with this node.
+             */
             void swap(Node * other) {
                 Node * tmpLeft  = other->left;
                 Node * tmpRight = other->right;
