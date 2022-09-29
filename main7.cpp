@@ -20,7 +20,16 @@ static inline void print(const amp & m) {
 
 int main() {
     ft::map<int, std::string> m;
-    
+
+    for (int i = 0; i < 20; ++i) {
+        m[i] = "Arsch";
+    }
+    print(m);
+    m.erase(15);
+    print(m);
+
+    return 0;
+
     m[1] = "Arsch1";
     print(m);
     m.erase(1);
@@ -57,5 +66,13 @@ int main() {
     m.erase(35);
     print(m);
     m[35] = "Arsch35";
+    print(m);
+
+    for (ft::map<int, std::string>::const_iterator it = --m.end(); it != --m.begin(); --it) {
+        std::cout << "K: " << it->first << ", V: " << it->second << std::endl;
+    }
+    std::cout << std::endl;
+
+    m.erase(m.begin(), m.end());
     print(m);
 }
