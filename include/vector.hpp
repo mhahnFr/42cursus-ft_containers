@@ -71,7 +71,7 @@ namespace ft {
                     while (i --> start) {
                         vector::alloc.destroy(i);
                     }
-                    alloc.deallocate(start, count);
+                    vector::alloc.deallocate(start, count);
                     throw;
                 }
             }
@@ -107,7 +107,7 @@ namespace ft {
                     for (pointer p = start + ft::distance(other.begin(), it) - 1; p > start; --p) {
                         alloc.destroy(p);
                     }
-                    alloc.dealloacte(start, memory_capacity);
+                    alloc.deallocate(start, memory_capacity);
                     throw;
                 }
             }
