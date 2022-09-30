@@ -142,14 +142,14 @@ namespace ft {
                 Type   tmpType  = other->type;
 
                 other->type  = type;
-                other->root  = root;
-                other->left  = left;
-                other->right = right;
+                other->root  = root  == other ? (root->root) : root;
+                other->left  = left  == other ? (left->right  == NULL ? left->left  : left->right)  : left;
+                other->right = right == other ? (right->right == NULL ? right->left : right->right) : right;
 
                 type  = tmpType;
-                left  = tmpLeft;
-                right = tmpRight;
-                root  = tmpRoot;
+                root  = tmpRoot  == this ? (tmpRoot->root) : tmpRoot;
+                left  = tmpLeft  == this ? (tmpLeft->right  == NULL ? tmpLeft->left  : tmpLeft->right)  : tmpLeft;
+                right = tmpRight == this ? (tmpRight->right == NULL ? tmpRight->left : tmpRight->right) : tmpRight;
 
                 if (left != NULL) {
                     left->root = this;
@@ -491,7 +491,6 @@ namespace ft {
                     wasType = successor->type;
                     deleteNode(successor);*/
 
-                    // FIXME: swapping sometimes points to itself!
                     toDelete->swap(successor);
                     movedUp = deleteSingleChildNode(toDelete);
                     wasType = toDelete->type;
