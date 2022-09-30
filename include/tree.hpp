@@ -446,10 +446,10 @@ namespace ft {
                     wasType = successor->type;
                     deleteNode(successor);*/
 
-                    nodeType tmpRoot            = toDelete->root;
-                    nodeType tmpLeft            = toDelete->left;
-                    nodeType tmpRight           = toDelete->right;
-                    typename Node::Type tmpType = toDelete->type;
+                    nodeType            tmpRoot  = toDelete->root;
+                    nodeType            tmpLeft  = toDelete->left;
+                    nodeType            tmpRight = toDelete->right;
+                    typename Node::Type tmpType  = toDelete->type;
 
                     toDelete->left  = successor->left;
                     toDelete->type  = successor->type;
