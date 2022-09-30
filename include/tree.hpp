@@ -473,6 +473,9 @@ namespace ft {
 
                     movedUp = deleteSingleChildNode(toDelete);
                     wasType = toDelete->type;
+                    if (toDelete == root) {
+                        root = successor;
+                    }
                 }
                 deleteNode(toDelete);
                 if (wasType != Node::RED) {
