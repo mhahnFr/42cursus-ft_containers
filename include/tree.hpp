@@ -478,7 +478,7 @@ namespace ft {
                     }
                 }
                 deleteNode(toDelete);
-                if (wasType != Node::RED) {
+                if (wasType == Node::BLACK) {
                     rebalanceDelete(movedUp);
                     if (movedUp->type == Node::NIL) {
                         rotateReplace(movedUp->root, movedUp, NULL);
