@@ -21,28 +21,29 @@ static inline void print(const amp & m) {
 int main() {
     ft::map<int, std::string> m;
 
-    for (int i = 0; i < 20; ++i) {
+    /*for (int i = 0; i < 20; ++i) {
         m[i] = "Arsch";
     }
     print(m);
     m.erase(15);
-    print(m);
-
-    return 0;
+    print(m);+*/
 
     m[1] = "Arsch1";
     print(m);
+    std::cout << "Erasing: 1" << std::endl;
     m.erase(1);
     print(m);
     
     m[1] = "Arsch1";
     m[2] = "Arsch2";
     print(m);
+    std::cout << "Erasing: 2" << std::endl;
     m.erase(2);
     print(m);
     
     m[2] = "Arsch2";
     print(m);
+    std::cout << "Erasing: 1" << std::endl;
     m.erase(1);
     print(m);
     
@@ -51,18 +52,22 @@ int main() {
     m[21] = "Arsch21";
 
     print(m);
-    
+
+    std::cout << "Erasing: 20" << std::endl;
     m.erase(20);
     print(m);
-    
+
+    std::cout << "Erasing: 21" << std::endl;
     m.erase(21);
     print(m);
     m[21] = "Arsch21";
     print(m);
+    std::cout << "Erasing: 2" << std::endl;
     m.erase(2);
     print(m);
     m[2] = "Arsch2";
     print(m);
+    std::cout << "Erasing: 35" << std::endl;
     m.erase(35);
     print(m);
     m[35] = "Arsch35";
@@ -73,6 +78,7 @@ int main() {
     }
     std::cout << std::endl;
 
+    std::cout << "Erasing: begin() to end()" << std::endl;
     m.erase(m.begin(), m.end());
     print(m);
 }
