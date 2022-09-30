@@ -864,7 +864,7 @@ namespace ft {
             }
             nodeType grandParent = parent->root;
             if (grandParent == NULL) {
-                parent->type = Node::RED;
+                parent->type = Node::BLACK;
                 return;
             }
             nodeType uncle = getUncle(parent);
