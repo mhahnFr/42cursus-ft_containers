@@ -67,6 +67,7 @@ namespace ft {
                 try {
                     vector::alloc.construct(i, value);
                 } catch (...) {
+                    --i;
                     while (i --> start) {
                         vector::alloc.destroy(i);
                     }
