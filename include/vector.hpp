@@ -382,10 +382,25 @@ namespace ft {
             if (new_cap > max_size()) throw std::length_error("ft::vector<T>::reserve: Too much elements to be reserved!");
             if (new_cap > capacity()) {
                 pointer tmp = alloc.allocate(new_cap);
-                for (iterator it = begin(); it != end(); ++it) {
+                for (pointer p = tmp; p < tmp + object_count; ++p) {
+                    try {
+                        alloc.construct(p, *(start + (p - tmp)));
+                    } catch (...) {
+                        --p;
+                        while (p --> tmp) {
+                            alloc.destroy(p);
+                        }
+                        alloc.deallocate(tmp, new_cap);
+                        throw;
+                    }
+                }
+                for (pointer p = start; p < start + object_count; ++p) {
+                    alloc.destroy(p);
+                }
+                /*for (iterator it = begin(); it != end(); ++it) {
                     alloc.construct(tmp + (it - begin()), *it);
                     alloc.destroy(start + (it - begin()));
-                }
+                }*/
                 if (start != NULL) {
                     alloc.deallocate(start, memory_capacity);
                 }
