@@ -64,7 +64,15 @@ namespace ft {
             if (count > max_size()) throw std::length_error("ft::vector::vector: Too much elements to be created!");
             start = vector::alloc.allocate(count);
             for (pointer i = start; ((size_type) (i - start)) < count; ++i) {
-                vector::alloc.construct(i, value);
+                try {
+                    vector::alloc.construct(i, value);
+                } catch (...) {
+                    while (i --> start) {
+                        vector::alloc.destroy(i);
+                    }
+                    alloc.deallocate(start, count);
+                    throw;
+                }
             }
         }
 
@@ -92,7 +100,15 @@ namespace ft {
             : alloc(other.get_allocator()), memory_capacity(other.capacity()), object_count(other.size()) {
             start = alloc.allocate(memory_capacity);
             for (vector::const_iterator it = other.begin(); it != other.end(); ++it) {
-                alloc.construct(start + ft::distance(other.begin(), it),  *it);
+                try {
+                    alloc.construct(start + ft::distance(other.begin(), it), *it);
+                } catch (...) {
+                    for (pointer p = start + ft::distance(other.begin(), it) - 1; p > start; --p) {
+                        alloc.destroy(p);
+                    }
+                    alloc.dealloacte(start, memory_capacity);
+                    throw;
+                }
             }
         }
 
