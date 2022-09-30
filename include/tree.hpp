@@ -126,51 +126,6 @@ namespace ft {
                     content = other.content;
                 }
             }
-
-            /**
-             * @brief Exchanges the two given nodes.
-             *
-             * All pointers are exchanged, also the nodes that might point to the two nodes
-             * are exchanged. The contents of the nodes are NOT exchanged.
-             *
-             * @param other The node to exchange with this node.
-             */
-            void swap(Node * other) {
-                Node * tmpLeft  = other->left;
-                Node * tmpRight = other->right;
-                Node * tmpRoot  = other->root;
-                Type   tmpType  = other->type;
-
-                other->type  = type;
-                other->root  = root  == other ? (root->root) : root;
-                other->left  = left  == other ? (left->right  == NULL ? left->left  : left->right)  : left;
-                other->right = right == other ? (right->right == NULL ? right->left : right->right) : right;
-
-                type  = tmpType;
-                root  = tmpRoot  == this ? (tmpRoot->root) : tmpRoot;
-                left  = tmpLeft  == this ? (tmpLeft->right  == NULL ? tmpLeft->left  : tmpLeft->right)  : tmpLeft;
-                right = tmpRight == this ? (tmpRight->right == NULL ? tmpRight->left : tmpRight->right) : tmpRight;
-
-                if (left != NULL) {
-                    left->root = this;
-                }
-                if (right != NULL) {
-                    right->root = this;
-                }
-                if (root != NULL) {
-                    (other == root->left ? root->left : root->right) = this;
-                }
-
-                if (other->left != NULL) {
-                    other->left->root = other;
-                }
-                if (other->right != NULL) {
-                    other->right->root = other;
-                }
-                if (other->root != NULL) {
-                    (this == other->root->left ? other->root->left : other->root->right) = other;
-                }
-            }
         };
 
     public:
@@ -491,7 +446,31 @@ namespace ft {
                     wasType = successor->type;
                     deleteNode(successor);*/
 
-                    toDelete->swap(successor);
+                    nodeType tmpRoot            = toDelete->root;
+                    nodeType tmpLeft            = toDelete->left;
+                    nodeType tmpRight           = toDelete->right;
+                    typename Node::Type tmpType = toDelete->type;
+
+                    toDelete->left  = successor->left;
+                    toDelete->type  = successor->type;
+                    toDelete->right = successor->right;
+                    toDelete->root  = successor->root == toDelete ? successor : successor->root;
+
+                    successor->left  = tmpLeft;
+                    successor->root  = tmpRoot;
+                    successor->type  = tmpType;
+                    successor->right = tmpRight == successor ? toDelete : tmpRight;
+
+                    if (successor->left != NULL) {
+                        successor->left->root = successor;
+                    }
+                    if (successor->right != NULL) {
+                        successor->right->root = successor;
+                    }
+                    if (successor->root != NULL) {
+                        (toDelete == successor->root->right ? successor->root->right : successor->root->left) = successor;
+                    }
+
                     movedUp = deleteSingleChildNode(toDelete);
                     wasType = toDelete->type;
                 }
