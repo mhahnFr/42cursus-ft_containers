@@ -500,7 +500,11 @@ namespace ft {
             if (size() + 1 > capacity()) {
                 reserve((size() > 0 ? size() : 1) * 2);
             }
-            alloc.construct(start + object_count, value);
+            try {
+                alloc.construct(start + object_count, value);
+            } catch (...) {
+                throw;
+            }
             ++object_count;
         }
 
@@ -668,7 +672,16 @@ namespace ft {
             memory_capacity = object_count = ft::distance(first, last);
             start = vector::alloc.allocate(object_count);
             for (pointer i = start; first != last; ++i, ++first) {
-                vector::alloc.construct(i, *first);
+                try {
+                    vector::alloc.construct(i, *first);
+                } catch (...) {
+                    --i;
+                    while (i --> start) {
+                        vector::alloc.destroy(i);
+                    }
+                    alloc.deallocate(start, object_count);
+                    throw;
+                }
             }
         }
 
