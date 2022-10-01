@@ -432,8 +432,21 @@ namespace ft {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
                 } else if (hasSentinel(toDelete)) {
-                    // TODO: Sentinel special case
-                    abort();
+                    wasType = toDelete->type;
+                    
+                    if (toDelete->right->type == Node::SENTINEL) {
+                        movedUp = toDelete->left;
+                        nodeType tmp = findMaximum(movedUp);
+                        assert(tmp->right == NULL);
+                        rotateReplace(tmp, tmp->right, endSentinel);
+                    } else {
+                        movedUp = toDelete->right;
+                        nodeType tmp = findMinimum(movedUp);
+                        assert(tmp->left == NULL);
+                        rotateReplace(tmp, tmp->left, beginSentinel);
+                    }
+                    rotateReplace(toDelete->root, toDelete, movedUp);
+                    
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
 
@@ -667,6 +680,11 @@ namespace ft {
          */
         inline nodeType findMinimum(nodeType node) {
             for (; node->left != NULL; node = node->left);
+            return node;
+        }
+        
+        inline nodeType findMaximum(nodeType node) {
+            for (; node->right != NULL; node = node->right);
             return node;
         }
         
