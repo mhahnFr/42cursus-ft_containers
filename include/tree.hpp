@@ -431,6 +431,9 @@ namespace ft {
                 if (toDelete->left == NULL || toDelete->right == NULL) {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
+                } else if (hasSentinel(toDelete)) {
+                    // TODO: Sentinel special case
+                    abort();
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
 
@@ -478,7 +481,7 @@ namespace ft {
                     }
                 }
                 deleteNode(toDelete);
-                if (wasType == Node::BLACK) {
+                if (wasType != Node::RED) {
                     rebalanceDelete(movedUp);
                     if (movedUp->type == Node::NIL) {
                         rotateReplace(movedUp->root, movedUp, NULL);
@@ -883,6 +886,11 @@ namespace ft {
         inline bool isBlack(nodeType node) { return node == NULL || node->type == Node::SENTINEL
                                                                  || node->type == Node::BLACK;
                                            }
+        
+        inline bool hasSentinel(nodeType node) {
+            return (node->left  != NULL && node->left->type  == Node::SENTINEL)
+                || (node->right != NULL && node->right->type == Node::SENTINEL);
+        }
         
         /**
          * Returns the sibling of the given node.
