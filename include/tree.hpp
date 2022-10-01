@@ -446,6 +446,7 @@ namespace ft {
                         rotateReplace(tmp, tmp->left, beginSentinel);
                     }
                     rotateReplace(toDelete->root, toDelete, movedUp);
+                    // FIXME: pointers seem to be wrong sometimes!!!
                     
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
