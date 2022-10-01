@@ -887,6 +887,12 @@ namespace ft {
                                                                  || node->type == Node::BLACK;
                                            }
         
+        /**
+         * Returns whether the given node has a sentinel as child.
+         *
+         * @param node The node to be checked.
+         * @return Whether at least one of the children of the given node is a sentinel,
+         */
         inline bool hasSentinel(nodeType node) {
             return (node->left  != NULL && node->left->type  == Node::SENTINEL)
                 || (node->right != NULL && node->right->type == Node::SENTINEL);
