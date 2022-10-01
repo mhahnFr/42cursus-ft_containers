@@ -683,6 +683,12 @@ namespace ft {
             return node;
         }
         
+        /**
+         * Finds the right most child of the given node.
+         *
+         * @param node The node whose right most child should be found.
+         * @return The right most child of the given node.
+         */
         inline nodeType findMaximum(nodeType node) {
             for (; node->right != NULL; node = node->right);
             return node;
