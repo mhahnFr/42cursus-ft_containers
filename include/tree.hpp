@@ -727,9 +727,20 @@ namespace ft {
                 if (isEmpty()) {
                     // Create the root and init sentinels
                     *position.second = alloc.allocate(sizeof(Node));
-                    alloc.construct(*position.second, tmp);
+                    try {
+                        alloc.construct(*position.second, tmp);
+                    } catch (...) {
+                        alloc.deallocate(*position.second, sizeof(Node));
+                        throw;
+                    }
                     retIt = iteratorType(*position.second);
-                    initSentinels();
+                    try {
+                        initSentinels();
+                    } catch (...) {
+                        alloc.destroy(*position.second);
+                        alloc.deallocate(*position.second, sizeof(Node));
+                        throw;
+                    }
                 } else {
                     // Make sure to not lose the sentinels
                     nodeType maybeSentinel = *position.second;
@@ -744,7 +755,12 @@ namespace ft {
                         maybeSentinel->root = newOne;
                     }
                     *position.second = newOne;
-                    alloc.construct(*position.second, tmp);
+                    try {
+                        alloc.construct(*position.second, tmp);
+                    } catch (...) {
+                        alloc.deallocate(*position.second, sizeof(Node));
+                        throw;
+                    }
                     retIt = iteratorType(*position.second);
                     rebalance(*position.second);
                 }
@@ -1049,9 +1065,27 @@ namespace ft {
             Node tmp(true);
             tmp.root = root;
             root->left = alloc.allocate(sizeof(Node));
-            alloc.construct(root->left, tmp);
-            root->right = alloc.allocate(sizeof(Node));
-            alloc.construct(root->right, tmp);
+            try {
+                alloc.construct(root->left, tmp);
+            } catch (...) {
+                alloc.deallocate(root->left, sizeof(Node));
+                throw;
+            }
+            try {
+                root->right = alloc.allocate(sizeof(Node));
+            } catch (...) {
+                alloc.destroy(root->left);
+                alloc.deallocate(root->left, sizeof(Node));
+                throw;
+            }
+            try {
+                alloc.construct(root->right, tmp);
+            } catch (...) {
+                alloc.destroy(root->left);
+                alloc.deallocate(root->left,  sizeof(Node));
+                alloc.deallocate(root->right, sizeof(Node));
+                throw;
+            }
             beginSentinel = root->left;
             endSentinel = root->right;
         }
