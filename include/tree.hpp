@@ -431,7 +431,11 @@ namespace ft {
                 if (toDelete->left == NULL || toDelete->right == NULL) {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
-                } else if (hasSentinel(toDelete)) {
+                } else if (toDelete->right == endSentinel) {
+                    // TODO: This should be the chased special case
+                    abort();
+                }
+                /* else if (hasSentinel(toDelete)) {
                     wasType = toDelete->type;
                     
                     if (toDelete->right->type == Node::SENTINEL) {
@@ -446,9 +450,8 @@ namespace ft {
                         rotateReplace(tmp, tmp->left, beginSentinel);
                     }
                     rotateReplace(toDelete->root, toDelete, movedUp);
-                    // FIXME: pointers seem to be wrong sometimes!!!
-                    
-                } else {
+                } */
+                else {
                     nodeType successor = findMinimum(toDelete->right);
 
                     /*Node tmp(successor->content);
