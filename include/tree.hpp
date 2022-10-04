@@ -432,26 +432,12 @@ namespace ft {
                     wasType = toDelete->type;
                     movedUp = deleteSingleChildNode(toDelete);
                 } else if (toDelete->right == endSentinel) {
-                    // TODO: This should be the chased special case
-                    abort();
-                }
-                /* else if (hasSentinel(toDelete)) {
                     wasType = toDelete->type;
-                    
-                    if (toDelete->right->type == Node::SENTINEL) {
-                        movedUp = toDelete->left;
-                        nodeType tmp = findMaximum(movedUp);
-                        assert(tmp->right == NULL);
-                        rotateReplace(tmp, tmp->right, endSentinel);
-                    } else {
-                        movedUp = toDelete->right;
-                        nodeType tmp = findMinimum(movedUp);
-                        assert(tmp->left == NULL);
-                        rotateReplace(tmp, tmp->left, beginSentinel);
-                    }
-                    rotateReplace(toDelete->root, toDelete, movedUp);
-                } */
-                else {
+                    rotateReplace(toDelete->root, toDelete, toDelete->left);
+                    movedUp = toDelete->left;
+                    endSentinel->root = movedUp;
+                    findMaximum(movedUp)->right = endSentinel;
+                } else {
                     nodeType successor = findMinimum(toDelete->right);
 
                     /*Node tmp(successor->content);
