@@ -96,9 +96,9 @@ namespace ft {
             }
         }
 
-        iterator erase(iterator pos) { return tree.erase(pos); }
+        void erase(iterator pos) { return tree.erase(pos); }
 
-        iterator erase(iterator first, iterator last) {
+        void erase(iterator first, iterator last) {
             while (first != last) {
                 iterator tmp = first;
                 ++tmp;
@@ -150,7 +150,13 @@ namespace ft {
 
     template<class Key, class Compare, class Alloc>
     bool operator==(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
-        return ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), lhs.key_comp());
+        typename ft::set<Key, Compare, Alloc>::const_iterator it, it2;
+        for (it = lhs.begin(), it2 = rhs.begin(); it != lhs.end() && it2 != rhs.end(); ++it, ++it2) {
+            if (!(*it == *it2)) {
+                return false;
+            }
+        }
+        return it == lhs.end() && it2 == rhs.end();
     }
 
     template<class Key, class Compare, class Alloc>
