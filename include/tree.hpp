@@ -704,7 +704,7 @@ namespace ft {
                     return false;
                 }
                 node = node->root;
-            } while (node != root);
+            } while (node != root && node->root != NULL);
             return true;
         }
 
