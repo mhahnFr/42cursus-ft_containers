@@ -10,6 +10,7 @@
 #include "iterator.hpp"
 #include "tree.hpp"
 #include "utility.hpp"
+#include "algorithm.hpp"
 
 namespace ft {
     template<class Key,
@@ -104,24 +105,38 @@ namespace ft {
     };
 
     template<class Key, class Compare, class Alloc>
-    bool operator==(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator==(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), lhs.key_comp());
+    }
 
     template<class Key, class Compare, class Alloc>
-    bool operator!=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator!=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return !(lhs == rhs);
+    }
 
     template<class Key, class Compare, class Alloc>
-    bool operator<(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator<(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
 
     template<class Key, class Compare, class Alloc>
-    bool operator<=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator<=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return lhs < rhs || lhs == rhs;
+    }
 
     template<class Key, class Compare, class Alloc>
-    bool operator>(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator>(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return rhs < lhs;
+    }
 
     template<class Key, class Compare, class Alloc>
-    bool operator>=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs);
+    bool operator>=(const ft::set<Key, Compare, Alloc> & lhs, const ft::set<Key, Compare, Alloc> & rhs) {
+        return rhs < lhs || lhs == rhs;
+    }
 
     template<class Key, class Compare, class Alloc>
-    void swap(ft::set<Key, Compare, Alloc> & lhs, ft::set<Key, Compare, Alloc> & rhs);
+    void swap(ft::set<Key, Compare, Alloc> & lhs, ft::set<Key, Compare, Alloc> & rhs) {
+        lhs.swap(rhs);
+    }
 }
 #endif //FT_CONTAINERS_SET_HPP
