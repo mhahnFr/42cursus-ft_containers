@@ -407,7 +407,14 @@ namespace ft {
          * @param value The value that should be inserted.
          */
         iteratorType insert(iteratorType hint, const contentType & value) {
-            (void) hint;
+            if (hint.base() != beginSentinel) {
+                --hint;
+                const bool lower          = compare(value, *hint);
+                const bool insertSideNull = (lower ? hint.base()->left : hint.base()->right) == NULL;
+                if (canInsert(hint.base(), value) && insertSideNull) {
+                    return coreInsert(ft::make_pair(hint.base(), lower ? &hint.base()->left : &hint.base()->right), value).first;
+                }
+            }
             return insert(value).first;
         }
         
@@ -683,7 +690,24 @@ namespace ft {
             for (; node->right != NULL; node = node->right);
             return node;
         }
-        
+
+        /**
+         * Returns whether the given value can be inserted at the given position.
+         *
+         * @param node The node below which the value should be inserted.
+         * @param value The value that should be inserted.
+         * @return Whether the value can be inserted according to the sorting at the given position.
+         */
+        inline bool canInsert(nodeType node, const contentType & value) {
+            do {
+                if (!compare(value, node->content)) {
+                    return false;
+                }
+                node = node->root;
+            } while (node != root);
+            return true;
+        }
+
         /**
          * @brief Inserts the given content value at the given position.
          *
