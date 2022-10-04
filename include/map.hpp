@@ -127,9 +127,6 @@ namespace ft {
         void erase(iterator pos) { tree.erase(pos); }
         
         void erase(iterator first, iterator last) {
-            /*for (; first != last; ++first) {
-                erase(first);
-            }*/
             while (first != last) {
                 iterator tmp = first;
                 ++tmp;
