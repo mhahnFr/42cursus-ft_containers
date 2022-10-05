@@ -19,7 +19,11 @@
 #include "set.hpp"
 
 #include <iostream>
+#include <string>
 
 int main() {
-
+    NS::vector<std::string>   vec;
+    NS::map<int, std::string> m;
+    NS::stack<std::string>    st;
+    NS::set<int>              s;
 }
