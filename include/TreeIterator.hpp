@@ -205,6 +205,16 @@ namespace ft {
     bool operator!=(const TreeIterator<Content1, Node> & lhs, const TreeIterator<Content2, Node> & rhs) {
         return lhs.base() != rhs.base();
     }
+
+    template<class Content, class Node>
+    bool operator==(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+        return lhs.base() == rhs.base();
+    }
+
+    template<class Content, class Node>
+    bool operator!=(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
+        return lhs.base() != rhs.base();
+    }
 }
 
 #endif
