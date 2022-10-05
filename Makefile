@@ -19,8 +19,11 @@ LDFLAGS = -fsanitize=address
 # The source files.
 SRCS = main.cpp
 
-# The object files.
-OBJS = $(patsubst %.cpp,%.o,$(SRCS))
+# The ft object files.
+FT_OBJS = $(patsubst %.cpp,%.o.ft,$(SRCS))
+
+# The std object files.
+STD_OBJS = $(patsubst %.cpp,%.o.std,$(SRCS))
 
 # The dependency files.
 DEPS = $(patsubst %.cpp,%.d,$(SRCS))
@@ -30,36 +33,34 @@ DEPS = $(patsubst %.cpp,%.d,$(SRCS))
 run: all
 	clear
 	@printf "time \033[33;1m$(STD_NAME)\033[0m:\n"
-	@time ./$(STD_NAME) > std
+	@time ./$(STD_NAME) > std.log
 	@printf "\ntime \033[34;1m$(FT_NAME)\033[0m:\n"
-	@time ./$(FT_NAME) > ft
+	@time ./$(FT_NAME) > ft.log
 	@printf "\ndiff \033[34;1mft\033[0m \033[33;1mstd\033[0m:\n"
-	@diff ft std
+	@diff ft.log std.log
 	@printf "\n------\n"
 
 # Makes everything ready.
-all: clean
-	$(MAKE) $(FT_NAME)
-	$(MAKE) clean
-	$(MAKE) $(STD_NAME)
+all: $(FT_NAME) $(STD_NAME)
 
 # Creates the ft executable.
-$(FT_NAME): CXXFLAGS += -DNS=ft
-$(FT_NAME): $(OBJS)
-	$(CXX) $(LDFLAGS) -o $(FT_NAME) $(OBJS)
+$(FT_NAME): $(FT_OBJS)
+	$(CXX) $(LDFLAGS) -o $(FT_NAME) $(FT_OBJS)
 
 # Creates the std executable.
-$(STD_NAME): CXXFLAGS += -DNS=std
-$(STD_NAME): $(OBJS)
-	$(CXX) $(LDFLAGS) -o $(STD_NAME) $(OBJS)
+$(STD_NAME): $(STD_OBJS)
+	$(CXX) $(LDFLAGS) -o $(STD_NAME) $(STD_OBJS)
 
 # Compiles a source file individually.
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -MP -c -o $@ $<
+%.o.ft: %.cpp
+	$(CXX) $(CXXFLAGS) -DNS=ft -MMD -MP -c -o $@ $<
+
+%.o.std: %.cpp
+	$(CXX) $(CXXFLAGS) -DNS=std -MMD -MP -c -o $@ $<
 
 # Cleans the repository.
 clean:
-	$(RM) $(OBJS) $(DEPS) ft std
+	$(RM) $(FT_OBJS) $(STD_OBJS) $(DEPS) ft.log std.log
 
 # Removes all files created by this file.
 fclean: clean
