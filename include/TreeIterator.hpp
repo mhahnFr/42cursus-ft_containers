@@ -4,6 +4,8 @@
 #include "iterator.hpp"
 
 namespace ft {
+    template<class Content, class Node> class ConstTreeIterator;
+
     /**
      * @brief This class represents a tree iterator.
      *
@@ -185,8 +187,16 @@ namespace ft {
          *
          * @return A const version of this iterator.
          */
-        operator const TreeIterator<const contentType, nodeType>() {
-            return TreeIterator<const contentType, nodeType>(baseNode);
+        operator const ConstTreeIterator<contentType, nodeType>() const {
+            return ConstTreeIterator<contentType, nodeType>(baseNode);
+        }
+
+        friend bool operator==(const TreeIterator & lhs, const TreeIterator & rhs) {
+            return lhs.baseNode == rhs.baseNode;
+        }
+
+        friend bool operator!=(const TreeIterator & lhs, const TreeIterator & rhs) {
+            return !(lhs.baseNode == rhs.baseNode);
         }
 
     private:
@@ -196,25 +206,196 @@ namespace ft {
         nodeType baseNode;
     };
 
-    template<class Content1, class Content2, class Node>
-    bool operator==(const TreeIterator<Content1, Node> & lhs, const TreeIterator<Content2, Node> & rhs) {
-        return lhs.base() == rhs.base();
-    }
+    /**
+     * @brief This class represents a TreeIterator with a const content and node.
+     *
+     * @tparam Content The content type.
+     * @tparam Node The type of the node, expected to be a pointer.
+     */
+    template<class Content,
+             class Node>
+    class ConstTreeIterator: public  ft::iterator <ft::bidirectional_iterator_tag, const Content>,
+                             public std::iterator<std::bidirectional_iterator_tag, const Content> {
+    public:
+        /**
+         * The type of this iterator.
+         */
+        typedef  ft::iterator <ft::bidirectional_iterator_tag, const Content>       iterator_type;
+        /**
+         * The standard compliant type of this iterator.
+         */
+        typedef std::iterator<std::bidirectional_iterator_tag, const Content>       std_iterator_type;
+        /**
+         * The category of this iterator. (Standard compliant.)
+         */
+        typedef typename std::iterator_traits<std_iterator_type>::iterator_category iterator_category;
+        /**
+         * The type of the value this iterator points to.
+         */
+        typedef typename ft::iterator_traits<iterator_type>::value_type             value_type;
+        /**
+         * The difference type used for calculations with this iterator.
+         */
+        typedef typename ft::iterator_traits<iterator_type>::difference_type        difference_type;
+        /**
+         * The pointer type of this iterator.
+         */
+        typedef typename ft::iterator_traits<iterator_type>::pointer                pointer;
+        /**
+         * The reference type of this iterator.
+         */
+        typedef typename ft::iterator_traits<iterator_type>::reference              reference;
+        /**
+         * The content type of this iterator.
+         */
+        typedef const Content                                                       contentType;
+        /**
+         * The node type used for this tree iterator.
+         */
+        typedef Node                                                                nodeType;
 
-    template<class Content1, class Content2, class Node>
-    bool operator!=(const TreeIterator<Content1, Node> & lhs, const TreeIterator<Content2, Node> & rhs) {
-        return lhs.base() != rhs.base();
-    }
+        /**
+         * Default constructor.
+         */
+        ConstTreeIterator()
+                : baseNode() {}
 
-    template<class Content, class Node>
-    bool operator==(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
-        return lhs.base() == rhs.base();
-    }
+        /**
+         * Constructs an instance using a specified node.
+         *
+         * @param x The node to which this instance will point to.
+         */
+        explicit ConstTreeIterator(nodeType x)
+            : baseNode(x) {}
 
-    template<class Content, class Node>
-    bool operator!=(const TreeIterator<Content, Node> & lhs, const TreeIterator<Content, Node> & rhs) {
-        return lhs.base() != rhs.base();
-    }
+        /**
+         * Trivial copy constructor.
+         *
+         * @param other The other tree iterator to copy.
+         */
+        ConstTreeIterator(const ConstTreeIterator & other)
+            : baseNode(other.base()) {}
+
+        /**
+         * Trivial destructor.
+         */
+       ~ConstTreeIterator() {}
+
+        /**
+         * Trivial assignment operator.
+         *
+         * @param other The other tree iterator to copy.
+         */
+        ConstTreeIterator & operator=(const ConstTreeIterator & other) {
+            if (&other != this) {
+                baseNode = other.base();
+            }
+            return *this;
+        }
+
+        /**
+         * Returns the node on which this iterator is based.
+         *
+         * @return The base node of this iterator.
+         */
+        nodeType base() const { return baseNode; }
+
+        /**
+         * @brief Returns a reference to the content of the node this iterator points to.
+         *
+         * Same as base()->content.
+         *
+         * @return A reference to the content of the base node.
+         */
+        reference operator*() const { return baseNode->content; }
+
+        /**
+         * Returns the address of the content of the base node.
+         *
+         * @return The address of the base node's content.
+         */
+        pointer operator->() const { return &operator*(); }
+
+        /**
+         * Increments this iterator.
+         *
+         * @return A reference to this instance.
+         */
+        ConstTreeIterator & operator++() {
+            if (baseNode->right != NULL) {
+                baseNode = baseNode->right;
+                while (baseNode->left != NULL) {
+                    baseNode = baseNode->left;
+                }
+            } else {
+                nodeType tmp;
+                do {
+                    tmp = baseNode;
+                    baseNode = baseNode->root;
+                } while ((baseNode->right == NULL || baseNode->right == tmp) && baseNode->left != tmp);
+            }
+            return *this;
+        }
+
+        /**
+         * Decrements this iterator.
+         *
+         * @return A reference to this instance.
+         */
+        ConstTreeIterator & operator--() {
+            if (baseNode->left != NULL) {
+                baseNode = baseNode->left;
+                while (baseNode->right != NULL) {
+                    baseNode = baseNode->right;
+                }
+            } else {
+                nodeType tmp;
+                do {
+                    tmp = baseNode;
+                    baseNode = baseNode->root;
+                } while ((baseNode->left == NULL || baseNode->left == tmp) && baseNode->right != tmp);
+            }
+            return *this;
+        }
+
+        /**
+         * Increments this iterator.
+         *
+         * @return A copy of this instance before the incrementation.
+         */
+        ConstTreeIterator operator++(int) {
+            ConstTreeIterator tmp = *this;
+            operator++();
+            return tmp;
+        }
+
+        /**
+         * Decrements this iterator.
+         *
+         * @return A copy of this instance before the decrementation.
+         */
+        ConstTreeIterator operator--(int) {
+            ConstTreeIterator tmp = *this;
+            operator--();
+            return tmp;
+        }
+
+        operator TreeIterator<Content, Node>() const { return TreeIterator<Content, Node>(baseNode); }
+
+        friend bool operator==(const ConstTreeIterator & lhs, const ConstTreeIterator & rhs) {
+            return lhs.baseNode == rhs.baseNode;
+        }
+
+        friend bool operator!=(const ConstTreeIterator & lhs, const ConstTreeIterator & rhs) {
+            return !(lhs.baseNode == rhs.baseNode);
+        }
+
+    private:
+        /**
+         * The node this iterator is based on.
+         */
+        nodeType baseNode;
+    };
 }
 
 #endif
