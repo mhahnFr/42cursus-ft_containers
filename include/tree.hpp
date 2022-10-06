@@ -172,7 +172,7 @@ namespace ft {
          * @param comp The compare object to be used to sort the contents of this tree.
          */
         explicit Tree(Compare comp)
-            : root(NULL), beginSentinel(NULL), endSentinel(NULL), alloc(allocatorType()), compare(comp), count(0) {
+            : root(NULL), beginSentinel(emptySentinel()), endSentinel(beginSentinel), alloc(allocatorType()), compare(comp), count(0) {
         }
 
         /**
@@ -191,7 +191,7 @@ namespace ft {
         /**
          * Default destructor. Destroys all elements properly.
          */
-       ~Tree() { clear(); }
+       ~Tree() { internalClear(); }
 
         /**
          * Copy assignment operator. Clears this tree and copies the given tree deeply.
@@ -201,7 +201,7 @@ namespace ft {
          */
         Tree & operator=(const Tree & other) {
             if (&other != this) {
-                clear();
+                internalClear();
                 if (other.root != NULL) {
                     recursiveCopy(&root, other.root, NULL);
                     beginSentinel = findBeginSentinel();
@@ -216,11 +216,9 @@ namespace ft {
          * @brief Clears this tree properly.
          */
         void clear() {
-            if (root != NULL) {
-                recursiveDestroy(root);
-                root = beginSentinel = endSentinel = NULL;
-            }
-            count = 0;
+            internalClear();
+            beginSentinel = emptySentinel();
+            endSentinel   = beginSentinel;
         }
 
         /**
@@ -588,6 +586,19 @@ namespace ft {
          */
         sizeType      count;
 
+        void internalClear() {
+            if (root != NULL) {
+                recursiveDestroy(root);
+                root = beginSentinel = endSentinel = NULL;
+            } else if (endSentinel != NULL) {
+                assert(endSentinel == beginSentinel);
+                alloc.destroy(endSentinel);
+                alloc.deallocate(endSentinel, sizeof(Node));
+                endSentinel = beginSentinel = NULL;
+            }
+            count = 0;
+        }
+
         /**
          * @brief Destroys and deallocates the given node.
          *
@@ -870,11 +881,14 @@ namespace ft {
         inline void rootDeletion() {
             alloc.destroy(root);
             alloc.destroy(beginSentinel);
-            alloc.destroy(endSentinel);
+            //alloc.destroy(endSentinel);
             alloc.deallocate(root,          sizeof(Node));
             alloc.deallocate(beginSentinel, sizeof(Node));
-            alloc.deallocate(endSentinel,   sizeof(Node));
-            beginSentinel = endSentinel = root = NULL;
+            //alloc.deallocate(endSentinel,   sizeof(Node));
+            //beginSentinel = endSentinel = root = NULL;
+            root = NULL;
+            beginSentinel = endSentinel;
+            endSentinel->right = endSentinel->left = endSentinel->root = NULL;
         }
         
         /**
@@ -1058,10 +1072,29 @@ namespace ft {
             return tmp;
         }
 
+        nodeType emptySentinel() {
+            Node tmp(true);
+            nodeType ret = alloc.allocate(sizeof(Node));
+            try {
+                alloc.construct(ret, tmp);
+            } catch (...) {
+                alloc.deallocate(ret, sizeof(Node));
+                throw;
+            }
+            return ret;
+        }
+
         /**
          * Initializes the begin and end sentinels.
          */
-        void initSentinels() {
+         void initSentinels() {
+             root->left = emptySentinel();
+             root->left->root = root;
+             root->right = endSentinel;
+             endSentinel->root = root;
+             beginSentinel = root->left;
+         }
+        /*void initSentinels() {
             Node tmp(true);
             tmp.root = root;
             root->left = alloc.allocate(sizeof(Node));
@@ -1088,7 +1121,7 @@ namespace ft {
             }
             beginSentinel = root->left;
             endSentinel = root->right;
-        }
+        }*/
 
         /**
          * @brief Searches for the first element whose value is greater than the given one.
