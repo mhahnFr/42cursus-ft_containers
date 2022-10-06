@@ -164,7 +164,7 @@ namespace ft {
         /**
          * The type of a const iterator for this tree.
          */
-        typedef TreeIterator<const contentType, nodeType>        constIteratorType;
+        typedef ConstTreeIterator<contentType, nodeType>         constIteratorType;
 
         /**
          * Default constructor. Initializes this tree with a NULL root node.
