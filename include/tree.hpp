@@ -574,6 +574,9 @@ namespace ft {
          */
         sizeType      count;
 
+        /**
+         * Clears everything in this tree, including any sentinels.
+         */
         void internalClear() {
             if (root != NULL) {
                 recursiveDestroy(root);
@@ -862,18 +865,15 @@ namespace ft {
         }
 
         /**
-         * @brief Deletes the root node and the sentinels.
+         * @brief Deletes the root node and the begin sentinel.
          *
          * Sets the pointers to NULL.
          */
         inline void rootDeletion() {
             alloc.destroy(root);
             alloc.destroy(beginSentinel);
-            //alloc.destroy(endSentinel);
             alloc.deallocate(root,          sizeof(Node));
             alloc.deallocate(beginSentinel, sizeof(Node));
-            //alloc.deallocate(endSentinel,   sizeof(Node));
-            //beginSentinel = endSentinel = root = NULL;
             root = NULL;
             beginSentinel = endSentinel;
             endSentinel->right = endSentinel->left = endSentinel->root = NULL;
@@ -1060,6 +1060,11 @@ namespace ft {
             return tmp;
         }
 
+        /**
+         * Allocates an empty sentinel node.
+         *
+         * @return A new sentinel node.
+         */
         nodeType emptySentinel() {
             Node tmp(true);
             nodeType ret = alloc.allocate(sizeof(Node));
@@ -1082,34 +1087,6 @@ namespace ft {
              endSentinel->root = root;
              beginSentinel = root->left;
          }
-        /*void initSentinels() {
-            Node tmp(true);
-            tmp.root = root;
-            root->left = alloc.allocate(sizeof(Node));
-            try {
-                alloc.construct(root->left, tmp);
-            } catch (...) {
-                alloc.deallocate(root->left, sizeof(Node));
-                throw;
-            }
-            try {
-                root->right = alloc.allocate(sizeof(Node));
-            } catch (...) {
-                alloc.destroy(root->left);
-                alloc.deallocate(root->left, sizeof(Node));
-                throw;
-            }
-            try {
-                alloc.construct(root->right, tmp);
-            } catch (...) {
-                alloc.destroy(root->left);
-                alloc.deallocate(root->left,  sizeof(Node));
-                alloc.deallocate(root->right, sizeof(Node));
-                throw;
-            }
-            beginSentinel = root->left;
-            endSentinel = root->right;
-        }*/
 
         /**
          * @brief Searches for the first element whose value is greater than the given one.
