@@ -17,7 +17,7 @@ CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g -fsanitize=ad
 LDFLAGS = -fsanitize=address
 
 # The source files.
-SRCS = main.cpp
+SRCS = main5.cpp
 
 # The ft object files.
 FT_OBJS = $(patsubst %.cpp,%.o.ft,$(SRCS))

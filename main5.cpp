@@ -87,7 +87,7 @@ int main() {
 
     ft::map<int, std::string> a1, a2;
     a1 = a2;
-    for (ft::map<int, std::string>::iterator it = a1.begin(); it != a2.end(); ++it) {
+    for (ft::map<int, std::string>::iterator it = a1.begin(); it != a1.end(); ++it) {
         std::cout << "K: " << it->first << " V: " << it->second << " ";
     }
     std::cout << std::endl;
