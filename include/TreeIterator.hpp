@@ -77,6 +77,14 @@ namespace ft {
             : baseNode(other.base()) {}
 
         /**
+         * Explicit conversion from const to non-const tree iterator.
+         *
+         * @param other The const iterator to be used as source.
+         */
+        explicit TreeIterator(const ConstTreeIterator<Content, Node> & other)
+            : baseNode(other.base()) {}
+
+        /**
          * Trivial destructor.
          */
        ~TreeIterator() {}
@@ -180,17 +188,6 @@ namespace ft {
             return tmp;
         }
 
-        /**
-         * @brief Casts this iterator to a const iterator.
-         *
-         * Returns a copy of this iterator.
-         *
-         * @return A const version of this iterator.
-         */
-        operator const ConstTreeIterator<contentType, nodeType>() const {
-            return ConstTreeIterator<contentType, nodeType>(baseNode);
-        }
-
         friend bool operator==(const TreeIterator & lhs, const TreeIterator & rhs) {
             return lhs.baseNode == rhs.baseNode;
         }
@@ -274,6 +271,14 @@ namespace ft {
          * @param other The other tree iterator to copy.
          */
         ConstTreeIterator(const ConstTreeIterator & other)
+            : baseNode(other.base()) {}
+
+        /**
+         * Implicit conversion from non-const to const iterator.
+         *
+         * @param other The non-const tree iterator to be used as source.
+         */
+        ConstTreeIterator(const TreeIterator<Content, Node> & other)
             : baseNode(other.base()) {}
 
         /**
@@ -379,8 +384,6 @@ namespace ft {
             operator--();
             return tmp;
         }
-
-        operator TreeIterator<Content, Node>() const { return TreeIterator<Content, Node>(baseNode); }
 
         friend bool operator==(const ConstTreeIterator & lhs, const ConstTreeIterator & rhs) {
             return lhs.baseNode == rhs.baseNode;
