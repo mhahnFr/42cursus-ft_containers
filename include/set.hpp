@@ -34,10 +34,17 @@ namespace ft {
         typedef Tree<key_type, key_compare, allocator_type> treeType;
         typedef typename treeType::sizeType                 size_type;
         typedef typename treeType::differenceType           difference_type;
-        typedef typename treeType::iteratorType             iterator;
+        typedef typename treeType::constIteratorType        iterator;
         typedef typename treeType::constIteratorType        const_iterator;
         typedef ft::reverse_iterator<iterator>              reverse_iterator;
         typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
+    private:
+        /**
+         * The type of the non-const iterator, needed to delegate iterators to the tree.
+         */
+        typedef typename treeType::iteratorType             normal_iterator;
+
+    public:
 
         set(): alloc(Allocator()), keyCompare(key_compare()), valueCompare(keyCompare), tree(valueCompare) {}
 
@@ -87,7 +94,7 @@ namespace ft {
         void clear() { tree.clear(); }
 
         ft::pair<iterator, bool> insert(const value_type & value) { return tree.insert(value);       }
-        iterator insert(iterator hint, const value_type & value)  { return tree.insert(hint, value); }
+        iterator insert(iterator hint, const value_type & value)  { return tree.insert(normal_iterator(hint), value); }
 
         template<class InputIt>
         void insert(InputIt first, InputIt last) {
@@ -96,13 +103,13 @@ namespace ft {
             }
         }
 
-        void erase(iterator pos) { return tree.erase(pos); }
+        void erase(iterator pos) { return tree.erase(normal_iterator(pos)); }
 
         void erase(iterator first, iterator last) {
             while (first != last) {
                 iterator tmp = first;
                 ++tmp;
-                erase(first);
+                erase(normal_iterator(first));
                 first = tmp;
             }
         }
@@ -110,7 +117,7 @@ namespace ft {
         size_type erase(const Key & key) {
             iterator it = find(key);
             if (it != end()) {
-                erase(it);
+                erase(normal_iterator(it));
                 return 1;
             }
             return 0;
