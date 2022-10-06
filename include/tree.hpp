@@ -699,12 +699,12 @@ namespace ft {
          * @return Whether the value can be inserted according to the sorting at the given position.
          */
         inline bool canInsert(nodeType node, const contentType & value) {
-            do {
+            while (node != root && node->root != NULL) {
                 if (!compare(value, node->content)) {
                     return false;
                 }
                 node = node->root;
-            } while (node != root && node->root != NULL);
+            }
             return true;
         }
 
