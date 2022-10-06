@@ -183,8 +183,8 @@ namespace ft {
         return reverse_iterator<Iter>(it.base() - n);
     }
 
-    template<class Iterator>
-    typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+    template<class Iterator1, class Iterator2>
+    typename reverse_iterator<Iterator1>::difference_type operator-(const reverse_iterator<Iterator1> & lhs, const reverse_iterator<Iterator2> & rhs) {
         return rhs.base() - lhs.base();
     }
 
@@ -315,8 +315,8 @@ namespace ft {
         return __wrap_iter<Iter>(it.base() + n);
     }
 
-    template<class Iterator>
-    typename __wrap_iter<Iterator>::difference_type operator-(const __wrap_iter<Iterator> & lhs, const __wrap_iter<Iterator> & rhs) {
+    template<class Iter1, class Iter2>
+    typename __wrap_iter<Iter1>::difference_type operator-(const __wrap_iter<Iter1> & lhs, const __wrap_iter<Iter2> & rhs) {
         return lhs.base() - rhs.base();
     }
 
