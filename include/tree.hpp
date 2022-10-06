@@ -445,18 +445,6 @@ namespace ft {
                 } else {
                     nodeType successor = findMinimum(toDelete->right);
 
-                    /*Node tmp(successor->content);
-                    tmp.left  = toDelete->left;
-                    tmp.right = toDelete->right;
-                    tmp.root  = toDelete->root;
-                    tmp.type  = toDelete->type;
-                    alloc.destroy(toDelete);
-                    alloc.construct(toDelete, tmp);
-
-                    movedUp = deleteSingleChildNode(successor);
-                    wasType = successor->type;
-                    deleteNode(successor);*/
-
                     nodeType            tmpRoot  = toDelete->root;
                     nodeType            tmpLeft  = toDelete->left;
                     nodeType            tmpRight = toDelete->right;
