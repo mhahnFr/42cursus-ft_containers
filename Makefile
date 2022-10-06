@@ -17,7 +17,7 @@ CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g -fsanitize=ad
 LDFLAGS = -fsanitize=address
 
 # The source files.
-SRCS = main.cpp
+SRCS = main6.cpp
 
 # The ft object files.
 FT_OBJS = $(patsubst %.cpp,%.o.ft,$(SRCS))
@@ -26,7 +26,7 @@ FT_OBJS = $(patsubst %.cpp,%.o.ft,$(SRCS))
 STD_OBJS = $(patsubst %.cpp,%.o.std,$(SRCS))
 
 # The dependency files.
-DEPS = $(patsubst %.cpp,%.d,$(SRCS))
+DEPS = $(patsubst %.cpp,%.o.d,$(SRCS))
 
 
 # Runs the tests.
