@@ -27,7 +27,7 @@
 #include <string>
 #include <sstream>
 
-#define ARRAY_SIZE 800000
+#define ARRAY_SIZE 32000
 
 /**
  * An array with some strings.
