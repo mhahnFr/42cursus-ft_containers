@@ -22,11 +22,12 @@
 #include <set>
 #include "set.hpp"
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <sstream>
 
-#define ARRAY_SIZE 8
+#define ARRAY_SIZE 800000
 
 /**
  * An array with some strings.
@@ -123,7 +124,8 @@ static inline void setup() {
     std::cout << std::boolalpha;
 }
 
-static inline void testVector(NS::vector<std::string> & vec) {
+static inline void testVector() {
+    NS::vector<std::string> vec;
     std::cout << "Vector assign" << std::endl;
     vec = NS::vector<std::string>(stringArray, stringArray + ARRAY_SIZE);
     printInfo(vec);
@@ -140,7 +142,8 @@ static inline void testVector(NS::vector<std::string> & vec) {
 
 }
 
-static inline void testMap(NS::map<int, std::string> & m) {
+static inline void testMap() {
+    NS::map<int, std::string> m;
     std::cout << "Map assign" << std::endl;
     m = NS::map<int, std::string>(pairs, pairs + ARRAY_SIZE);
     printInfoMap(m);
@@ -157,7 +160,8 @@ static inline void testMap(NS::map<int, std::string> & m) {
     printInfoMap(m);
 }
 
-static inline void testStack(NS::stack<std::string, NS::vector<std::string> > & st) {
+static inline void testStack() {
+    NS::stack<std::string, NS::vector<std::string> > st;
     std::cout << "Stack push" << std::endl;
     for (unsigned long i = 0; i < ARRAY_SIZE; ++i) {
         st.push(stringArray[random() % ARRAY_SIZE]);
@@ -172,7 +176,8 @@ static inline void testStack(NS::stack<std::string, NS::vector<std::string> > & 
     std::cout << std::endl;
 }
 
-static inline void testSet(NS::set<int> & s) {
+static inline void testSet() {
+    NS::set<int> s;
     std::cout << "Set assign" << std::endl;
     s = NS::set<int>(NS::reverse_iterator<const int *>(intArray + ARRAY_SIZE), NS::reverse_iterator<const int *>(intArray));
     printInfo(s);
@@ -185,15 +190,10 @@ static inline void testSet(NS::set<int> & s) {
 int main() {
     setup();
 
-    NS::vector<std::string>                          vec;
-    NS::map<int, std::string>                        m;
-    NS::stack<std::string, NS::vector<std::string> > st;
-    NS::set<int>                                     s;
-
-    testVector(vec);
-    testStack(st);
-    testMap(m);
-    testSet(s);
+    testVector();
+    testStack();
+    testMap();
+    testSet();
 
     std::cout << "--- End of ft_containers test main ---" << std::endl;
 }
