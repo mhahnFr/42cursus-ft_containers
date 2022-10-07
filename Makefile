@@ -14,10 +14,10 @@ CXX = c++
 RAND := $(shell echo $$RANDOM)
 
 # The flags to be used by the compiler.
-CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -DSEED=$(RAND) -g -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -DSEED=$(RAND) -Ofast
 
 # The flags to be used by the linker.
-LDFLAGS = -fsanitize=address
+LDFLAGS =
 
 # The source files.
 SRCS = main.cpp
