@@ -216,9 +216,13 @@ namespace ft {
          * @brief Clears this tree properly.
          */
         void clear() {
-            internalClear();
-            beginSentinel = emptySentinel();
-            endSentinel   = beginSentinel;
+            if (root != NULL) {
+                recursiveDestroy(root);
+                beginSentinel = endSentinel;
+                endSentinel->root = endSentinel->left = endSentinel->right = NULL;
+                root = NULL;
+            }
+            count = 0;
         }
 
         /**
@@ -578,16 +582,12 @@ namespace ft {
          * Clears everything in this tree, including any sentinels.
          */
         void internalClear() {
-            if (root != NULL) {
-                recursiveDestroy(root);
-                root = beginSentinel = endSentinel = NULL;
-            } else if (endSentinel != NULL) {
-                assert(endSentinel == beginSentinel);
+            clear();
+            if (endSentinel != NULL) {
                 alloc.destroy(endSentinel);
                 alloc.deallocate(endSentinel, sizeof(Node));
                 endSentinel = beginSentinel = NULL;
             }
-            count = 0;
         }
 
         /**
@@ -598,8 +598,8 @@ namespace ft {
          * @param node The node to destroy.
          */
         void recursiveDestroy(nodeType node) {
-            if (node->left  != NULL) { recursiveDestroy(node->left);  }
-            if (node->right != NULL) { recursiveDestroy(node->right); }
+            if (node->left  != NULL)                                        { recursiveDestroy(node->left);  }
+            if (node->right != NULL && node->right->type != Node::SENTINEL) { recursiveDestroy(node->right); }
             alloc.destroy(node);
             alloc.deallocate(node, sizeof(Node));
         }
