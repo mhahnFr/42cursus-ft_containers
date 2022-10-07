@@ -17,16 +17,16 @@ CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g -fsanitize=ad
 LDFLAGS = -fsanitize=address
 
 # The source files.
-SRCS = main5.cpp
+SRCS = main.cpp
 
 # The ft object files.
-FT_OBJS = $(patsubst %.cpp,%.o.ft,$(SRCS))
+FT_OBJS = $(patsubst %.cpp,%.ft.o,$(SRCS))
 
 # The std object files.
-STD_OBJS = $(patsubst %.cpp,%.o.std,$(SRCS))
+STD_OBJS = $(patsubst %.cpp,%.std.o,$(SRCS))
 
 # The dependency files.
-DEPS = $(patsubst %.cpp,%.o.d,$(SRCS))
+DEPS = $(patsubst %.cpp,%.std.d,$(SRCS)) $(patsubst %.cpp,%.ft.d,$(SRCS))
 
 
 # Runs the tests.
@@ -52,10 +52,10 @@ $(STD_NAME): $(STD_OBJS)
 	$(CXX) $(LDFLAGS) -o $(STD_NAME) $(STD_OBJS)
 
 # Compiles a source file individually.
-%.o.ft: %.cpp
+%.ft.o: %.cpp
 	$(CXX) $(CXXFLAGS) -DNS=ft -MMD -MP -c -o $@ $<
 
-%.o.std: %.cpp
+%.std.o: %.cpp
 	$(CXX) $(CXXFLAGS) -DNS=std -MMD -MP -c -o $@ $<
 
 # Cleans the repository.

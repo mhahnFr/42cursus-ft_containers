@@ -6,7 +6,6 @@
 *.lo
 *.o
 *.obj
-*.o.*
 
 # Precompiled Headers
 *.gch
@@ -36,3 +35,6 @@
 .vscode/
 .idea/
 .eclipse/
+
+# Log files
+*.log
