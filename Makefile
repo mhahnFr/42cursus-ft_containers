@@ -10,8 +10,11 @@ STD_NAME = std_$(NAME)
 # The C++ compiler to use.
 CXX = c++
 
+# A random value used as shared seed for the two executables.
+RAND := $(shell echo $$RANDOM)
+
 # The flags to be used by the compiler.
-CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -g -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -pedantic -std=c++98 -Iinclude -DSEED=$(RAND) -g -fsanitize=address
 
 # The flags to be used by the linker.
 LDFLAGS = -fsanitize=address
