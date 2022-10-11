@@ -9,7 +9,7 @@ The containers implemented in this repository are:
 - `stack`
 - `set` _(bonus part)_
 
-Additionally, the following utilities have to be recoded:
+Additionally, the following utilities had to be recoded:
 - `reverse_iterator`
 - `pair`
 - `make_pair`
@@ -34,9 +34,10 @@ My tree follows the requirements of the Red-Black-Tree. The most important rules
 
 Accordingly, after an insertion or an erasing, the tree has to be rebalanced.
 
-In order to be capable to iterate through the tree seamlessly, I added a beginning and an end sentinel. They are treated as `NIL` nodes.
+In order to be capable to iterate through the tree seamlessly, I added a beginning and an end sentinel. They are treated as `NIL` nodes.ˆ
 
 ### Final notes
+This repository will not be developed any further.
 
 © Copyright 2022 [mhahnFr](https://www.github.com/mhahnFr)
 
