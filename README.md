@@ -37,7 +37,7 @@ My tree follows the requirements of the [Red-Black-Tree]. The most important rul
 Accordingly, after an insertion or an erasing, the tree has to be rebalanced.
 
 In order to be capable to iterate through the tree seamlessly, I added a beginning and an end sentinel.
-They are treated as `NIL` nodes.ˆ
+They are treated as `NIL` nodes.
 
 ### Final notes
 This repository will not be developed any further.
